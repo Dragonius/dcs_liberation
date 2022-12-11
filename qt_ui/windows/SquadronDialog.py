@@ -140,7 +140,7 @@ class SquadronDialog(QDialog):
         self.ato_model = ato_model
         self.squadron_model = squadron_model
 
-        self.setMinimumSize(1000, 440)
+        self.setMinimumSize(200, 220)
         self.setWindowTitle(str(squadron_model.squadron))
         # TODO: self.setWindowIcon()
 

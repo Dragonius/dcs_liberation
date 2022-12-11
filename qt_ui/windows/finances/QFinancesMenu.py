@@ -110,6 +110,6 @@ class QFinancesMenu(QDialog):
         self.setModal(True)
         self.setWindowTitle("Finances")
         self.setWindowIcon(CONST.ICONS["Money"])
-        self.setMinimumSize(450, 200)
+        self.setMinimumSize(250, 100)
 
         self.setLayout(FinancesLayout(game, player=True))

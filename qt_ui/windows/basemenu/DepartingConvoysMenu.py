@@ -64,7 +64,7 @@ class DepartingConvoysList(QFrame):
     def __init__(self, cp: ControlPoint, game_model: GameModel):
         super().__init__()
         self.cp = cp
-        self.setMinimumWidth(500)
+        self.setMinimumWidth(250)
 
         layout = QVBoxLayout()
         self.setLayout(layout)

@@ -250,7 +250,7 @@ class QSettingsWindow(QDialog):
         self.setModal(True)
         self.setWindowTitle("Settings")
         self.setWindowIcon(CONST.ICONS["Settings"])
-        self.setMinimumSize(600, 250)
+        self.setMinimumSize(300, 175)
 
         self.initUi()
 

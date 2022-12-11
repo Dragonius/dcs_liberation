@@ -34,7 +34,7 @@ class QLiberationMap(QWebEngineView):
     def __init__(self, game_model: GameModel, dev: bool, parent) -> None:
         super().__init__(parent)
         self.game_model = game_model
-        self.setMinimumSize(800, 600)
+        self.setMinimumSize(200, 200)
 
         self.page = LoggingWebPage(self)
         # Required to allow "cross-origin" access from file:// scoped canvas.html to the
