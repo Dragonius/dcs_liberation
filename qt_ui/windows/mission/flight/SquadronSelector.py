@@ -21,7 +21,7 @@ class SquadronSelector(QComboBox):
         self.air_wing = air_wing
 
         self.model().sort(0)
-        self.setSizeAdjustPolicy(self.AdjustToContents)
+        self.setSizeAdjustPolicy(QComboBox.AdjustToContents)
         self.update_items(task, aircraft)
 
     @property
