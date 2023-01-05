@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import timedelta
 from typing import Iterator, TYPE_CHECKING, Type
 
 from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
@@ -55,12 +55,12 @@ class AirAssaultFlightPlan(StandardFlightPlan[AirAssaultLayout], UiZoneDisplay):
     def tot_waypoint(self) -> FlightWaypoint:
         return self.layout.drop_off
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.tot_waypoint:
             return self.tot
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         return None
 
     @property
@@ -68,11 +68,11 @@ class AirAssaultFlightPlan(StandardFlightPlan[AirAssaultLayout], UiZoneDisplay):
         return meters(2500)
 
     @property
-    def mission_begin_on_station_time(self) -> datetime | None:
+    def mission_begin_on_station_time(self) -> timedelta | None:
         return None
 
     @property
-    def mission_departure_time(self) -> datetime:
+    def mission_departure_time(self) -> timedelta:
         return self.package.time_over_target
 
     def ui_zone(self) -> UiZone:

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
 from game.theater import ControlPoint
@@ -53,7 +52,7 @@ class GroundUnitOrders:
             pending_units = 0
         return pending_units
 
-    def process(self, game: Game, now: datetime) -> None:
+    def process(self, game: Game) -> None:
         coalition = game.coalition_for(self.destination.captured)
         ground_unit_source = self.find_ground_unit_source(game)
         if ground_unit_source is None:
@@ -96,20 +95,15 @@ class GroundUnitOrders:
                     "still tried to transfer units to there"
                 )
             ground_unit_source.base.commission_units(units_needing_transfer)
-            self.create_transfer(
-                coalition, ground_unit_source, units_needing_transfer, now
-            )
+            self.create_transfer(coalition, ground_unit_source, units_needing_transfer)
 
     def create_transfer(
         self,
         coalition: Coalition,
         source: ControlPoint,
         units: dict[GroundUnitType, int],
-        now: datetime,
     ) -> None:
-        coalition.transfers.new_transfer(
-            TransferOrder(source, self.destination, units), now
-        )
+        coalition.transfers.new_transfer(TransferOrder(source, self.destination, units))
 
     def find_ground_unit_source(self, game: Game) -> Optional[ControlPoint]:
         # This is running *after* the turn counter has been incremented, so this is the
