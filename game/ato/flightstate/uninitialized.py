@@ -20,8 +20,7 @@ class Uninitialized(FlightState):
     def on_game_tick(
         self, events: GameUpdateEvents, time: datetime, duration: timedelta
     ) -> None:
-        self.reinitialize(time)
-        self.flight.state.on_game_tick(events, time, duration)
+        raise RuntimeError("Attempted to simulate flight that is not fully initialized")
 
     @property
     def is_waiting_for_start(self) -> bool:
@@ -36,6 +35,7 @@ class Uninitialized(FlightState):
 
     @property
     def description(self) -> str:
+        delay = self.flight.flight_plan.startup_time()
         if self.flight.start_type is StartType.COLD:
             action = "Starting up"
         elif self.flight.start_type is StartType.WARM:
@@ -46,4 +46,4 @@ class Uninitialized(FlightState):
             action = "In flight"
         else:
             raise ValueError(f"Unhandled StartType: {self.flight.start_type}")
-        return f"{action} at {self.flight.flight_plan.startup_time():%H:%M:%S}"
+        return f"{action} in {delay}"

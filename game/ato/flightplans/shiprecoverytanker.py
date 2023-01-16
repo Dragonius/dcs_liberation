@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Iterator, Type
 
 from game.ato.flightplans.ibuilder import IBuilder
@@ -37,27 +37,19 @@ class RecoveryTankerFlightPlan(StandardFlightPlan[RecoveryTankerLayout]):
         return self.layout.recovery_ship
 
     @property
-    def mission_begin_on_station_time(self) -> datetime:
+    def mission_begin_on_station_time(self) -> timedelta:
         return self.package.time_over_target
 
     @property
-    def mission_departure_time(self) -> datetime:
-        return self.patrol_end_time
-
-    @property
-    def patrol_start_time(self) -> datetime:
-        return self.package.time_over_target
-
-    @property
-    def patrol_end_time(self) -> datetime:
+    def mission_departure_time(self) -> timedelta:
         return self.tot + timedelta(hours=2)
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.tot_waypoint:
             return self.tot
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.tot_waypoint:
             return self.mission_departure_time
         return None

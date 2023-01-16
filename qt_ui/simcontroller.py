@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Iterator
-from contextlib import contextmanager
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Callable, Optional, TYPE_CHECKING
@@ -36,17 +34,10 @@ class SimController(QObject):
         return self.game_loop.completed
 
     @property
-    def current_time_in_sim_if_game_loaded(self) -> datetime | None:
+    def current_time_in_sim(self) -> Optional[datetime]:
         if self.game_loop is None:
             return None
         return self.game_loop.current_time_in_sim
-
-    @property
-    def current_time_in_sim(self) -> datetime:
-        time = self.current_time_in_sim_if_game_loaded
-        if time is None:
-            raise RuntimeError("No game is loaded")
-        return time
 
     @property
     def elapsed_time(self) -> timedelta:
@@ -77,11 +68,6 @@ class SimController(QObject):
             self.game_loop.start()
             self.started = True
         self.game_loop.set_simulation_speed(simulation_speed)
-
-    @contextmanager
-    def paused_sim(self) -> Iterator[None]:
-        with self.game_loop.paused_sim():
-            yield
 
     def run_to_first_contact(self) -> None:
         self.game_loop.run_to_first_contact()

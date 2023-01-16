@@ -1,11 +1,13 @@
+from datetime import timedelta
+
 from PySide6.QtCore import QItemSelectionModel, QPoint
 from PySide6.QtGui import QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import QHeaderView, QTableView
 
-from game.ato.flight import Flight
-from game.ato.flightwaypoint import FlightWaypoint
-from game.ato.flightwaypointtype import FlightWaypointType
 from game.ato.package import Package
+from game.ato.flightwaypointtype import FlightWaypointType
+from game.ato.flightwaypoint import FlightWaypoint
+from game.ato.flight import Flight
 from qt_ui.windows.mission.flight.waypoints.QFlightWaypointItem import QWaypointItem
 
 
@@ -75,8 +77,14 @@ class QFlightWaypointList(QTableView):
             time = flight.flight_plan.depart_time_for_waypoint(waypoint)
         if time is None:
             return ""
-        return f"{prefix}{time:%H:%M:%S}"
+        time = timedelta(seconds=int(time.total_seconds()))
+        return f"{prefix}T+{time}"
 
     @staticmethod
     def takeoff_text(flight: Flight) -> str:
-        return f"{flight.flight_plan.takeoff_time():%H:%M:%S}"
+        takeoff_time = flight.flight_plan.takeoff_time()
+        # Handle custom flight plans where we can't estimate the takeoff time.
+        if takeoff_time is None:
+            takeoff_time = timedelta()
+        start_time = timedelta(seconds=int(takeoff_time.total_seconds()))
+        return f"T+{start_time}"

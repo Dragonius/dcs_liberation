@@ -1,6 +1,7 @@
 --Initialization script for the Mission lua Environment (SSE)
 
 dofile('Scripts/ScriptingSystem.lua')
+dofile(lfs.writedir()..'Scripts/DCSUDPMissionDataExport.lua')
 
 --Sanitize Mission Scripting environment
 --This makes unavailable some unsecure functions. 

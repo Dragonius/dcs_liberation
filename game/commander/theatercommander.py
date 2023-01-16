@@ -54,7 +54,6 @@ https://en.wikipedia.org/wiki/Hierarchical_task_network
 """
 from __future__ import annotations
 
-from datetime import datetime
 from typing import TYPE_CHECKING
 
 from game.ato.starttype import StartType
@@ -78,8 +77,8 @@ class TheaterCommander(Planner[TheaterState, TheaterCommanderTask]):
         self.game = game
         self.player = player
 
-    def plan_missions(self, now: datetime, tracer: MultiEventTracer) -> None:
-        state = TheaterState.from_game(self.game, self.player, now, tracer)
+    def plan_missions(self, tracer: MultiEventTracer) -> None:
+        state = TheaterState.from_game(self.game, self.player, tracer)
         while True:
             result = self.plan(state)
             if result is None:
