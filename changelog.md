@@ -6,6 +6,7 @@ Saves from 6.x are not compatible with 7.0.
 
 * **[Mission Generation]** Units on the front line are now hidden on MFDs.
 * **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
+* **[Modding]** Add support for VSN F-4B and F-4C mod.
 
 ## Fixes
 
