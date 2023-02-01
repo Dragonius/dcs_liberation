@@ -97,7 +97,11 @@ squadrons:
       secondary: any
       aircraft:
         - SU-33 Flanker-D
+<<<<<<< HEAD
 #I am aware there is no Russian LHA. This is just for campaign inversion.
+=======
+ #I am aware there is no Russian LHA. This is just for campaign inversion.
+>>>>>>> e8824e5d (Fix line endings.)
   Red LHA:
     - primary: BAI
       secondary: air-to-ground    
