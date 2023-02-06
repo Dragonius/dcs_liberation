@@ -21,13 +21,12 @@ from game.ground_forces.ai_ground_planner import GroundPlanner
 from game.models.game_stats import GameStats
 from game.plugins import LuaPluginManager
 from game.utils import Distance
-from . import naming
+from . import naming, persistency
 from .ato.flighttype import FlightType
 from .campaignloader import CampaignAirWingConfig
 from .coalition import Coalition
 from .db.gamedb import GameDb
 from .infos.information import Information
-from .persistence import SaveManager
 from .profiling import logged_duration
 from .settings import Settings
 from .theater import ConflictTheater
@@ -322,8 +321,8 @@ class Game:
         # *any* state to the UI yet, so it will need to do a full draw once we do.
         self.initialize_turn(GameUpdateEvents())
 
-    def save_last_turn_state(self) -> None:
-        self.save_manager.save_last_turn()
+    # def save_last_turn_state(self) -> None:
+    #    self.save_manager.save_last_turn()
 
     def pass_turn(self, no_action: bool = False) -> None:
         """Ends the current turn and initializes the new turn.
@@ -391,15 +390,15 @@ class Game:
         once per turn. A number of events can require re-initializing a turn:
 
         * Cheat capture. Bases changing hands invalidates many missions in both ATOs,
-          purchase orders, threat zones, transit networks, etc. Practically speaking,
-          after a base capture the turn needs to be treated as fully new. The game might
-          even be over after a capture.
+        purchase orders, threat zones, transit networks, etc. Practically speaking,
+        after a base capture the turn needs to be treated as fully new. The game might
+        even be over after a capture.
         * Cheat front line position. CAS missions are no longer in the correct location,
-          and the ground planner may also need changes.
+        and the ground planner may also need changes.
         * Selling/buying units at TGOs. Selling a TGO might leave missions in the ATO
-          with invalid targets. Buying a new SAM (or even replacing some units in a SAM)
-          potentially changes the threat zone and may alter mission priorities and
-          flight planning.
+        with invalid targets. Buying a new SAM (or even replacing some units in a SAM)
+        potentially changes the threat zone and may alter mission priorities and
+        flight planning.
 
         Most of the work is delegated to initialize_turn_for, which handles the
         coalition-specific turn initialization. In some cases only one coalition will be
