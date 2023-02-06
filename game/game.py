@@ -21,12 +21,13 @@ from game.ground_forces.ai_ground_planner import GroundPlanner
 from game.models.game_stats import GameStats
 from game.plugins import LuaPluginManager
 from game.utils import Distance
-from . import naming, persistency
+from . import naming
 from .ato.flighttype import FlightType
 from .campaignloader import CampaignAirWingConfig
 from .coalition import Coalition
 from .db.gamedb import GameDb
 from .infos.information import Information
+from .persistence import SaveManager
 from .profiling import logged_duration
 from .settings import Settings
 from .theater import ConflictTheater
@@ -321,6 +322,9 @@ class Game:
         # *any* state to the UI yet, so it will need to do a full draw once we do.
         self.initialize_turn(GameUpdateEvents())
 
+    def save_last_turn_state(self) -> None:
+        self.save_manager.save_last_turn()
+
     def pass_turn(self, no_action: bool = False) -> None:
         """Ends the current turn and initializes the new turn.
 
@@ -333,6 +337,11 @@ class Game:
         from .sim import GameUpdateEvents
 
         persistency.save_last_turn_state(self)
+        # if no_action:
+        # Only save the last turn state if the turn was skipped. Otherwise, we'll
+        # end up saving the game after we've already applied the results, making
+        # this useless...
+        #   self.save_manager.save_last_turn()
 
         events = GameUpdateEvents()
 
@@ -345,6 +354,7 @@ class Game:
 
         EventStream.put_nowait(events)
 
+        # self.save_manager.save_start_of_turn()
         # Autosave progress
         persistency.autosave(self)
 
