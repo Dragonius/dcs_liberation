@@ -63,7 +63,8 @@ from game.theater.presetlocation import PresetLocation
 from game.utils import Distance, Heading, meters
 from .base import Base
 from .frontline import FrontLine
-from .interfaces.CTLD import CTLD
+
+# from .interfaces.CTLD import CTLD
 from .missiontarget import MissionTarget
 from .theatergroundobject import (
     GenericCarrierGroundObject,
