@@ -78,10 +78,11 @@ from ..data.units import UnitClass
 from ..db import Database
 from ..dcs.aircrafttype import AircraftType
 from ..dcs.groundunittype import GroundUnitType
-from ..radio.ICLSContainer import ICLSContainer
-from ..radio.Link4Container import Link4Container
-from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
-from ..radio.TacanContainer import TacanContainer
+
+# from ..radio.ICLSContainer import ICLSContainer
+# from ..radio.Link4Container import Link4Container
+# from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
+# from ..radio.TacanContainer import TacanContainer
 from ..utils import nautical_miles
 from ..weather import Conditions
 
@@ -1061,7 +1062,7 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         ...
 
 
-class Airfield(ControlPoint, CTLD):
+class Airfield(ControlPoint):
     def __init__(
         self, airport: Airport, theater: ConflictTheater, starts_blue: bool
     ) -> None:
@@ -1075,7 +1076,7 @@ class Airfield(ControlPoint, CTLD):
         )
         self.airport = airport
         self._runway_status = RunwayStatus()
-        self.ctld_zones = ctld_zones
+        # self.ctld_zones = ctld_zones
 
     @property
     def dcs_airport(self) -> Airport:
@@ -1190,7 +1191,8 @@ class Airfield(ControlPoint, CTLD):
 
 
 class NavalControlPoint(
-    ControlPoint, ABC, Link4Container, TacanContainer, ICLSContainer
+    ControlPoint,
+    ABC,
 ):
     @property
     def is_fleet(self) -> bool:
@@ -1424,7 +1426,7 @@ class OffMapSpawn(ControlPoint):
         return ControlPointStatus.Functional
 
 
-class Fob(ControlPoint, RadioFrequencyContainer, CTLD):
+class Fob(ControlPoint):
     def __init__(
         self,
         name: str,
