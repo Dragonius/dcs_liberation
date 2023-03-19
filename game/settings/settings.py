@@ -14,6 +14,7 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
+from ..weather import NightMissions
 
 
 @unique
@@ -225,7 +226,7 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
-        min=12,
+        min=4,
         max=72,
         detail=(
             "Sets the maximum number of pilots a squadron may have active. "
@@ -393,6 +394,14 @@ class Settings:
         default=timedelta(minutes=60),
         min=30,
         max=150,
+    )
+    desired_tanker_on_station_time: timedelta = minutes_option(
+        "Desired tanker on-station time",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=timedelta(minutes=60),
+        min=30,
+        max=180,
     )
     # Mission specific
     max_frontline_length: int = bounded_int_option(
