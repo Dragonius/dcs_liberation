@@ -18,7 +18,7 @@ class SeadFlightPlan(FormationAttackFlightPlan):
 
     @property
     def lead_time(self) -> timedelta:
-        return timedelta(minutes=5)
+        return timedelta(minutes=2)
 
 
 class Builder(FormationAttackBuilder[SeadFlightPlan, FormationAttackLayout]):
