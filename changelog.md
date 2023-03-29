@@ -32,13 +32,7 @@ Saves from 6.0.0 are compatible with 6.1.0
 
 ## Features/Improvements
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 * **[Engine]** Support for DCS 2.8.1.34437, including Blackshark 3.
-=======
-* **[Engine]** Support for DCS 2.8.1.34437.
->>>>>>> 8e0cf228 (Update changelog for pydcs update.)
 * **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
 * **[Factions]** Added Peru.
 * **[Flight Planning]** AEW&C and Refueling flights are now plannable on LHA carriers.
@@ -47,16 +41,6 @@ Saves from 6.0.0 are compatible with 6.1.0
 * **[Mission Generation]** The previous turn will now be saved as last_turn.liberation when submitting mission results. This is often essential for debugging bug reports. **Include this file in the bug report whenever it is available.**
 * **[Modding]** Added support for the HMS Ariadne, Achilles, and Castle class.
 * **[Modding]** Added HMS Invincible to the game data as a helicopter carrier.
-=======
-* [Factions] Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
-* [Factions] Added Peru.
-* [Modding] Added support for the HMS Ariadne, Achilles, and Castle class.
->>>>>>> f358c1c0 (Add missing changelog note.)
-=======
-* **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
-* **[Factions]** Added Peru.
-* **[Modding]** Added support for the HMS Ariadne, Achilles, and Castle class.
->>>>>>> e041fa3c (Fix changelog formatting.)
 
 ## Fixes
 

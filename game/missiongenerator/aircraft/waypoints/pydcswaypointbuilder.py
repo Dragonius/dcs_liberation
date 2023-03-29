@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import datetime
 from typing import Any, Iterable, Union
 
 from dcs import Mission
-from dcs.planes import AJS37, F_14A_135_GR, F_14B, JF_17
+from dcs.planes import AJS37, F_14B, JF_17
 from dcs.point import MovingPoint, PointAction
 from dcs.unitgroup import FlyingGroup
 
@@ -28,7 +28,7 @@ class PydcsWaypointBuilder:
         group: FlyingGroup[Any],
         flight: Flight,
         mission: Mission,
-        elapsed_mission_time: timedelta,
+        now: datetime,
         mission_data: MissionData,
         unit_map: UnitMap,
     ) -> None:
@@ -37,7 +37,7 @@ class PydcsWaypointBuilder:
         self.package = flight.package
         self.flight = flight
         self.mission = mission
-        self.elapsed_mission_time = elapsed_mission_time
+        self.now = now
         self.mission_data = mission_data
         self.unit_map = unit_map
 
@@ -68,10 +68,10 @@ class PydcsWaypointBuilder:
     def add_tasks(self, waypoint: MovingPoint) -> None:
         pass
 
-    def set_waypoint_tot(self, waypoint: MovingPoint, tot: timedelta) -> None:
+    def set_waypoint_tot(self, waypoint: MovingPoint, tot: datetime) -> None:
         self.waypoint.tot = tot
         if not self._viggen_client_tot():
-            waypoint.ETA = int((tot - self.elapsed_mission_time).total_seconds())
+            waypoint.ETA = int((tot - self.now).total_seconds())
             waypoint.ETA_locked = True
             waypoint.speed_locked = False
 
@@ -94,5 +94,5 @@ class PydcsWaypointBuilder:
         for i, t in enumerate(targets):
             if self.group.units[0].unit_type == JF_17 and i < 4:
                 self.group.add_nav_target_point(t.position, "PP" + str(i + 1))
-            if self.group.units[0].unit_type in [F_14B, F_14A_135_GR] and i == 0:
+            if self.group.units[0].unit_type == F_14B and i == 0:
                 self.group.add_nav_target_point(t.position, "ST")

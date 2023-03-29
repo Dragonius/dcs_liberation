@@ -30,8 +30,8 @@ class QLiberationPreferences(QFrame):
         self.edit_dcs_install_dir = QLineEdit(self.dcs_install_dir)
         self.edit_saved_game_dir = QLineEdit(self.saved_game_dir)
 
-        self.edit_dcs_install_dir.setMinimumWidth(100)
-        self.edit_saved_game_dir.setMinimumWidth(100)
+        self.edit_dcs_install_dir.setMinimumWidth(300)
+        self.edit_saved_game_dir.setMinimumWidth(300)
 
         self.browse_saved_game = QPushButton("Browse...")
         self.browse_saved_game.clicked.connect(self.on_browse_saved_games)

@@ -22,7 +22,6 @@ from typing import (
     TYPE_CHECKING,
     Tuple,
     Type,
-    Union,
 )
 from uuid import UUID
 
@@ -41,7 +40,6 @@ from dcs.ships import (
     Type_071,
 )
 from dcs.terrain.terrain import Airport, ParkingSlot
-from dcs.triggers import TriggerZone
 from dcs.unitgroup import ShipGroup, StaticGroup
 from dcs.unittype import ShipType
 
@@ -63,8 +61,6 @@ from game.theater.presetlocation import PresetLocation
 from game.utils import Distance, Heading, meters
 from .base import Base
 from .frontline import FrontLine
-
-# from .interfaces.CTLD import CTLD
 from .missiontarget import MissionTarget
 from .theatergroundobject import (
     GenericCarrierGroundObject,
@@ -78,11 +74,6 @@ from ..data.units import UnitClass
 from ..db import Database
 from ..dcs.aircrafttype import AircraftType
 from ..dcs.groundunittype import GroundUnitType
-
-# from ..radio.ICLSContainer import ICLSContainer
-# from ..radio.Link4Container import Link4Container
-# from ..radio.RadioFrequencyContainer import RadioFrequencyContainer
-# from ..radio.TacanContainer import TacanContainer
 from ..utils import nautical_miles
 from ..weather import Conditions
 
@@ -315,7 +306,7 @@ class ControlPointStatus(IntEnum):
     Destroyed = auto()
 
 
-StartingPosition = Union[ShipGroup, StaticGroup, Airport, Point]
+StartingPosition = ShipGroup | StaticGroup | Airport | Point
 
 
 class ControlPoint(MissionTarget, SidcDescribable, ABC):
@@ -916,7 +907,11 @@ class ControlPoint(MissionTarget, SidcDescribable, ABC):
         self.runway_status.begin_repair()
 
     def process_turn(self, game: Game) -> None:
-        self.ground_unit_orders.process(game)
+        # We're running at the end of the turn, so the time right now is irrelevant, and
+        # we don't know what time the next turn will start yet. It doesn't actually
+        # matter though, because the first thing the start of turn action will do is
+        # clear the ATO and replan the airlifts with the correct time.
+        self.ground_unit_orders.process(game, game.conditions.start_time)
 
         runway_status = self.runway_status
         if runway_status is not None:
@@ -1076,7 +1071,6 @@ class Airfield(ControlPoint):
         )
         self.airport = airport
         self._runway_status = RunwayStatus()
-        # self.ctld_zones = ctld_zones
 
     @property
     def dcs_airport(self) -> Airport:
@@ -1190,10 +1184,7 @@ class Airfield(ControlPoint):
         return ControlPointStatus.Functional
 
 
-class NavalControlPoint(
-    ControlPoint,
-    ABC,
-):
+class NavalControlPoint(ControlPoint, ABC):
     @property
     def is_fleet(self) -> bool:
         return True
@@ -1211,10 +1202,7 @@ class NavalControlPoint(
                 # TODO: Inter-ship logistics?
             ]
         else:
-            yield from [
-                FlightType.ANTISHIP,
-                FlightType.SEAD_ESCORT,
-            ]
+            yield FlightType.ANTISHIP
         yield from super().mission_types(for_player)
 
     @property
@@ -1301,8 +1289,7 @@ class Carrier(NavalControlPoint):
         yield from super().mission_types(for_player)
         if self.is_friendly(for_player):
             yield from [
-                FlightType.AEWC,
-                FlightType.REFUELING,
+                # Nothing yet.
             ]
 
     def capture(self, game: Game, events: GameUpdateEvents, for_player: bool) -> None:
@@ -1424,18 +1411,12 @@ class OffMapSpawn(ControlPoint):
 
 class Fob(ControlPoint):
     def __init__(
-        self,
-        name: str,
-        at: Point,
-        theater: ConflictTheater,
-        starts_blue: bool,
-        ctld_zones: Optional[List[Tuple[Point, float]]] = None,
-    ) -> None:
+        self, name: str, at: Point, theater: ConflictTheater, starts_blue: bool
+    ):
         super().__init__(
             name, at, at, theater, starts_blue, cptype=ControlPointType.FOB
         )
         self.name = name
-        self.ctld_zones = ctld_zones
 
     @property
     def symbol_set_and_entity(self) -> tuple[SymbolSet, Entity]:
@@ -1463,7 +1444,6 @@ class Fob(ControlPoint):
         if not self.is_friendly(for_player):
             yield FlightType.STRIKE
             yield FlightType.AIR_ASSAULT
-            yield FlightType.OCA_AIRCRAFT
 
         yield from super().mission_types(for_player)
 

@@ -35,7 +35,7 @@ class QFlightCreator(QDialog):
 
     def __init__(self, game: Game, package: Package, parent=None) -> None:
         super().__init__(parent=parent)
-        self.setMinimumWidth(100)
+        self.setMinimumWidth(400)
 
         self.game = game
         self.package = package

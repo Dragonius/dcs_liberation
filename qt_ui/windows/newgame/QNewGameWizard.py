@@ -233,7 +233,7 @@ class FactionSelection(QtWidgets.QWizardPage):
             QtGui.QPixmap("./resources/ui/misc/generator.png"),
         )
 
-        self.setMinimumHeight(150)
+        self.setMinimumHeight(250)
 
         # Factions selection
         self.factionsGroup = QtWidgets.QGroupBox("Factions")

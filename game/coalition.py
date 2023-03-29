@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Any, Optional, TYPE_CHECKING
 
 from faker import Faker
@@ -182,9 +182,9 @@ class Coalition:
         with logged_duration("Procurement of airlift assets"):
             self.transfers.order_airlift_assets()
         with logged_duration("Transport planning"):
-            self.transfers.plan_transports()
+            self.transfers.plan_transports(self.game.conditions.start_time)
 
-        self.plan_missions()
+        self.plan_missions(self.game.conditions.start_time)
         self.plan_procurement()
 
     def refund_outstanding_orders(self) -> None:

@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Optional
 
 from PySide6.QtWidgets import (
@@ -5,7 +6,6 @@ from PySide6.QtWidgets import (
     QFrame,
     QGroupBox,
     QHBoxLayout,
-    QVBoxLayout,
     QMessageBox,
     QPushButton,
 )
@@ -40,7 +40,7 @@ class QTopPanel(QFrame):
         self.sim_controller = sim_controller
         self.dialog: Optional[QDialog] = None
 
-        self.setMaximumHeight(130)
+        self.setMaximumHeight(70)
 
         self.conditionsWidget = QConditionsWidget(sim_controller)
         self.budgetBox = QBudgetBox(self.game)
@@ -77,13 +77,13 @@ class QTopPanel(QFrame):
         self.intel_box = QIntelBox(self.game)
 
         self.buttonBox = QGroupBox("Misc")
-        self.buttonBoxLayout = QVBoxLayout()
+        self.buttonBoxLayout = QHBoxLayout()
         self.buttonBoxLayout.addWidget(self.air_wing)
         self.buttonBoxLayout.addWidget(self.transfers)
         self.buttonBox.setLayout(self.buttonBoxLayout)
 
         self.proceedBox = QGroupBox("Proceed")
-        self.proceedBoxLayout = QVBoxLayout()
+        self.proceedBoxLayout = QHBoxLayout()
         if ui_flags.show_sim_speed_controls:
             self.proceedBoxLayout.addLayout(SimSpeedControls(sim_controller))
         self.proceedBoxLayout.addLayout(MaxPlayerCount(self.game_model.ato_model))
@@ -156,13 +156,14 @@ class QTopPanel(QFrame):
             GameUpdateSignal.get_instance().updateGame(self.game)
             self.proceedButton.setEnabled(True)
 
-    def negative_start_packages(self) -> List[Package]:
+    def negative_start_packages(self, now: datetime) -> List[Package]:
         packages = []
         for package in self.game_model.ato_model.ato.packages:
             if not package.flights:
                 continue
             for flight in package.flights:
-                if flight.flight_plan.startup_time().total_seconds() < 0:
+                startup = flight.flight_plan.startup_time()
+                if startup < now:
                     packages.append(package)
                     break
         return packages
@@ -278,7 +279,9 @@ class QTopPanel(QFrame):
         if self.check_no_missing_pilots():
             return
 
-        negative_starts = self.negative_start_packages()
+        negative_starts = self.negative_start_packages(
+            self.sim_controller.current_time_in_sim
+        )
         if negative_starts:
             if not self.confirm_negative_start_time(negative_starts):
                 return
