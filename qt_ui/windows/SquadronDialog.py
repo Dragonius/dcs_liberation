@@ -190,6 +190,18 @@ class SquadronDialog(QDialog):
     def squadron(self) -> Squadron:
         return self.squadron_model.squadron
 
+    def _instant_relocate(self, destination: ControlPoint) -> None:
+        self.squadron.relocate_to(destination)
+        for _, f in self.squadron.flight_db.objects.items():
+            if f.squadron == self.squadron:
+                if isinstance(f.flight_plan, CustomFlightPlan):
+                    for wpt in f.flight_plan.waypoints:
+                        if wpt.waypoint_type == FlightWaypointType.LANDING_POINT:
+                            wpt.control_point = destination
+                            wpt.position = wpt.control_point.position
+                            break
+                f.recreate_flight_plan()
+
     def on_destination_changed(self, index: int) -> None:
         with report_errors("Could not change squadron destination", self):
             destination = self.transfer_destination.itemData(index)
