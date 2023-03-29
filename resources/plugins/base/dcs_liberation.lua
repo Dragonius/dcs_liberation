@@ -4,14 +4,15 @@ local WRITESTATE_SCHEDULE_IN_SECONDS = 60
 logger = mist.Logger:new("DCSLiberation", "info")
 logger:info("Check that json.lua is loaded : json = "..tostring(json))
 
-killed_aircrafts = {} -- killed aircraft will be added via S_EVENT_CRASH event
+killed_aircrafts = {} -- killed aircraft will be added via S_EVENT_UNIT_LOST event (old S_EVENT_CRASH)
 killed_ground_units = {} -- killed units will be added via S_EVENT_DEAD event
+lost_units = {}
 base_capture_events = {}
 destroyed_objects_positions = {} -- will be added via S_EVENT_DEAD event
 mission_ended = false
 
 local function ends_with(str, ending)
-   return ending == "" or str:sub(-#ending) == ending
+    return ending == "" or str:sub(-#ending) == ending
 end
 
 local function messageAll(message)
@@ -32,6 +33,7 @@ function write_state()
     local game_state = {
         ["killed_aircrafts"] = killed_aircrafts,
         ["killed_ground_units"] = killed_ground_units,
+        ["lost_units"] = lost_units,
         ["base_capture_events"] = base_capture_events,
         ["mission_ended"] = mission_ended,
         ["destroyed_objects_positions"] = destroyed_objects_positions,
@@ -129,7 +131,7 @@ write_state_error_handling = function()
 
     if pcall(write_state) then
     else
-	    messageAll("Unable to write DCS Liberation state to ".._debriefing_file_location..
+        messageAll("Unable to write DCS Liberation state to ".._debriefing_file_location..
                 "\nYou can abort the mission in DCS Liberation.\n"..
                 "\n\nPlease fix your setup in DCS Liberation, make sure you are pointing to the right installation directory from the File/Preferences menu. Then after fixing the path restart DCS Liberation, and then restart DCS."..
                 "\n\nYou can also try to fix the issue manually by replacing the file <dcs_installation_directory>/Scripts/MissionScripting.lua by the one provided there : <dcs_liberation_folder>/resources/scripts/MissionScripting.lua. And then restart DCS. (This will also have to be done again after each DCS update)"..
@@ -142,10 +144,15 @@ end
 
 activeWeapons = {}
 local function onEvent(event)
-   if event.id == world.event.S_EVENT_CRASH and event.initiator then
-       killed_aircrafts[#killed_aircrafts + 1] = event.initiator.getName(event.initiator)
-       write_state()
-   end
+    if event.id == world.event.S_EVENT_CRASH and event.initiator then
+        killed_aircrafts[#killed_aircrafts + 1] = event.initiator.getName(event.initiator)
+        write_state()
+    end
+
+    if event.id == world.event.S_EVENT_UNIT_LOST and event.initiator then
+        lost_units[#lost_units + 1] = event.initiator.getName(event.initiator)
+        write_state()
+    end
 
     if event.id == world.event.S_EVENT_DEAD and event.initiator then
         killed_ground_units[#killed_ground_units + 1] = event.initiator.getName(event.initiator)
