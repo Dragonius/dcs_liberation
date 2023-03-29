@@ -6,6 +6,7 @@ from typing import Callable, Dict, Type
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
+    QApplication,
     QComboBox,
     QDialog,
     QFrame,
@@ -220,8 +221,21 @@ class ScrollingUnitTransferGrid(QFrame):
             if not origin_inventory:
                 return
 
-            self.transfers[unit_type] += 1
-            origin_inventory -= 1
+            # Lookup if Keyboard Modifiers were pressed
+            # Shift = 10 times
+            # CTRL = 5 Times
+            modifiers = QApplication.keyboardModifiers()
+            if modifiers == Qt.ShiftModifier:
+                self.transfers[unit_type] += 10
+                origin_inventory -= 10
+            elif modifiers == Qt.ControlModifier:
+                self.transfers[unit_type] += 5
+                origin_inventory -= 5
+            else:
+                self.transfers[unit_type] += 1
+                origin_inventory -= 1
+            # self.transfers[unit_type] += 1
+            # origin_inventory -= 1
             controls.set_quantity(self.transfers[unit_type])
             origin_inventory_label.setText(str(origin_inventory))
             self.transfer_quantity_changed.emit()
@@ -232,8 +246,21 @@ class ScrollingUnitTransferGrid(QFrame):
             if not controls.quantity:
                 return
 
-            self.transfers[unit_type] -= 1
-            origin_inventory += 1
+            # Lookup if Keyboard Modifiers were pressed
+            # Shift = 10 times
+            # CTRL = 5 Times
+            modifiers = QApplication.keyboardModifiers()
+            if modifiers == Qt.ShiftModifier:
+                self.transfers[unit_type] -= 10
+                origin_inventory += 10
+            elif modifiers == Qt.ControlModifier:
+                self.transfers[unit_type] -= 5
+                origin_inventory += 5
+            else:
+                self.transfers[unit_type] -= 1
+                origin_inventory += 1
+            # self.transfers[unit_type] -= 1
+            # origin_inventory += 1
             controls.set_quantity(self.transfers[unit_type])
             origin_inventory_label.setText(str(origin_inventory))
             self.transfer_quantity_changed.emit()
