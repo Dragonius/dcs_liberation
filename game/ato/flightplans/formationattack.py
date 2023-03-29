@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import TYPE_CHECKING, TypeVar
 
 from dcs import Point
@@ -91,14 +91,14 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         return total
 
     @property
-    def join_time(self) -> datetime:
+    def join_time(self) -> timedelta:
         travel_time = self.travel_time_between_waypoints(
             self.layout.join, self.layout.ingress
         )
         return self.ingress_time - travel_time
 
     @property
-    def split_time(self) -> datetime:
+    def split_time(self) -> timedelta:
         travel_time_ingress = self.travel_time_between_waypoints(
             self.layout.ingress, self.target_area_waypoint
         )
@@ -115,14 +115,14 @@ class FormationAttackFlightPlan(FormationFlightPlan, ABC):
         )
 
     @property
-    def ingress_time(self) -> datetime:
+    def ingress_time(self) -> timedelta:
         tot = self.tot
         travel_time = self.travel_time_between_waypoints(
             self.layout.ingress, self.target_area_waypoint
         )
         return tot - travel_time
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.ingress:
             return self.ingress_time
         elif waypoint in self.layout.targets:

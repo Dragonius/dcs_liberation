@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import timedelta
 from functools import cached_property
 from typing import Any, TYPE_CHECKING, TypeGuard
 
@@ -73,15 +73,15 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
 
     @property
     @abstractmethod
-    def join_time(self) -> datetime:
+    def join_time(self) -> timedelta:
         ...
 
     @property
     @abstractmethod
-    def split_time(self) -> datetime:
+    def split_time(self) -> timedelta:
         ...
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.join:
             return self.join_time
         elif waypoint == self.layout.split:
@@ -89,7 +89,7 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
         return None
 
     @property
-    def push_time(self) -> datetime:
+    def push_time(self) -> timedelta:
         return self.join_time - TravelTime.between_points(
             self.layout.hold.position,
             self.layout.join.position,
@@ -97,11 +97,11 @@ class FormationFlightPlan(LoiterFlightPlan, ABC):
         )
 
     @property
-    def mission_begin_on_station_time(self) -> datetime | None:
+    def mission_begin_on_station_time(self) -> timedelta | None:
         return None
 
     @property
-    def mission_departure_time(self) -> datetime:
+    def mission_departure_time(self) -> timedelta:
         return self.split_time
 
     @self_type_guard

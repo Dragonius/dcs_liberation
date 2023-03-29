@@ -1,5 +1,6 @@
 """Dialogs for creating and editing ATO packages."""
 import logging
+from datetime import timedelta
 from typing import Optional
 
 from PySide6.QtCore import QItemSelection, QTime, Qt, Signal
@@ -76,7 +77,7 @@ class QPackageDialog(QDialog):
 
         self.tot_spinner = QTimeEdit(self.tot_qtime())
         self.tot_spinner.setMinimumTime(QTime(0, 0))
-        self.tot_spinner.setDisplayFormat("hh:mm:ss")
+        self.tot_spinner.setDisplayFormat("T+hh:mm:ss")
         self.tot_spinner.timeChanged.connect(self.save_tot)
         self.tot_spinner.setToolTip("Package TOT relative to mission TOT")
         self.tot_spinner.setEnabled(
@@ -141,8 +142,11 @@ class QPackageDialog(QDialog):
         return self.game_model.game
 
     def tot_qtime(self) -> QTime:
-        tot = self.package_model.package.time_over_target
-        return QTime(tot.hour, tot.minute, tot.second)
+        delay = int(self.package_model.package.time_over_target.total_seconds())
+        hours = delay // 3600
+        minutes = delay // 60 % 60
+        seconds = delay % 60
+        return QTime(hours, minutes, seconds)
 
     def on_cancel(self) -> None:
         pass
@@ -156,13 +160,9 @@ class QPackageDialog(QDialog):
         self.save_tot()
 
     def save_tot(self) -> None:
-        # TODO: This is going to break horribly around midnight.
         time = self.tot_spinner.time()
-        self.package_model.set_tot(
-            self.package_model.package.time_over_target.replace(
-                hour=time.hour(), minute=time.minute(), second=time.second()
-            )
-        )
+        seconds = time.hour() * 3600 + time.minute() * 60 + time.second()
+        self.package_model.set_tot(timedelta(seconds=seconds))
 
     def set_asap(self, checked: bool) -> None:
         self.package_model.set_asap(checked)

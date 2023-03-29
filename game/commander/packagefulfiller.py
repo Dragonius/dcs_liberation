@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from datetime import datetime
 from typing import Dict, Iterable, Optional, Set, TYPE_CHECKING
 
 from game.ato.airtaaskingorder import AirTaskingOrder
@@ -133,7 +132,6 @@ class PackageFulfiller:
         self,
         mission: ProposedMission,
         purchase_multiplier: int,
-        now: datetime,
         tracer: MultiEventTracer,
     ) -> Optional[Package]:
         """Allocates aircraft for a proposed mission and adds it to the ATO."""
@@ -223,6 +221,6 @@ class PackageFulfiller:
 
         if package.has_players and self.player_missions_asap:
             package.auto_asap = True
-            package.set_tot_asap(now)
+            package.set_tot_asap()
 
         return package
