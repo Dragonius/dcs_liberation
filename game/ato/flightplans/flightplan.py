@@ -275,7 +275,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
         # the 'sixpack' when start_time is zero and cause a deadlock.
         # Workaround: force the start_time to 1 second for these planes.
         if self.flight.from_cp.is_fleet and start_time.total_seconds() == 0:
-            start_time = timedelta(seconds=1)
+            start_time = timedelta(seconds=2)
 
         return start_time
 
@@ -285,7 +285,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
                 return timedelta(minutes=10)
             else:
                 # The AI doesn't seem to have a real startup procedure.
-                return timedelta(minutes=2)
+                return timedelta(minutes=4)
         return timedelta()
 
     def estimate_ground_ops(self) -> timedelta:
