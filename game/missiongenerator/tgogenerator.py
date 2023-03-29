@@ -448,33 +448,15 @@ class GenericCarrierGenerator(GroundObjectGenerator):
                         f"Error generating carrier group for {self.control_point.name}"
                     )
                 ship_group.units[0].type = carrier_type.id
-                if self.control_point.tacan is None:
-                    tacan = self.tacan_registry.alloc_for_band(
-                        TacanBand.X, TacanUsage.TransmitReceive
-                    )
-                else:
-                    tacan = self.control_point.tacan
-                if self.control_point.tcn_name is None:
-                    tacan_callsign = self.tacan_callsign()
-                else:
-                    tacan_callsign = self.control_point.tcn_name
-                link4 = None
-                link4carriers = [Stennis, CVN_71, CVN_72, CVN_73, CVN_75, Forrestal]
-                if carrier_type in link4carriers:
-                    if self.control_point.link4 is None:
-                        link4 = self.radio_registry.alloc_uhf()
-                    else:
-                        link4 = self.control_point.link4
-                icls = None
-                icls_name = self.control_point.icls_name
-                if carrier_type in link4carriers or carrier_type == LHA_Tarawa:
-                    if self.control_point.icls_channel is None:
-                        icls = next(self.icls_alloc)
-                    else:
-                        icls = self.control_point.icls_channel
-                self.activate_beacons(
-                    ship_group, tacan, tacan_callsign, icls, icls_name, link4
+                tacan = self.tacan_registry.alloc_for_band(
+                    TacanBand.X, TacanUsage.TransmitReceive
                 )
+                tacan_callsign = self.tacan_callsign()
+                icls = next(self.icls_alloc)
+                link4 = None
+                if carrier_type in [Stennis, CVN_71, CVN_72, CVN_73, CVN_75]:
+                    link4 = self.radio_registry.alloc_uhf()
+                self.activate_beacons(ship_group, tacan, tacan_callsign, icls, link4)
                 self.add_runway_data(
                     brc or Heading.from_degrees(0), atc, tacan, tacan_callsign, icls
                 )
@@ -650,10 +632,10 @@ class HelipadGenerator:
                 )
 
             # Set FREQ
-            if isinstance(self.cp) and self.cp.frequency:
-                for hp in self.helipads.units:
-                    if isinstance(hp):
-                        hp.heliport_frequency = self.cp.frequency.mhz
+            # if isinstance(self.cp) and self.cp.frequency:
+            #    for hp in self.helipads.units:
+            #        if isinstance(hp):
+            #            hp.heliport_frequency = self.cp.frequency.mhz
 
             pad = self.helipads.units[-1]
             pad.position = helipad
