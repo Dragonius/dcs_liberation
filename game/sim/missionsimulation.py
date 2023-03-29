@@ -5,6 +5,7 @@ from datetime import timedelta
 from pathlib import Path
 from typing import Optional, TYPE_CHECKING
 
+from game import persistency
 from game.debriefing import Debriefing
 from game.missiongenerator import MissionGenerator
 from game.unitmap import UnitMap
