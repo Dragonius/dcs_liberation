@@ -520,7 +520,7 @@ class SupportPage(KneeboardPage):
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Support Info{custom_name_title}")
 
-        # Package Section
+        """# Package Section
         package = self.flight.package
         custom = f' "{package.custom_name}"' if package.custom_name else ""
         writer.heading(f"{package.package_description} Package{custom}")
@@ -551,7 +551,7 @@ class SupportPage(KneeboardPage):
             )
 
         writer.table(comm_ladder, headers=["Callsign", "Task", "Type", "#A/C", "FREQ"])
-
+"""
         # AEW&C
         writer.heading("AEW&C")
         aewc_ladder = []
