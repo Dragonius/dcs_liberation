@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QLabel,
     QVBoxLayout,
+    QHBoxLayout,
 )
 
 from game import Game
@@ -41,6 +42,8 @@ class QFlightPayloadTab(QFrame):
         )
         docsText.setAlignment(Qt.AlignCenter)
         docsText.setOpenExternalLinks(True)
+
+        layout = QHBoxLayout()
 
         layout.addLayout(PropertyEditor(self.flight))
         self.loadout_selector = DcsLoadoutSelector(flight)
