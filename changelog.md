@@ -34,7 +34,11 @@ Saves from 6.0.0 are compatible with 6.1.0
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 * **[Engine]** Support for DCS 2.8.1.34437, including Blackshark 3.
+=======
+* **[Engine]** Support for DCS 2.8.1.34437.
+>>>>>>> 8e0cf228 (Update changelog for pydcs update.)
 * **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
 * **[Factions]** Added Peru.
 * **[Flight Planning]** AEW&C and Refueling flights are now plannable on LHA carriers.
