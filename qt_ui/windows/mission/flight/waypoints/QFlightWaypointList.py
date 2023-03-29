@@ -2,13 +2,6 @@ from PySide6.QtCore import QItemSelectionModel, QPoint
 from PySide6.QtGui import QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import QHeaderView, QTableView
 
-from PySide6.QtCore import QItemSelectionModel, QPoint
-from PySide6.QtGui import QStandardItem, QStandardItemModel
-from PySide6.QtWidgets import QHeaderView, QTableView
-
-from game.ato.package import Package
-from game.ato.flightwaypointtype import FlightWaypointType
-from game.ato.flightwaypoint import FlightWaypoint
 from game.ato.flight import Flight
 from game.ato.flightwaypoint import FlightWaypoint
 from game.ato.flightwaypointtype import FlightWaypointType
