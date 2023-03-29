@@ -83,7 +83,7 @@ def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
     first_start = liberation_install.init()
     if first_start:
         window = QLiberationFirstStartWindow()
-        window.exec_()
+        window.exec()
 
     logging.info("Using {} as 'Saved Game Folder'".format(persistence.base_path()))
     logging.info(
@@ -131,7 +131,7 @@ def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
             )
             message_box.setDefaultButton(QtWidgets.QMessageBox.StandardButton.Ok)
             message_box.setCheckBox(ignore_checkbox)
-            message_box.exec_()
+            message_box.exec()
     # Replace DCS Mission scripting file to allow DCS Liberation to work
     try:
         liberation_install.replace_mission_scripting_file()
@@ -141,7 +141,7 @@ def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
         error_dialog.showMessage(
             "Unable to modify Mission Scripting file. Possible issues with rights. Try running as admin, or please perform the modification of the MissionScripting file manually."
         )
-        error_dialog.exec_()
+        error_dialog.exec()
 
     # Apply CSS (need works)
     GameUpdateSignal()
@@ -151,7 +151,7 @@ def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
     window = QLiberationWindow(game, ui_flags)
     window.showMaximized()
     splash.finish(window)
-    qt_execution_code = app.exec_()
+    qt_execution_code = app.exec()
 
     # Restore Mission Scripting file
     logging.info("QT App terminated with status code : " + str(qt_execution_code))
