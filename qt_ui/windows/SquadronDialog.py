@@ -14,7 +14,9 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
 )
 
+from game.ato.flightplans.custom import CustomFlightPlan
 from game.ato.flighttype import FlightType
+from game.ato.flightwaypointtype import FlightWaypointType
 from game.squadrons import Pilot, Squadron
 from game.theater import ConflictTheater, ControlPoint
 from qt_ui.delegates import TwoColumnRowDelegate
@@ -196,6 +198,8 @@ class SquadronDialog(QDialog):
             destination = self.transfer_destination.itemData(index)
             if destination is None:
                 self.squadron.cancel_relocation()
+            elif self.ato_model.game.settings.enable_transfer_cheat:
+                self._instant_relocate(destination)
             else:
                 self.squadron.plan_relocation(
                     destination, self.sim_controller.current_time_in_sim
