@@ -4,6 +4,9 @@ Saves from 6.x are not compatible with 7.0.
 
 ## Features/Improvements
 
+* **[Engine]** Support for DCS 2.8.3.37556.
+* **[Engine]** Saved games are now a zip file of save assets for easier bug reporting. The new extension is .liberation.zip. Drag and drop that file into bug reports.
+* **[Flight Planning]** Package TOT and composition can be modified after advancing time in Liberation.
 * **[Mission Generation]** Units on the front line are now hidden on MFDs.
 * **[Mission Generation]** Preset radio channels will now be configured for both A-10C modules.
 * **[Mission Generation]** The A-10C II now uses separate radios for inter- and intra-flight comms (similar to other modern aircraft).
@@ -12,39 +15,32 @@ Saves from 6.x are not compatible with 7.0.
 
 ## Fixes
 
+* **[Campaign]** Fixed a longstanding bug where oversized airlifts could corrupt a save with empty convoys. 
+
+# 6.1.1
+
+## Fixes
+
+* **[Data]** Fixed unit ID for the KS-19 AAA. KS-19 would not previously generate correctly in missions. A new game is required for this fix to take effect.
+* **[Flight Planning]** Automatic flight planning will no longer accidentally plan a recovery tanker instead of a theater refueling package. This fixes a potential crash during mission generation when opfor plans a refueling task at a sunk carrier. You'll need to skip the current turn to force opfor to replan their flights to get the fix.
+* **[Mission Generation]** Using heliports (airports without any runways) will no longer cause mission generation to fail.
+* **[Mission Generation]** Prevent helicopters from spawning into collisions at FARPs when more than one flight uses the same FARP.
+
 # 6.1.0
 
 Saves from 6.0.0 are compatible with 6.1.0
 
 ## Features/Improvements
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 * **[Engine]** Support for DCS 2.8.1.34437, including Blackshark 3.
-=======
-* **[Engine]** Support for DCS 2.8.1.34437.
->>>>>>> 8e0cf228 (Update changelog for pydcs update.)
 * **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
 * **[Factions]** Added Peru.
-* **[Flight Planning]** AEW&C and Refueling flights are now plannable on LHA carriers.
-* **[Flight Planning]** Refueling flights planned on aircraft carriers will act as a recovery tanker for the carrier.
 * **[Flight Planning]** AEW&C and Refueling flights are now plannable on LHA carriers.
 * **[Flight Planning]** Refueling flights planned on aircraft carriers will act as a recovery tanker for the carrier.
 * **[Loadouts]** Adjusted F-15E loadouts.
 * **[Mission Generation]** The previous turn will now be saved as last_turn.liberation when submitting mission results. This is often essential for debugging bug reports. **Include this file in the bug report whenever it is available.**
 * **[Modding]** Added support for the HMS Ariadne, Achilles, and Castle class.
 * **[Modding]** Added HMS Invincible to the game data as a helicopter carrier.
-=======
-* [Factions] Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
-* [Factions] Added Peru.
-* [Modding] Added support for the HMS Ariadne, Achilles, and Castle class.
->>>>>>> f358c1c0 (Add missing changelog note.)
-=======
-* **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
-* **[Factions]** Added Peru.
-* **[Modding]** Added support for the HMS Ariadne, Achilles, and Castle class.
->>>>>>> e041fa3c (Fix changelog formatting.)
 
 ## Fixes
 

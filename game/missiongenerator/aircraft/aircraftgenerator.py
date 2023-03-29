@@ -26,6 +26,7 @@ from game.settings import Settings
 from game.theater.controlpoint import (
     Airfield,
     ControlPoint,
+    Fob,
 )
 from game.unitmap import UnitMap
 from .aircraftpainter import AircraftPainter
@@ -101,7 +102,7 @@ class AircraftGenerator:
             ato: The ATO to spawn aircraft for.
             dynamic_runways: Runway data for carriers and FARPs.
         """
-        for package in reversed(sorted(ato.packages, key=lambda x: x.time_over_target)):
+        for package in ato.packages:
             if not package.flights:
                 continue
             for flight in package.flights:
@@ -180,4 +181,12 @@ class AircraftGenerator:
                 self.unit_map,
             ).configure()
         )
+
+        wpt = group.waypoint("LANDING")
+        if flight.is_helo and isinstance(flight.arrival, Fob) and wpt:
+            hpad = self.helipads[flight.arrival].units.pop(0)
+            wpt.helipad_id = hpad.id
+            wpt.link_unit = hpad.id
+            self.helipads[flight.arrival].units.append(hpad)
+
         return group

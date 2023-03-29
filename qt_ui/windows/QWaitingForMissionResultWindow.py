@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-import os
 from pathlib import Path
 from typing import Optional
 
@@ -23,7 +22,6 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game import Game
 from game.debriefing import Debriefing
-from game.persistency import base_path
 from game.profiling import logged_duration
 from qt_ui.simcontroller import SimController
 from qt_ui.windows.GameUpdateSignal import GameUpdateSignal
@@ -62,7 +60,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.sim_controller = sim_controller
         self.setWindowTitle("Waiting for mission completion.")
         self.setWindowIcon(QIcon("./resources/icon.png"))
-        self.setMinimumHeight(170)
+        self.setMinimumHeight(570)
 
         self.initUi()
         DebriefingFileWrittenSignal.get_instance().debriefingReceived.connect(
@@ -220,9 +218,6 @@ class QWaitingForMissionResultWindow(QDialog):
             GameUpdateSignal.get_instance().sendDebriefing(self.debriefing)
             GameUpdateSignal.get_instance().updateGame(self.game)
         self.close()
-
-    def debriefing_directory_location(self) -> str:
-        return os.path.join(base_path(), "liberation_debriefings")
 
     def closeEvent(self, evt):
         super(QWaitingForMissionResultWindow, self).closeEvent(evt)

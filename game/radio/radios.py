@@ -397,6 +397,6 @@ class RadioRegistry:
         Raises:
             ChannelInUseError: The given frequency is already in use.
         """
-        # if frequency in self.allocated_channels:
-        #    raise ChannelInUseError(frequency)
+        if frequency in self.allocated_channels:
+            raise ChannelInUseError(frequency)
         self.allocated_channels.add(frequency)

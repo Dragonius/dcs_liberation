@@ -35,6 +35,7 @@ import logging
 import math
 from collections import defaultdict
 from dataclasses import dataclass, field
+from datetime import datetime
 from functools import singledispatchmethod
 from typing import Generic, Iterator, List, Optional, Sequence, TYPE_CHECKING, TypeVar
 
@@ -121,12 +122,19 @@ class TransferOrder:
         self.units.clear()
 
     def kill_unit(self, unit_type: GroundUnitType) -> None:
-        if unit_type not in self.units or not self.units[unit_type]:
-            raise KeyError(f"{self} has no {unit_type} remaining")
-        if self.units[unit_type] == 1:
+        self.take_units(unit_type, 1)
+
+    def take_units(self, unit_type: GroundUnitType, count: int) -> None:
+        """Removes units from the transfer without returning them to inventory.
+
+        The caller takes ownership of the units.
+        """
+        if unit_type not in self.units or self.units[unit_type] < count:
+            raise KeyError(f"{self} has fewer than {count} {unit_type} remaining")
+
+        self.units[unit_type] -= count
+        if not self.units[unit_type]:
             del self.units[unit_type]
-        else:
-            self.units[unit_type] -= 1
 
     @property
     def size(self) -> int:
@@ -299,7 +307,7 @@ class AirliftPlanner:
 
         return True
 
-    def create_package_for_airlift(self) -> None:
+    def create_package_for_airlift(self, now: datetime) -> None:
         distance_cache = ObjectiveDistanceCache.get_closest_airfields(
             self.transfer.position
         )
@@ -318,7 +326,7 @@ class AirliftPlanner:
                     ):
                         self.create_airlift_flight(squadron)
         if self.package.flights:
-            self.package.set_tot_asap()
+            self.package.set_tot_asap(now)
             self.game.ato_for(self.for_player).add_package(self.package)
 
     def create_airlift_flight(self, squadron: Squadron) -> int:
@@ -580,7 +588,7 @@ class PendingTransfers:
     def network_for(self, control_point: ControlPoint) -> TransitNetwork:
         return self.game.transit_network_for(control_point.captured)
 
-    def arrange_transport(self, transfer: TransferOrder) -> None:
+    def arrange_transport(self, transfer: TransferOrder, now: datetime) -> None:
         network = self.network_for(transfer.position)
         path = network.shortest_path_between(transfer.position, transfer.destination)
         next_stop = path[0]
@@ -595,12 +603,12 @@ class PendingTransfers:
                 == TransitConnection.Shipping
             ):
                 return self.cargo_ships.add(transfer, next_stop)
-        AirliftPlanner(self.game, transfer, next_stop).create_package_for_airlift()
+        AirliftPlanner(self.game, transfer, next_stop).create_package_for_airlift(now)
 
-    def new_transfer(self, transfer: TransferOrder) -> None:
+    def new_transfer(self, transfer: TransferOrder, now: datetime) -> None:
         transfer.origin.base.commit_losses(transfer.units)
         self.pending_transfers.append(transfer)
-        self.arrange_transport(transfer)
+        self.arrange_transport(transfer, now)
 
     def split_transfer(self, transfer: TransferOrder, size: int) -> TransferOrder:
         """Creates a smaller transfer that is a subset of the original."""
@@ -611,7 +619,7 @@ class PendingTransfers:
         for unit_type, remaining in transfer.units.items():
             take = min(remaining, size)
             size -= take
-            transfer.units[unit_type] -= take
+            transfer.take_units(unit_type, take)
             units[unit_type] = take
             if not size:
                 break
@@ -672,7 +680,7 @@ class PendingTransfers:
         self.convoys.disband_all()
         self.cargo_ships.disband_all()
 
-    def plan_transports(self) -> None:
+    def plan_transports(self, now: datetime) -> None:
         """
         Plan transports for all pending and completable transfers which don't have a
         transport assigned already. This calculates the shortest path between current
@@ -682,7 +690,7 @@ class PendingTransfers:
         self.disband_uncompletable_transfers()
         for transfer in self.pending_transfers:
             if transfer.transport is None:
-                self.arrange_transport(transfer)
+                self.arrange_transport(transfer, now)
 
     def disband_uncompletable_transfers(self) -> None:
         """

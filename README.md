@@ -62,5 +62,3 @@ Excellent lua scripts DCS Liberation uses as plugins:
 * Walder's [Skynet-IADS](https://github.com/walder/Skynet-IADS) is used for Integrated Air Defense System.
 
 Please also show some support to these projects ! 
-
-pushed dcs liberation size of 1426x663 of 1920x1080 [Dragonius](https://github.com/Dragonius/dcs_liberation)

@@ -1,9 +1,5 @@
 local unitPayloads = {
-<<<<<<< HEAD
 	["name"] = "VSN_F4B",
-=======
-	["name"] = "VSN_F4C",
->>>>>>> 70b9d4c1 (Add VSN F-4 Mod Support)
 	["payloads"] = {
 		[1] = {
 			["name"] = "CAP",
@@ -40,7 +36,6 @@ local unitPayloads = {
 					["CLSID"] = "VSN_F4ER_PTB",
 					["num"] = 10,
 				},
-<<<<<<< HEAD
 				[9] ={
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 11,
@@ -49,8 +44,6 @@ local unitPayloads = {
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 12,
 				},
-=======
->>>>>>> 70b9d4c1 (Add VSN F-4 Mod Support)
 			},
 			["tasks"] = {
 				[1] = 18,
@@ -97,7 +90,6 @@ local unitPayloads = {
 					["CLSID"] = "VSN_F4EC_PTB",
 					["num"] = 6,
 				},
-<<<<<<< HEAD
 				[10] ={
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 11,
@@ -106,8 +98,6 @@ local unitPayloads = {
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 12,
 				},
-=======
->>>>>>> 70b9d4c1 (Add VSN F-4 Mod Support)
 			},
 			["tasks"] = {
 				[1] = 11,
@@ -152,7 +142,6 @@ local unitPayloads = {
 					["CLSID"] = "VSN_F4EC_PTB",
 					["num"] = 6,
 				},
-<<<<<<< HEAD
 				[10] ={
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 11,
@@ -161,8 +150,6 @@ local unitPayloads = {
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 12,
 				},
-=======
->>>>>>> 70b9d4c1 (Add VSN F-4 Mod Support)
 			},
 			["tasks"] = {
 				[1] = 11,
@@ -207,7 +194,6 @@ local unitPayloads = {
 					["CLSID"] = "VSN_F4EC_PTB",
 					["num"] = 6,
 				},
-<<<<<<< HEAD
 				[10] ={
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 11,
@@ -216,8 +202,6 @@ local unitPayloads = {
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 12,
 				},
-=======
->>>>>>> 70b9d4c1 (Add VSN F-4 Mod Support)
 			},
 			["tasks"] = {
 				[1] = 11,
@@ -262,7 +246,6 @@ local unitPayloads = {
 					["CLSID"] = "VSN_F4EC_PTB",
 					["num"] = 6,
 				},
-<<<<<<< HEAD
 				[10] ={
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 11,
@@ -271,17 +254,11 @@ local unitPayloads = {
                     ["CLSID"] = "<CLEAN>",
 					["num"] = 12,
 				},
-=======
->>>>>>> 70b9d4c1 (Add VSN F-4 Mod Support)
 			},			["tasks"] = {
 				[1] = 11,
 			},
 		},
 	},
-<<<<<<< HEAD
 	["unitType"] = "VSN_F4B",
-=======
-	["unitType"] = "VSN_F4C",
->>>>>>> 70b9d4c1 (Add VSN F-4 Mod Support)
 }
 return unitPayloads

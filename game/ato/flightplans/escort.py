@@ -2,17 +2,12 @@ from __future__ import annotations
 
 from typing import Type
 
-from dcs.mapping import Point, Vector2
-
 from .formationattack import (
     FormationAttackBuilder,
     FormationAttackFlightPlan,
     FormationAttackLayout,
 )
 from .waypointbuilder import WaypointBuilder
-from .. import FlightWaypoint
-from ..flightwaypointtype import FlightWaypointType
-from ...theater import FrontLine
 
 
 class EscortFlightPlan(FormationAttackFlightPlan):

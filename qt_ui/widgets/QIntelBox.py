@@ -64,20 +64,14 @@ class QIntelBox(QGroupBox):
             return "enemy eliminated"
 
         ratio = own / enemy
-        if ratio < 0.4:
-            return "outnumbered less x0.4"
         if ratio < 0.6:
-            return "outnumbered less x0.6"
+            return "outnumbered"
         if ratio < 0.8:
-            return "slightly outnumbered x0.8"
-        if ratio < 1.1 and ratio > 0.9:
-            return "evenly matched"
+            return "slightly outnumbered"
         if ratio < 1.2:
-            return "slight advantage x1.2"
+            return "evenly matched"
         if ratio < 1.4:
-            return "slight advantage x1.4"
-        if ratio < 1.6:
-            return "slight advantage x1.6"
+            return "slight advantage"
         return "strong advantage"
 
     def economic_strength_text(self) -> str:
@@ -89,20 +83,14 @@ class QIntelBox(QGroupBox):
             return "enemy economy ruined"
 
         ratio = own / enemy
-        if ratio < 0.4:
-            return "outnumbered less x0.4"
         if ratio < 0.6:
-            return "outnumbered less x0.6"
+            return "strong disadvantage"
         if ratio < 0.8:
-            return "slightly outnumbered x0.8"
-        if ratio < 1.1 and ratio > 0.9:
-            return "evenly matched"
+            return "slight disadvantage"
         if ratio < 1.2:
-            return "slight advantage x1.2"
+            return "evenly matched"
         if ratio < 1.4:
-            return "slight advantage x1.4"
-        if ratio < 1.6:
-            return "slight advantage x1.6"
+            return "slight advantage"
         return "strong advantage"
 
     def update_summary(self) -> None:
