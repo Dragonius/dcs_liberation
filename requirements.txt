@@ -39,6 +39,17 @@ pefile==2022.5.30
 Pillow==9.3.0
 platformdirs==2.6.2
 pluggy==1.0.0
+pre-commit==2.19.0
+py==1.11.0
+pydantic==1.9.1
+-e git+https://github.com/pydcs/dcs@e755b655b7b28e9af3c1fa42263424b568413c04#egg=pydcs
+pyinstaller==5.2
+pyinstaller-hooks-contrib==2022.8
+pyparsing==3.0.9
+pyproj==3.3.1
+pyshp==2.3.1
+PySide2==5.15.2.1
+pytest==7.1.2
 pre-commit==2.21.0
 pydantic==1.10.3
 -e git+https://github.com/pydcs/dcs@7fd426bbd08794cb14a6c3371b61aff92b501853#egg=pydcs

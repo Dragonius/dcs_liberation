@@ -4,7 +4,6 @@ from typing import Any, TYPE_CHECKING, Type
 
 from game.ato import FlightType
 from game.theater.controlpoint import NavalControlPoint
-from game.theater.frontline import FrontLine
 from .aewc import AewcFlightPlan
 from .airassault import AirAssaultFlightPlan
 from .airlift import AirliftFlightPlan

@@ -10,6 +10,7 @@ from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
+from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.callsigns import callsign_for_support_unit
 from game.data.weapons import Pylon, WeaponType as WeaponTypeEnum
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
@@ -157,7 +158,9 @@ class FlightGroupConfigurator:
                     blue=self.flight.departure.captured,
                 )
             )
-        elif self.flight.flight_type is FlightType.REFUELING:
+        elif isinstance(
+            self.flight.flight_plan, TheaterRefuelingFlightPlan
+        ) or isinstance(self.flight.flight_plan, RecoveryTankerFlightPlan):
             tacan = self.tacan_registry.alloc_for_band(TacanBand.Y, TacanUsage.AirToAir)
             self.mission_data.tankers.append(
                 TankerInfo(
