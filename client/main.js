@@ -6,8 +6,8 @@ const windowStateKeeper = require("electron-window-state");
 
 function createWindow() {
   let mainWindowState = windowStateKeeper({
-    defaultWidth: 1000,
-    defaultHeight: 800,
+    defaultWidth: 200,
+    defaultHeight: 200,
   });
 
   // Create the browser window.

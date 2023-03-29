@@ -80,7 +80,7 @@ class PendingTransfersDialog(QDialog):
         super().__init__(parent)
         self.transfer_model = game_model.transfer_model
 
-        self.setMinimumSize(1000, 440)
+        self.setMinimumSize(500, 220)
         self.setWindowTitle(f"Pending Transfers")
         # TODO: self.setWindowIcon()
 
