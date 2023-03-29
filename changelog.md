@@ -19,6 +19,7 @@ Saves from 6.0.0 are compatible with 6.1.0
 ## Features/Improvements
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 * **[Engine]** Support for DCS 2.8.1.34437, including Blackshark 3.
 * **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
 * **[Factions]** Added Peru.
@@ -35,6 +36,11 @@ Saves from 6.0.0 are compatible with 6.1.0
 * [Factions] Added Peru.
 * [Modding] Added support for the HMS Ariadne, Achilles, and Castle class.
 >>>>>>> f358c1c0 (Add missing changelog note.)
+=======
+* **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
+* **[Factions]** Added Peru.
+* **[Modding]** Added support for the HMS Ariadne, Achilles, and Castle class.
+>>>>>>> e041fa3c (Fix changelog formatting.)
 
 ## Fixes
 
