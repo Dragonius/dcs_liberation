@@ -123,7 +123,6 @@ from dcs.unittype import FlyingType
 from game.dcs.aircrafttype import AircraftType
 from pydcs_extensions.a4ec.a4ec import A_4E_C
 from pydcs_extensions.f104.f104 import VSN_F104G, VSN_F104S, VSN_F104S_AG
-from pydcs_extensions.f4.f4 import VSN_F4B, VSN_F4C
 from pydcs_extensions.f22a.f22a import F_22A
 from pydcs_extensions.hercules.hercules import Hercules
 from pydcs_extensions.jas39.jas39 import JAS39Gripen, JAS39Gripen_AG
@@ -174,8 +173,6 @@ CAP_CAPABLE = [
     Mirage_F1CT,
     F_15E,
     M_2000C,
-    VSN_F4B,
-    VSN_F4C,
     F_5E_3,
     VSN_F104S,
     VSN_F104G,
@@ -267,8 +264,6 @@ CAS_CAPABLE = [
     UH_1H,
     VSN_F104S_AG,
     VSN_F104G,
-    VSN_F4B,
-    VSN_F4C,
     A_20G,
     Ju_88A4,
     P_47D_40,
@@ -303,7 +298,6 @@ SEAD_CAPABLE = [
     F_14A_135_GR,
     JAS39Gripen_AG,
     AV8BNA,
-    VSN_F4C,
     Su_24M,
     Su_17M4,
     Su_34,
@@ -327,8 +321,6 @@ DEAD_CAPABLE = SEAD_CAPABLE + [
     H_6J,
     A_20G,
     Ju_88A4,
-    VSN_F4B,
-    VSN_F4C,
     VSN_F104S_AG,
     VSN_F104G,
     P_47D_40,
@@ -384,8 +376,6 @@ STRIKE_CAPABLE = [
     A_10C,
     S_3B,
     A_4E_C,
-    VSN_F4B,
-    VSN_F4C,
     Bronco_OV_10A,
     M_2000C,
     Mirage_F1B,
@@ -489,8 +479,6 @@ RUNWAY_ATTACK_CAPABLE = [
     A_10C,
     S_3B,
     A_4E_C,
-    VSN_F4B,
-    VSN_F4C,
     Bronco_OV_10A,
     M_2000C,
     Mirage_F1B,
