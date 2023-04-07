@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import logging
 import math
 import random
+from datetime import timedelta
 from typing import List, Optional, TYPE_CHECKING, Tuple
 
 from dcs import Mission
@@ -52,9 +54,9 @@ if TYPE_CHECKING:
 SPREAD_DISTANCE_FACTOR = 0.1, 0.3
 SPREAD_DISTANCE_SIZE_FACTOR = 0.1
 
-FRONTLINE_CAS_FIGHTS_COUNT = 16, 24
-FRONTLINE_CAS_GROUP_MIN = 1, 2
-FRONTLINE_CAS_PADDING = 12000
+FRONTLINE_CAS_FIGHTS_COUNT = 16, 64
+FRONTLINE_CAS_GROUP_MIN = 1, 8
+FRONTLINE_CAS_PADDING = 1200
 
 RETREAT_DISTANCE = 20000
 BREAKTHROUGH_OFFENSIVE_DISTANCE = 35000
