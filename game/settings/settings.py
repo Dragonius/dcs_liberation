@@ -75,7 +75,7 @@ class Settings:
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
-        max=5,
+        max=50,
         divisor=10,
         default=1.0,
     )
@@ -84,7 +84,7 @@ class Settings:
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
-        max=5,
+        max=50,
         divisor=10,
         default=1.0,
     )
