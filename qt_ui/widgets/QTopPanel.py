@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QGroupBox,
     QHBoxLayout,
+    QVBoxLayout,
     QMessageBox,
     QPushButton,
 )
@@ -77,13 +78,13 @@ class QTopPanel(QFrame):
         self.intel_box = QIntelBox(self.game)
 
         self.buttonBox = QGroupBox("Misc")
-        self.buttonBoxLayout = QHBoxLayout()
+        self.buttonBoxLayout = QVBoxLayout()
         self.buttonBoxLayout.addWidget(self.air_wing)
         self.buttonBoxLayout.addWidget(self.transfers)
         self.buttonBox.setLayout(self.buttonBoxLayout)
 
         self.proceedBox = QGroupBox("Proceed")
-        self.proceedBoxLayout = QHBoxLayout()
+        self.proceedBoxLayout = QVBoxLayout()
         if ui_flags.show_sim_speed_controls:
             self.proceedBoxLayout.addLayout(SimSpeedControls(sim_controller))
         self.proceedBoxLayout.addLayout(MaxPlayerCount(self.game_model.ato_model))
