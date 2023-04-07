@@ -14,7 +14,7 @@ Things we should add:
 * Flight plan ToT and fuel ladder (current have neither available).
 * Support for planning an arrival/divert airfield separate from departure.
 * Mission package infrastructure to include information about the larger
-  mission, i.e. information about the escort flight for a strike package.
+* mission, i.e. information about the escort flight for a strike package.
 * Target information. Steerpoints, preplanned objectives, ToT, etc.
 
 For multiplayer missions, a kneeboard will be generated per flight.
