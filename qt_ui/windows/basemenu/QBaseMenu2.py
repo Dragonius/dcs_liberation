@@ -46,8 +46,8 @@ class QBaseMenu2(QDialog):
         self.setWindowIcon(EVENT_ICONS["capture"])
 
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        self.setMinimumSize(300, 200)
-        self.setMinimumWidth(1024)
+        self.setMinimumSize(150, 100)
+        self.setMinimumWidth(640)
         self.setMaximumWidth(1024)
         self.setModal(True)
 

@@ -368,7 +368,7 @@ class AircraftTypeList(QListView):
         super().__init__()
         self.air_wing = air_wing
         self.setIconSize(QSize(91, 24))
-        self.setMinimumWidth(300)
+        self.setMinimumWidth(150)
 
         self.item_model = QStandardItemModel(self)
         self.setModel(self.item_model)
@@ -503,7 +503,7 @@ class AirWingConfigurationDialog(QDialog):
 
     def __init__(self, game: Game, parent) -> None:
         super().__init__(parent)
-        self.setMinimumSize(1024, 768)
+        self.setMinimumSize(640, 480)
         self.setWindowTitle(f"Air Wing Configuration")
         # TODO: self.setWindowIcon()
 

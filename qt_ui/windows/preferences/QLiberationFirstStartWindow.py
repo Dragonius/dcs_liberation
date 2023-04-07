@@ -17,7 +17,7 @@ class QLiberationFirstStartWindow(QDialog):
 
         self.setModal(True)
         self.setWindowTitle("First start configuration")
-        self.setMinimumSize(500, 200)
+        self.setMinimumSize(250, 100)
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.Dialog | Qt.WindowTitleHint)
         self.setWindowModality(Qt.WindowModal)
