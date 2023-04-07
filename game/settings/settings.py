@@ -392,7 +392,7 @@ class Settings:
         section=GAMEPLAY_SECTION,
         default=timedelta(minutes=60),
         min=30,
-        max=150,
+        max=300,
     )
 
     # Performance
