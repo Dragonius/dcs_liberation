@@ -229,6 +229,8 @@ class ScrollingUnitTransferGrid(QFrame):
             if not origin_inventory:
                 return
 
+            if amount > origin_inventory:
+                amount = origin_inventory
             self.transfers[unit_type] += amount
             origin_inventory -= amount
             controls.set_quantity(self.transfers[unit_type])
@@ -241,6 +243,8 @@ class ScrollingUnitTransferGrid(QFrame):
             if not controls.quantity:
                 return
 
+            if amount > self.transfers[unit_type]:
+                amount = self.transfers[unit_type]
             self.transfers[unit_type] -= amount
             origin_inventory += amount
             controls.set_quantity(self.transfers[unit_type])
