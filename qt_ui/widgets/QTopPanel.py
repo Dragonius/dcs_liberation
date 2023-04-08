@@ -89,6 +89,7 @@ class QTopPanel(QFrame):
         if ui_flags.show_sim_speed_controls:
             self.proceedBoxLayout.addLayout(SimSpeedControls(sim_controller))
         self.proceedBoxLayout.addLayout(MaxPlayerCount(self.game_model.ato_model))
+        self.proceedBox.setLayout(self.proceedBoxLayout)
 
         self.proceed2Box = QGroupBox("Proceed")
         self.proceed2BoxLayout = QVBoxLayout()
