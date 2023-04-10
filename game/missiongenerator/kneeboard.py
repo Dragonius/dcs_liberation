@@ -43,7 +43,7 @@ from game.radio.radios import RadioFrequency
 from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
-from game.utils import Distance, UnitSystem, meters, mps, pounds
+from game.utils import Distance, UnitSystem, meters, mps, pounds, knots, feet
 from game.weather import Weather
 from .aircraft.flightdata import FlightData
 from .airsupportgenerator import AwacsInfo, TankerInfo
@@ -518,6 +518,7 @@ class SupportPage(KneeboardPage):
             else:
                 dep = self._format_time(single_aewc.start_time)
                 arr = self._format_time(single_aewc.end_time)
+                tos = self._format_time(single_aewc.start_time - single_aewc.end_time)
 
             aewc_ladder.append(
                 [
@@ -526,12 +527,13 @@ class SupportPage(KneeboardPage):
                     str(single_aewc.depature_location),
                     str(dep),
                     str(arr),
+                    str(tos),
                 ]
             )
 
         writer.table(
             aewc_ladder,
-            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA"],
+            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA", "TOS"],
         )
 
         # Package Section
@@ -574,6 +576,8 @@ class SupportPage(KneeboardPage):
         writer.write(path)
 
     def format_frequency(self, frequency: RadioFrequency) -> str:
+        if frequency is None:
+            return ""
         channel = self.flight.channel_for(frequency)
         if channel is None:
             return str(frequency)
