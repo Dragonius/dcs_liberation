@@ -23,6 +23,7 @@ only be added per airframe, so PvP missions where each side have the same
 aircraft will be able to see the enemy's kneeboard for the same airframe.
 """
 import datetime
+from typing import Union
 import math
 import textwrap
 from collections import defaultdict
@@ -515,10 +516,13 @@ class SupportPage(KneeboardPage):
             if single_aewc.depature_location is None:
                 dep = "-"
                 arr = "-"
+                # tos = "-"
             else:
                 dep = self._format_time(single_aewc.start_time)
                 arr = self._format_time(single_aewc.end_time)
-                tos = self._format_time(single_aewc.start_time - single_aewc.end_time)
+                tos_diff = single_aewc.end_time - single_aewc.start_time
+                tos_datetime = datetime.datetime(1900, 1, 1) + tos_diff
+                tos = self._format_time(tos_datetime)
 
             aewc_ladder.append(
                 [
@@ -528,12 +532,14 @@ class SupportPage(KneeboardPage):
                     str(dep),
                     str(arr),
                     str(tos),
-                ]
+                ],
+                font=self.flight_plan_font,
             )
 
         writer.table(
             aewc_ladder,
             headers=["Callsign", "FREQ", "Depature", "ETD", "ETA", "TOS"],
+            # headers=["Callsign", "FREQ", "Depature", "ETD", "ETA"],
         )
 
         # Package Section
@@ -587,11 +593,24 @@ class SupportPage(KneeboardPage):
         )
         return f"{channel_name}\n{frequency}"
 
+    # @staticmethod
+    # def _format_time(time: datetime.datetime | None) -> str:
+    #    if time is None:
+    #        return ""
+    #    return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+
     @staticmethod
-    def _format_time(time: datetime.datetime | None) -> str:
+    def _format_time(time: Union[datetime.datetime, datetime.timedelta] | None) -> str:
         if time is None:
             return ""
-        return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+        if isinstance(time, datetime.datetime):
+            return (
+                f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+            )
+        elif isinstance(time, datetime.timedelta):
+            return str(time)
+        else:
+            raise TypeError(f"Invalid time type: {type(time)}")
 
 
 class SeadTaskPage(KneeboardPage):
