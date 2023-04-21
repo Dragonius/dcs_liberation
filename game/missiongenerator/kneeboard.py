@@ -533,13 +533,12 @@ class SupportPage(KneeboardPage):
                     str(dep),
                     str(arr),
                     str(tos),
-                ],
-                font=self.flight_plan_font,
+                ]
             )
 
         writer.table(
             aewc_ladder,
-            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA", "TOS"],
+            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA", "TOS"]
             # headers=["Callsign", "FREQ", "Depature", "ETD", "ETA"],
         )
 
