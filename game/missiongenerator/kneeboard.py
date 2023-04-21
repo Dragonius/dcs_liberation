@@ -67,7 +67,7 @@ class KneeboardPageWriter:
             self.foreground_fill = (15, 15, 15)
             self.background_fill = (255, 252, 252)
         """" Old version self.image_size = (768, 1024) """
-        self.image_size = (1024, 1024)
+        self.image_size = (834, 1024)
         self.image = Image.new("RGB", self.image_size, self.background_fill)
         # These font sizes create a relatively full page for current sorties. If
         # we start generating more complicated flight plans, or start including
