@@ -176,10 +176,10 @@ class QTopPanel(QFrame):
         return packages
 
     @staticmethod
-    def fix_tots(packages: List[Package]) -> None:
+    def fix_tots(packages: List[Package], now: datetime) -> None:
         for package in packages:
             estimator = TotEstimator(package)
-            package.time_over_target = estimator.earliest_tot()
+            package.time_over_target = estimator.earliest_tot(now)
 
     def ato_has_clients(self) -> bool:
         for package in self.game.blue.ato.packages:
@@ -242,7 +242,7 @@ class QTopPanel(QFrame):
         mbox.exec_()
         clicked = mbox.clickedButton()
         if clicked == auto:
-            self.fix_tots(negative_starts)
+            self.fix_tots(negative_starts, self.sim_controller.current_time_in_sim)
             return True
         elif clicked == ignore:
             return True
