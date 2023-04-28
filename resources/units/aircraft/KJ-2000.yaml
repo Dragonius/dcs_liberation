@@ -4,5 +4,3 @@ patrol:
   altitude: 40000
 variants:
   KJ-2000: null
-tasks:
-  AEW&C: 0
