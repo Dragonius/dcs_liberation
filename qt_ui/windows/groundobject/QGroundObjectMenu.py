@@ -160,23 +160,29 @@ class QGroundObjectMenu(QDialog):
         self.headingLabel = QLabel("Heading:")
         self.orientationBoxLayout.addWidget(self.headingLabel)
         self.headingSelector = QSpinBox()
-        self.headingSelector.setEnabled(False)  # Disable for now
+        self.headingSelector.setEnabled(True)  # Disable for now
         self.headingSelector.setMinimum(0)
         self.headingSelector.setMaximum(360)
         self.headingSelector.setValue(self.ground_object.heading.degrees)
         self.orientationBoxLayout.addWidget(self.headingSelector)
         if self.cp.captured:
             # TODO Let the user choose the heading with the SpinBox
-            self.headingSelector.setEnabled(False)
+            self.headingSelector.setEnabled(True)
             self.head_to_conflict_button = QPushButton("Head to conflict")
+            self.head_heading_button = QPushButton("Head to directory")
             heading = (
                 self.game.theater.heading_to_conflict_from(self.ground_object.position)
                 or self.ground_object.heading
             )
+            heading_ground = self.ground_object.heading
             self.head_to_conflict_button.clicked.connect(
                 lambda: self.rotate_tgo(heading)
             )
+            self.head_heading_button.clicked.connect(
+                lambda: self.rotate_gtgo(heading_ground)
+            )
             self.orientationBoxLayout.addWidget(self.head_to_conflict_button)
+            self.orientationBoxLayout.addWidget(self.head_heading_button)
         else:
             self.headingSelector.setEnabled(False)
 
@@ -240,6 +246,10 @@ class QGroundObjectMenu(QDialog):
 
     def rotate_tgo(self, heading: Heading) -> None:
         self.ground_object.rotate(heading)
+        self.do_refresh_layout()
+
+    def rotate_gtgo(self, heading_ground: Heading) -> None:
+        self.ground_object.rotate(heading_ground)
         self.do_refresh_layout()
 
     def sell_all(self):
