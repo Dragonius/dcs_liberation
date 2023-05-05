@@ -68,7 +68,7 @@ class CasIngressBuilder(PydcsWaypointBuilder):
             Bf_109K_4,
             I_16,
         ]:
-            waypoint.alt = waypoint.alt / 3
+            waypoint.alt = int(waypoint.alt / 3)
         else:
             #    waypoint.alt = waypoint.alt / 2
             waypoint.alt = waypoint.alt
