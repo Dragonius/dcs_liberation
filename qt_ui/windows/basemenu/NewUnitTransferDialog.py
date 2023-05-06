@@ -215,13 +215,13 @@ class ScrollingUnitTransferGrid(QFrame):
             QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         )
 
-        modifiers = QApplication.keyboardModifiers()
-        if modifiers == Qt.ShiftModifier:
-            amount = 10
-        elif modifiers == Qt.ControlModifier:
-            amount = 5
-        else:
-            amount = 1
+        # modifiers = QApplication.keyboardModifiers()
+        # if modifiers == Qt.ShiftModifier:
+        #    amount = 10
+        # elif modifiers == Qt.ControlModifier:
+        #    amount = 5
+        # else:
+        #    amount = 1
 
         def increase(controls: TransferControls):
             nonlocal origin_inventory
