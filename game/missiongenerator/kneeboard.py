@@ -508,7 +508,7 @@ class SupportPage(KneeboardPage):
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Support Info{custom_name_title}")
 
-        # AEW&C
+        # AEW&C  contains  Departure, arrive to back to base and time in air as Delta time
         writer.heading("AEW&C")
         aewc_ladder = []
 
@@ -519,10 +519,10 @@ class SupportPage(KneeboardPage):
                 arr = "-"
                 tos = "-"
             else:
-                dep = self._format_time(single_aewc.start_time)
-                arr = self._format_time(single_aewc.end_time)
                 tos_diff = single_aewc.end_time - single_aewc.start_time
                 tos_datetime = datetime.datetime(1900, 1, 1) + tos_diff
+                dep = self._format_time(single_aewc.start_time)
+                arr = self._format_time(single_aewc.end_time)
                 tos = self._format_time(tos_datetime)
 
             aewc_ladder.append(
@@ -600,15 +600,15 @@ class SupportPage(KneeboardPage):
     #    return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
 
     @staticmethod
-    def _format_time(time: Union[datetime.datetime, datetime.timedelta] | None) -> str:
+    def _format_time(time: Union[datetime.datetime, datetime.datetime] | None) -> str:
         if time is None:
             return ""
+        if isinstance(time, datetime.timedelta):
+            return f"{time}"
         if isinstance(time, datetime.datetime):
             return (
                 f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
             )
-        elif isinstance(time, datetime.timedelta):
-            return str(time)
         else:
             raise TypeError(f"Invalid time type: {type(time)}")
 

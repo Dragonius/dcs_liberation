@@ -154,6 +154,10 @@ class FlightGroupConfigurator:
                     depature_location=self.flight.departure.name,
                     end_time=self.flight.flight_plan.mission_departure_time,
                     start_time=self.flight.flight_plan.takeoff_time(),
+                    tos_time=(
+                        self.flight.flight_plan.mission_departure_time
+                        - self.flight.flight_plan.takeoff_time()
+                    ),
                     blue=self.flight.departure.captured,
                 )
             )
