@@ -11,7 +11,8 @@ dist/**
 .env
 env/
 
-
+#pydcs seem to go bellow folder
+/src
 
 /kneeboards
 /liberation_preferences.json
