@@ -138,6 +138,66 @@ class SquadronBaseSelector(QComboBox):
         self.update()
 
 
+class SquadronLiverySelector(QComboBox):
+    """
+    A combo box for selecting a squadron's livery.
+    The combo box will automatically be populated with all available liveries.
+    """
+
+    def __init__(self, squadron: Squadron) -> None:
+        super().__init__()
+        self.setSizeAdjustPolicy(self.AdjustToContents)
+
+        self.aircraft_type = squadron.aircraft
+        selected_livery = squadron.livery
+
+        liveries = set()
+        cc = squadron.coalition.faction.country_shortname
+        aircraft_liveries = set(self.aircraft_type.dcs_unit_type.iter_liveries())
+        if len(aircraft_liveries) == 0:
+            logging.info(f"Liveries for {self.aircraft_type} is empty!")
+        for livery in aircraft_liveries:
+            valid_livery = livery.countries is None or cc in livery.countries
+            if valid_livery or cc in ["BLUE", "RED"]:
+                liveries.add(livery)
+        faction = squadron.coalition.faction
+        overrides = [
+            x
+            for x in faction.liveries_overrides.get(self.aircraft_type, [])
+            if x in [y.id.lower() for y in liveries]
+        ]
+        if len(overrides) > 0:
+            self.addItem("Use livery overrides", userData=None)
+        for livery in sorted(liveries):
+            self.addItem(livery.name, userData=livery.id)
+            if selected_livery is not None:
+                if selected_livery == livery.id:
+                    self.setCurrentText(livery.name)
+        if len(liveries) == 0:
+            self.addItem("No available liveries (using DCS default)")
+            self.setEnabled(False)
+
+
+class SquadronSizeSpinner(QSpinBox):
+    def __init__(self, starting_size: int, parent: QWidget | None) -> None:
+        super().__init__(parent)
+
+        # Disable text editing, which wouldn't work in the first place, but also
+        # obnoxiously selects the text on change (highlighting it) and leaves a flashing
+        # cursor in the middle of the element when clicked.
+        self.lineEdit().setEnabled(False)
+
+        self.setMinimum(1)
+        self.setValue(starting_size)
+
+    # def sizeHint(self) -> QSize:
+    #     # The default size hinting fails to deal with label width, and will truncate
+    #     # "Paused".
+    #     size = super().sizeHint()
+    #     size.setWidth(86)
+    #     return size
+
+
 class SquadronConfigurationBox(QGroupBox):
     remove_squadron_signal = Signal(Squadron)
 

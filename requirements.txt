@@ -32,16 +32,14 @@ platformdirs==2.6.2
 pluggy==1.0.0
 pre-commit==2.21.0
 pydantic==1.10.7
--e git+https://github.com/pydcs/dcs@632a373fb0d8799f29eed81bc41eaefc006d859c#egg=pydcs
-pyinstaller==5.7.0
-pyinstaller-hooks-contrib==2022.14
-pyproj==3.4.1
-PySide6==6.4.1
-PySide6-Addons==6.4.1
-PySide6-Essentials==6.4.1
-pytest==7.2.0
-pytest-cov==4.0.0
-pytest-mock==3.10.0
+-e git+https://github.com/dcs-retribution/pydcs@2b3d68c74ef97d7b12be86cc864f65a952a57d21#egg=pydcs
+pyinstaller==5.11.0
+pyinstaller-hooks-contrib==2023.3
+pyparsing==3.0.9
+pyproj==3.5.0
+pyshp==2.3.1
+PySide2==5.15.2.1
+pytest==7.3.1
 python-dateutil==2.8.2
 python-dotenv==0.21.0
 pywin32-ctypes==0.2.0
