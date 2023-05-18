@@ -12,7 +12,7 @@ from game.theater.conflicttheater import ConflictTheater, FrontLine
 from game.theater.controlpoint import ControlPoint
 from game.utils import Heading, dcs_to_shapely_point
 
-FRONTLINE_LENGTH = 80000
+FRONTLINE_LENGTH = 8000
 
 
 @dataclass(frozen=True)
