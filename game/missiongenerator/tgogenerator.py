@@ -49,12 +49,13 @@ from dcs.unitgroup import MovingGroup, ShipGroup, StaticGroup, VehicleGroup
 from dcs.unittype import ShipType, VehicleType
 from dcs.vehicles import vehicle_map
 
-from game.missiongenerator.groundforcepainter import (
-    NavalForcePainter,
-    GroundForcePainter,
-)
+# from game.missiongenerator.groundforcepainter import (
+#    NavalForcePainter,
+# GroundForcePainter,
+# )
 from game.missiongenerator.missiondata import CarrierInfo, MissionData
-from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
+
+# from game.radio.RadioFrequencyContainer import RadioFrequencyContainer
 from game.radio.radios import RadioFrequency, RadioRegistry
 from game.radio.tacan import TacanBand, TacanChannel, TacanRegistry, TacanUsage
 from game.runways import RunwayData
@@ -649,9 +650,9 @@ class HelipadGenerator:
                 )
 
             # Set FREQ
-            if isinstance(self.cp, RadioFrequencyContainer) and self.cp.frequency:
+            if isinstance(self.cp) and self.cp.frequency:
                 for hp in self.helipads.units:
-                    if isinstance(hp, BaseFARP):
+                    if isinstance(hp):
                         hp.heliport_frequency = self.cp.frequency.mhz
 
             pad = self.helipads.units[-1]
