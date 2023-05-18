@@ -23,4 +23,5 @@ class PlanAntiShip(PackagePlanningTask[NavalGroundObject]):
 
     def propose_flights(self) -> None:
         self.propose_flight(FlightType.ANTISHIP, 2)
+        self.propose_flight(FlightType.SEAD_ESCORT, 2, EscortType.Sead)
         self.propose_flight(FlightType.ESCORT, 2, EscortType.AirToAir)
