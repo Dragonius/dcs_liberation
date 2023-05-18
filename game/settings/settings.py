@@ -244,7 +244,7 @@ class Settings:
         PILOTS_AND_SQUADRONS_SECTION,
         default=4,
         min=1,
-        max=20,
+        max=200,
         detail=(
             "Sets the maximum number of pilots that will be recruited to each squadron "
             "at the end of each turn. Squadrons will not recruit new pilots beyond the "
@@ -415,6 +415,15 @@ class Settings:
         min=30,
         max=150,
     )
+    # Mission specific
+    max_frontline_length: int = bounded_int_option(
+        "Maximum frontline length (km)",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=80,
+        min=1,
+        max=100,
+    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
@@ -454,6 +463,27 @@ class Settings:
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
+    )
+    perf_disable_convoys: bool = boolean_option(
+        "Disable convoys",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=False,
+    )
+    perf_frontline_units_prefer_roads: bool = boolean_option(
+        "Front line troops prefer roads",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=False,
+    )
+    perf_frontline_units_max_supply: int = bounded_int_option(
+        "Maximum frontline unit supply per control point",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        default=60,
+        min=10,
+        max=300,
+        causes_expensive_game_update=True,
     )
     perf_infantry: bool = boolean_option(
         "Generate infantry squads alongside vehicles",
