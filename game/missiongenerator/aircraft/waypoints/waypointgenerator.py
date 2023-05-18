@@ -156,7 +156,6 @@ class WaypointGenerator:
             self.time,
             self.mission_data,
             self.unit_map,
-            generated_waypoint_index,
         )
 
     def _estimate_min_fuel_for(self, waypoints: list[FlightWaypoint]) -> None:

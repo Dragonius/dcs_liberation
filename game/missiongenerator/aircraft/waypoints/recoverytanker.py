@@ -1,5 +1,5 @@
 from dcs.point import MovingPoint
-from dcs.task import ActivateBeaconCommand, RecoveryTanker, Tanker
+from dcs.task import ActivateBeaconCommand, RecoveryTanker
 
 from game.ato import FlightType
 from game.utils import feet, knots
@@ -10,12 +10,6 @@ class RecoveryTankerBuilder(PydcsWaypointBuilder):
     def add_tasks(self, waypoint: MovingPoint) -> None:
 
         assert self.flight.flight_type == FlightType.REFUELING
-
-        # Tanker task required in conjunction with RecoveryTanker task.
-        # See link below for details.
-        # https://github.com/dcs-liberation/dcs_liberation/issues/2771
-        waypoint.add_task(Tanker())
-
         group_id = self._get_carrier_group_id()
         speed = knots(250).meters_per_second
         altitude = feet(6000).meters
@@ -37,11 +31,10 @@ class RecoveryTankerBuilder(PydcsWaypointBuilder):
         for key, value in theater_objects.items():
             # Check name and position in case there are multiple of same carrier.
             if name in key and value.theater_unit.position == carrier_position:
-                return value.dcs_group_id
-        raise RuntimeError(
-            f"Could not find a carrier in the mission matching {name} at "
-            f"({carrier_position.x}, {carrier_position.y})"
-        )
+                theater_mapping = value
+                break
+        assert theater_mapping is not None
+        return theater_mapping.dcs_group_id
 
     def configure_tanker_tacan(self, waypoint: MovingPoint) -> None:
 
