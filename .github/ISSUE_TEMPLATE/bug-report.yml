@@ -31,7 +31,7 @@ body:
         If the bug was found in a development build, select "Development build"
         and provide a link to the build in the field below.
       options:
-        - 6.1.1
+        - 6.0.0
         - Development build
   - type: textarea
     attributes:
@@ -53,9 +53,9 @@ body:
       description: >
         Attach any files needed to reproduce the bug here. **A save game is
         required.** We typically cannot help without a save game (the
-        `.liberation` (or `.liberation.zip`, for 7.x) file found in
-        `%USERPROFILE%/Saved Games/DCS/Liberation/Saves`), so most bugs filed
-        without saved games will be closed without investigation.
+        `.liberation` file found in `%USERPROFILE%/Saved
+        Games/DCS/Liberation/Saves`), so most bugs filed without saved games
+        will be closed without investigation.
 
 
         Other useful files to include are:
