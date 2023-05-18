@@ -200,7 +200,7 @@ class QWaitingForMissionResultWindow(QDialog):
     def on_debriefing_update(self, debriefing: Debriefing) -> None:
         try:
             logging.info("On Debriefing update")
-            # logging.debug(debriefing)
+            logging.debug(debriefing)
             DebriefingFileWrittenSignal.get_instance().sendDebriefing(debriefing)
         except Exception:
             logging.exception("Got an error while sending debriefing")
