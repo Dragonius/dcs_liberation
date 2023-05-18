@@ -785,11 +785,8 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         f104_starfighter = QtWidgets.QCheckBox()
         f104_starfighter.setChecked(mod_settings.f104_starfighter)
         self.registerField("f104_starfighter", f104_starfighter)
-
         f4_phantom = QtWidgets.QCheckBox()
-        f4_phantom.setChecked(mod_settings.f4_phantom)
         self.registerField("f4_phantom", f4_phantom)
-
         jas39_gripen = QtWidgets.QCheckBox()
         jas39_gripen.setChecked(mod_settings.jas39_gripen)
         self.registerField("jas39_gripen", jas39_gripen)
