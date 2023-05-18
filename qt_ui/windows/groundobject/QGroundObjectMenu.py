@@ -192,6 +192,7 @@ class QGroundObjectMenu(QDialog):
             )
             self.head_heading_button.clicked.connect(
                 lambda: self.rotate_gtgo(heading_ground)
+                # self.headingSelector.setEnabled(False)
             )
             self.orientationBoxLayout.addWidget(self.head_to_conflict_button)
             self.orientationBoxLayout.addWidget(self.head_heading_button)
