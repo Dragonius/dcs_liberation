@@ -23,5 +23,6 @@ env/
 /resources/logging.yaml
 
 state.json
+.mypy_cache
 
 *.psd
