@@ -342,11 +342,7 @@ class Game:
         from .server import EventStream
         from .sim import GameUpdateEvents
 
-        if no_action:
-            # Only save the last turn state if the turn was skipped. Otherwise, we'll
-            # end up saving the game after we've already applied the results, making
-            # this useless...
-            self.save_manager.save_last_turn()
+        persistency.save_last_turn_state(self)
 
         events = GameUpdateEvents()
 
