@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import Optional
 
-from PySide6.QtWidgets import QButtonGroup, QHBoxLayout, QPushButton, QWidget
+from PySide6.QtCore import QSize
+from PySide6.QtWidgets import QHBoxLayout, QPushButton, QSpinBox, QWidget
 
 from game.sim.simspeedsetting import SimSpeedSetting
 from qt_ui.simcontroller import SimController
