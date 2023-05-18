@@ -1,6 +1,7 @@
-from typing import Set
+from typing import Any, Dict, Set
 
 from dcs import task
+from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -102,6 +103,7 @@ class VSN_F4B(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "VSN_F4B"  # from type
+    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         Smoke_Generator___red_ = (1, Weapons.Smoke_Generator___red_)
@@ -467,6 +469,7 @@ class VSN_F4C(PlaneType):
     radio_frequency = 127.5
 
     livery_name = "VSN_F4C"  # from type
+    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         Smoke_Generator___red_ = (1, Weapons.Smoke_Generator___red_)
