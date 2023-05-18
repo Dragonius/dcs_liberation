@@ -60,7 +60,7 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             # distance from the nearest enemy airbase, but since they are by
             # definition in enemy territory they can't avoid the threat zone
             # without being useless.
-            min_distance_from_enemy = nautical_miles(20)
+            min_distance_from_enemy = nautical_miles(5)
             distance_to_airfield = meters(
                 closest_airfield.position.distance_to_point(
                     self.package.target.position
