@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import Dict, List, TYPE_CHECKING
 
 from dcs.mission import Mission
@@ -126,9 +127,11 @@ class MissionInfoGenerator:
 
 def format_waypoint_time(waypoint: FlightWaypoint, depart_prefix: str) -> str:
     if waypoint.tot is not None:
-        return f"{waypoint.tot.time()} "
+        time = timedelta(seconds=int(waypoint.tot.total_seconds()))
+        return f"T+{time} "
     elif waypoint.departure_time is not None:
-        return f"{depart_prefix} {waypoint.departure_time.time()} "
+        time = timedelta(seconds=int(waypoint.departure_time.total_seconds()))
+        return f"{depart_prefix} T+{time} "
     return ""
 
 

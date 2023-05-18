@@ -4,7 +4,6 @@ import logging
 import random
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from datetime import datetime
 from typing import Optional, Sequence, TYPE_CHECKING
 
 from faker import Faker
@@ -347,7 +346,7 @@ class Squadron:
     def arrival(self) -> ControlPoint:
         return self.location if self.destination is None else self.destination
 
-    def plan_relocation(self, destination: ControlPoint, now: datetime) -> None:
+    def plan_relocation(self, destination: ControlPoint) -> None:
         if destination == self.location:
             logging.warning(
                 f"Attempted to plan relocation of {self} to current location "
@@ -366,7 +365,7 @@ class Squadron:
         if not destination.can_operate(self.aircraft):
             raise RuntimeError(f"{self} cannot operate at {destination}.")
         self.destination = destination
-        self.replan_ferry_flights(now)
+        self.replan_ferry_flights()
 
     def cancel_relocation(self) -> None:
         if self.destination is None:
@@ -381,9 +380,9 @@ class Squadron:
         self.destination = None
         self.cancel_ferry_flights()
 
-    def replan_ferry_flights(self, now: datetime) -> None:
+    def replan_ferry_flights(self) -> None:
         self.cancel_ferry_flights()
-        self.plan_ferry_flights(now)
+        self.plan_ferry_flights()
 
     def cancel_ferry_flights(self) -> None:
         for package in self.coalition.ato.packages:
@@ -394,7 +393,7 @@ class Squadron:
             if not package.flights:
                 self.coalition.ato.remove_package(package)
 
-    def plan_ferry_flights(self, now: datetime) -> None:
+    def plan_ferry_flights(self) -> None:
         if self.destination is None:
             raise RuntimeError(
                 f"Cannot plan ferry flights for {self} because there is no destination."
@@ -408,7 +407,7 @@ class Squadron:
             size = min(remaining, self.aircraft.max_group_size)
             self.plan_ferry_flight(package, size)
             remaining -= size
-        package.set_tot_asap(now)
+        package.set_tot_asap()
         self.coalition.ato.add_package(package)
 
     def plan_ferry_flight(self, package: Package, size: int) -> None:

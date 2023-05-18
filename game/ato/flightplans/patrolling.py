@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Any, TYPE_CHECKING, TypeGuard, TypeVar
 
 from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
@@ -61,22 +61,22 @@ class PatrollingFlightPlan(StandardFlightPlan[LayoutT], UiZoneDisplay, ABC):
         """
 
     @property
-    def patrol_start_time(self) -> datetime:
+    def patrol_start_time(self) -> timedelta:
         return self.package.time_over_target
 
     @property
-    def patrol_end_time(self) -> datetime:
+    def patrol_end_time(self) -> timedelta:
         # TODO: This is currently wrong for CAS.
         # CAS missions end when they're winchester or bingo. We need to
         # configure push tasks for the escorts rather than relying on timing.
         return self.patrol_start_time + self.patrol_duration
 
-    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def tot_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.patrol_start:
             return self.patrol_start_time
         return None
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.patrol_end:
             return self.patrol_end_time
         return None
@@ -90,11 +90,11 @@ class PatrollingFlightPlan(StandardFlightPlan[LayoutT], UiZoneDisplay, ABC):
         return self.layout.patrol_start
 
     @property
-    def mission_begin_on_station_time(self) -> datetime:
+    def mission_begin_on_station_time(self) -> timedelta:
         return self.patrol_start_time
 
     @property
-    def mission_departure_time(self) -> datetime:
+    def mission_departure_time(self) -> timedelta:
         return self.patrol_end_time
 
     @self_type_guard

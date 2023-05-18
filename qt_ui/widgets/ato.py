@@ -1,5 +1,6 @@
 """Widgets for displaying air tasking orders."""
 import logging
+from datetime import timedelta
 from typing import Optional
 
 from PySide6.QtCore import (
@@ -254,7 +255,16 @@ class PackageDelegate(TwoColumnRowDelegate):
             clients = self.num_clients(index)
             return f"Player Slots: {clients}" if clients else ""
         elif (row, column) == (1, 0):
-            return f"TOT at {package.time_over_target:%H:%M:%S}"
+            tot_delay = (
+                package.time_over_target - self.game_model.sim_controller.elapsed_time
+            )
+            if tot_delay >= timedelta():
+                return f"TOT in {tot_delay}"
+            game = self.game_model.game
+            if game is None:
+                raise RuntimeError("Package TOT has elapsed but no game is loaded")
+            tot_time = game.conditions.start_time + package.time_over_target
+            return f"TOT passed at {tot_time:%H:%M:%S}"
         elif (row, column) == (1, 1):
             unassigned_pilots = self.missing_pilots(index)
             return f"Missing pilots: {unassigned_pilots}" if unassigned_pilots else ""

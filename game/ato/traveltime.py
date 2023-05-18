@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+import math
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from dcs.mapping import Point
@@ -55,24 +56,44 @@ class TotEstimator:
     def __init__(self, package: Package) -> None:
         self.package = package
 
-    def earliest_tot(self, now: datetime) -> datetime:
+    def earliest_tot(self) -> timedelta:
         if not self.package.flights:
-            return now
+            return timedelta(0)
 
-        return max(self.earliest_tot_for_flight(f, now) for f in self.package.flights)
+        earliest_tot = max(
+            (self.earliest_tot_for_flight(f) for f in self.package.flights)
+        )
+
+        # Trim microseconds. DCS doesn't handle sub-second resolution for tasks,
+        # and they're not interesting from a mission planning perspective so we
+        # don't want them in the UI.
+        #
+        # Round up so we don't get negative start times.
+        return timedelta(seconds=math.ceil(earliest_tot.total_seconds()))
 
     @staticmethod
-    def earliest_tot_for_flight(flight: Flight, now: datetime) -> datetime:
-        """Estimate the earliest time the flight can reach the target position.
+    def earliest_tot_for_flight(flight: Flight) -> timedelta:
+        """Estimate the fastest time from mission start to the target position.
 
-        The interpretation of the TOT depends on the flight plan type. See the various
-        FlightPlan implementations for details.
+        For BARCAP flights, this is time to the racetrack start. This ensures that
+        they are on station at the same time any other package members reach
+        their ingress point.
+
+        For other mission types this is the time to the mission target.
 
         Args:
-            flight: The flight to get the earliest TOT for.
-            now: The current mission time.
+            flight: The flight to get the earliest TOT time for.
 
         Returns:
-            The earliest possible TOT for the given flight.
+            The earliest possible TOT for the given flight in seconds. Returns 0
+            if an ingress point cannot be found.
         """
-        return now + flight.flight_plan.minimum_duration_from_start_to_tot()
+        # Clear the TOT, calculate the startup time. Negating the result gives
+        # the earliest possible start time.
+        orig_tot = flight.package.time_over_target
+        try:
+            flight.package.time_over_target = timedelta()
+            time = flight.flight_plan.startup_time()
+        finally:
+            flight.package.time_over_target = orig_tot
+        return -time

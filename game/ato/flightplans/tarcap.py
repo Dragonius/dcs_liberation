@@ -3,7 +3,7 @@ from __future__ import annotations
 import random
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import TYPE_CHECKING, Type
 
 from game.utils import Distance, Speed, feet
@@ -68,20 +68,20 @@ class TarCapFlightPlan(PatrollingFlightPlan[TarCapLayout]):
     def tot_offset(self) -> timedelta:
         return -self.lead_time
 
-    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> datetime | None:
+    def depart_time_for_waypoint(self, waypoint: FlightWaypoint) -> timedelta | None:
         if waypoint == self.layout.patrol_end:
             return self.patrol_end_time
         return super().depart_time_for_waypoint(waypoint)
 
     @property
-    def patrol_start_time(self) -> datetime:
+    def patrol_start_time(self) -> timedelta:
         start = self.package.escort_start_time
         if start is not None:
             return start + self.tot_offset
         return self.tot
 
     @property
-    def patrol_end_time(self) -> datetime:
+    def patrol_end_time(self) -> timedelta:
         end = self.package.escort_end_time
         if end is not None:
             return end

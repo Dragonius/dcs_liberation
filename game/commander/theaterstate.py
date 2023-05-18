@@ -5,7 +5,6 @@ import itertools
 import math
 from collections.abc import Iterator
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Optional, TYPE_CHECKING, Union
 
 from game.commander.battlepositions import BattlePositions
@@ -37,7 +36,6 @@ class PersistentContext:
     coalition: Coalition
     theater: ConflictTheater
     turn: int
-    now: datetime
     settings: Settings
     tracer: MultiEventTracer
 
@@ -139,20 +137,14 @@ class TheaterState(WorldState["TheaterState"]):
 
     @classmethod
     def from_game(
-        cls, game: Game, player: bool, now: datetime, tracer: MultiEventTracer
+        cls, game: Game, player: bool, tracer: MultiEventTracer
     ) -> TheaterState:
         coalition = game.coalition_for(player)
         finder = ObjectiveFinder(game, player)
         ordered_capturable_points = finder.prioritized_unisolated_points()
 
         context = PersistentContext(
-            game.db,
-            coalition,
-            game.theater,
-            game.turn,
-            now,
-            game.settings,
-            tracer,
+            game.db, coalition, game.theater, game.turn, game.settings, tracer
         )
 
         # Plan enough rounds of CAP that the target has coverage over the expected

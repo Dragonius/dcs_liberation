@@ -22,7 +22,6 @@ from game.theater import ConflictTheater, ControlPoint
 from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
-from qt_ui.simcontroller import SimController
 
 
 class PilotDelegate(TwoColumnRowDelegate):
@@ -138,13 +137,11 @@ class SquadronDialog(QDialog):
         ato_model: AtoModel,
         squadron_model: SquadronModel,
         theater: ConflictTheater,
-        sim_controller: SimController,
         parent,
     ) -> None:
         super().__init__(parent)
         self.ato_model = ato_model
         self.squadron_model = squadron_model
-        self.sim_controller = sim_controller
 
         self.setMinimumSize(200, 220)
         self.setWindowTitle(str(squadron_model.squadron))
@@ -214,9 +211,7 @@ class SquadronDialog(QDialog):
             elif self.ato_model.game.settings.enable_transfer_cheat:
                 self._instant_relocate(destination)
             else:
-                self.squadron.plan_relocation(
-                    destination, self.sim_controller.current_time_in_sim
-                )
+                self.squadron.plan_relocation(destination)
             self.ato_model.replace_from_game(player=True)
 
     def check_disabled_button_states(
