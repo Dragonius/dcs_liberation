@@ -342,7 +342,7 @@ class QSettingsWindow(QDialog):
         self.moneyCheatBoxLayout = QGridLayout()
         self.moneyCheatBox.setLayout(self.moneyCheatBoxLayout)
 
-        cheats_amounts = [50, 100, 200, 500, 1000, 1000, -25, -50, -100, -200]
+        cheats_amounts = [50, 100, 200, 500, 1000, 10000, -25, -50, -100, -200]
         for i, amount in enumerate(cheats_amounts):
             if amount > 0:
                 btn = QPushButton("Cheat +" + str(amount) + "M")
