@@ -15,12 +15,9 @@ role: Close Air Support/Attack
 variants:
   A-10C Thunderbolt II (Suite 3): {}
 radios:
-  # VHF for intraflight is not accepted anymore by DCS
-  # (see https://forums.eagle.ru/showthread.php?p=4499738).
-  intra_flight: AN/ARC-164
+  intra_flight: AN/ARC-186(V) AM
   inter_flight: AN/ARC-164
   channels:
     type: common
-    namer: a10c-legacy
-    intra_flight_radio_index: 2
+    intra_flight_radio_index: 1
     inter_flight_radio_index: 2
