@@ -163,7 +163,7 @@ class ScrollingUnitTransferGrid(QFrame):
         super().__init__()
         self.cp = cp
         self.game_model = game_model
-        self.transfers: Dict[Type[UnitType, int]] = defaultdict(int)
+        self.transfers: Dict[Type[UnitType], int] = defaultdict(int)
 
         main_layout = QVBoxLayout()
 
@@ -229,10 +229,10 @@ class ScrollingUnitTransferGrid(QFrame):
             if not origin_inventory:
                 return
 
-            if amount > origin_inventory:
-                amount = origin_inventory
-            self.transfers[unit_type] += amount
-            origin_inventory -= amount
+            # if amount > origin_inventory:
+            #    amount = origin_inventory
+            self.transfers[unit_type] += 1
+            origin_inventory -= 1
             controls.set_quantity(self.transfers[unit_type])
             origin_inventory_label.setText(str(origin_inventory))
             self.transfer_quantity_changed.emit()
@@ -243,10 +243,10 @@ class ScrollingUnitTransferGrid(QFrame):
             if not controls.quantity:
                 return
 
-            if amount > self.transfers[unit_type]:
-                amount = self.transfers[unit_type]
-            self.transfers[unit_type] -= amount
-            origin_inventory += amount
+            # if amount > self.transfers[unit_type]:
+            #    amount = self.transfers[unit_type]
+            self.transfers[unit_type] -= 1
+            origin_inventory += 1
             controls.set_quantity(self.transfers[unit_type])
             origin_inventory_label.setText(str(origin_inventory))
             self.transfer_quantity_changed.emit()
