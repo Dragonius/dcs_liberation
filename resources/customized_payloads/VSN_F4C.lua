@@ -1,5 +1,5 @@
 local unitPayloads = {
-	["name"] = "VSN_F4C",
+	["name"] = "VSN_F4B",
 	["payloads"] = {
 		[1] = {
 			["name"] = "CAP",
@@ -91,11 +91,11 @@ local unitPayloads = {
 			["name"] = "SEAD",
 			["pylons"] = {
 				[1] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
 					["num"] = 9,
 				},
 				[2] = {
-					["CLSID"] = "{3E6B632D-65EB-44D2-9501-1C2D04515404}",
+					["CLSID"] = "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}",
 					["num"] = 3,
 				},
 				[3] = {
@@ -107,11 +107,11 @@ local unitPayloads = {
 					["num"] = 7,
 				},
 				[5] = {
-					["CLSID"] = "VSN_F4EL_PTB",
+					["CLSID"] = "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
 					["num"] = 2,
 				},
 				[6] = {
-					["CLSID"] = "VSN_F4ER_PTB",
+					["CLSID"] = "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}",
 					["num"] = 10,
 				},
 				[7] = {
@@ -123,7 +123,7 @@ local unitPayloads = {
 					["num"] = 8,
 				},
 				[9] = {
-					["CLSID"] = "{6D21ECEA-F85B-4E8D-9D51-31DC9B8AA4EF}",
+					["CLSID"] = "VSN_F4EC_PTB",
 					["num"] = 6,
 				},
 			},
@@ -219,6 +219,6 @@ local unitPayloads = {
 			},
 		},
 	},
-	["unitType"] = "VSN_F4C",
+	["unitType"] = "VSN_F4B",
 }
 return unitPayloads
