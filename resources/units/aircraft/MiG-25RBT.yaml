@@ -28,4 +28,3 @@ role: Strike Fighter
 max_range: 500
 variants:
   MiG-25RBT Foxbat-B: {}
-tasks: {}

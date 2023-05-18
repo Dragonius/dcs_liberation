@@ -93,7 +93,6 @@ class SweepFlightPlan(LoiterFlightPlan):
     def mission_begin_on_station_time(self) -> datetime | None:
         return None
 
-    @property
     def mission_departure_time(self) -> datetime:
         return self.sweep_end_time
 

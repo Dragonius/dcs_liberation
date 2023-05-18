@@ -24,7 +24,7 @@ class SquadronDefGenerator:
         self, task: FlightType, control_point: ControlPoint
     ) -> Optional[SquadronDef]:
         aircraft_choice: Optional[AircraftType] = None
-        for aircraft in AircraftType.priority_list_for_task(task):
+        for aircraft in aircraft_for_task(task):
             if aircraft not in self.faction.aircrafts:
                 continue
             if not control_point.can_operate(aircraft):
@@ -47,7 +47,7 @@ class SquadronDefGenerator:
             role="Flying Squadron",
             aircraft=aircraft,
             livery=None,
-            auto_assignable_mission_types=set(aircraft.iter_task_capabilities()),
+            mission_types=tuple(tasks_for_aircraft(aircraft)),
             operating_bases=OperatingBases.default_for_aircraft(aircraft),
             female_pilot_percentage=6,
             pilot_pool=[],

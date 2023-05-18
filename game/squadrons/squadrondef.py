@@ -37,10 +37,8 @@ class SquadronDef:
     def capable_of(self, task: FlightType) -> bool:
         """Returns True if the squadron is capable of performing the given task.
 
-        """A squadron may be capable of performing a task even if it will not be
-        automatically assigned to it.
-        """
-        return self.aircraft.capable_of(task)
+    def can_auto_assign(self, task: FlightType) -> bool:
+        return task in self.auto_assignable_mission_types
 
     def operates_from(self, control_point: ControlPoint) -> bool:
         if not control_point.can_operate(self.aircraft):
@@ -75,7 +73,7 @@ class SquadronDef:
             role=data["role"],
             aircraft=unit_type,
             livery=data.get("livery"),
-            auto_assignable_mission_types=set(unit_type.iter_task_capabilities()),
+            mission_types=tuple(mission_types),
             operating_bases=OperatingBases.from_yaml(unit_type, data.get("bases", {})),
             female_pilot_percentage=female_pilot_percentage,
             pilot_pool=pilots,
