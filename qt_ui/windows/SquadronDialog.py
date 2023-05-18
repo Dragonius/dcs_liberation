@@ -23,7 +23,6 @@ from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
 from qt_ui.simcontroller import SimController
-from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
 
 
 class PilotDelegate(TwoColumnRowDelegate):

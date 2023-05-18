@@ -184,8 +184,7 @@ class Coalition:
         with logged_duration("Transport planning"):
             self.transfers.plan_transports(self.game.conditions.start_time)
 
-        if not is_turn_0 or not self.game.settings.enable_squadron_aircraft_limits:
-            self.plan_missions(self.game.conditions.start_time)
+        self.plan_missions(self.game.conditions.start_time)
         self.plan_procurement()
 
     def refund_outstanding_orders(self) -> None:

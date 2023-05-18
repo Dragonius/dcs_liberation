@@ -185,11 +185,9 @@ class PackageModel(QAbstractListModel):
         """Returns the flight located at the given index."""
         return self.package.flights[index.row()]
 
-    def set_tot(self, tot: datetime.datetime) -> datetime:
-        with self.game_model.sim_controller.paused_sim():
-            self.package.time_over_target = tot
-            self.update_tot()
-            return self.package.time_over_target
+    def set_tot(self, tot: datetime.datetime) -> None:
+        self.package.time_over_target = tot
+        self.update_tot()
 
     def set_asap(self, asap: bool) -> None:
         with self.game_model.sim_controller.paused_sim():
@@ -197,17 +195,13 @@ class PackageModel(QAbstractListModel):
             self.update_tot()
 
     def update_tot(self) -> None:
-        with self.game_model.sim_controller.paused_sim():
-            if self.package.auto_asap:
-                self.package.set_tot_asap(
-                    self.game_model.sim_controller.current_time_in_sim
-                )
-            self.package.clamp_tot_for_current_time(
+        if self.package.auto_asap:
+            self.package.set_tot_asap(
                 self.game_model.sim_controller.current_time_in_sim
             )
-            self.tot_changed.emit()
-            # For some reason this is needed to make the UI update quickly.
-            self.layoutChanged.emit()
+        self.tot_changed.emit()
+        # For some reason this is needed to make the UI update quickly.
+        self.layoutChanged.emit()
 
     @property
     def mission_target(self) -> MissionTarget:
