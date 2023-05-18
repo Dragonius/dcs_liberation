@@ -7,6 +7,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import yaml
 from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
@@ -14,12 +15,12 @@ from PySide6.QtWidgets import QApplication, QCheckBox, QSplashScreen
 from dcs.payloads import PayloadDirectories
 
 from game import Game, VERSION, logging_config, persistence
+from game.ato import FlightType
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
 from game.data.weapons import Pylon, Weapon, WeaponGroup
 from game.dcs.aircrafttype import AircraftType
 from game.factions.factions import Factions
 from game.persistence.paths import liberation_user_dir
-from game.plugins import LuaPluginManager
 from game.profiling import logged_duration
 from game.server import EventStream, Server
 from game.settings import Settings
