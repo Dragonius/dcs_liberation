@@ -247,7 +247,7 @@ class AirWingDialog(QDialog):
         super().__init__(parent)
         self.air_wing_model = game_model.blue_air_wing_model
 
-        self.setMinimumSize(1000, 440)
+        self.setMinimumSize(500, 220)
         self.setWindowTitle(f"Air Wing")
         # TODO: self.setWindowIcon()
 

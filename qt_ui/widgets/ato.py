@@ -161,8 +161,10 @@ class QFlightPanel(QGroupBox):
         self.setLayout(self.vbox)
 
         self.tip = QLabel(
-            "To add flights to a package, edit the package by double clicking "
-            "it or pressing the edit button."
+            "To add flights to a package,\n"
+            "edit the package by double\n"
+            "clicking it or pressing\n"
+            "the edit button."
         )
         self.vbox.addWidget(self.tip)
 
@@ -341,9 +343,10 @@ class QPackagePanel(QGroupBox):
         self.setLayout(self.vbox)
 
         self.tip = QLabel(
-            "To create a new package, right click the mission target on the "
-            "map. To target airbase objectives, use\n"
-            "the attack button in the airbase view."
+            "To create a new package, right click \n"
+            "the mission target on the "
+            "map.\n To target airbase objectives,\n"
+            "use the attack button in the airbase view."
         )
         self.vbox.addWidget(self.tip)
 
