@@ -7,16 +7,16 @@ dofile('Scripts/ScriptingSystem.lua')
 --Mission downloaded from server to client may contain potentialy harmful lua code that may use these functions.
 --You can remove the code below and make availble these functions at your own risk.
 
---local function sanitizeModule(name)
---	_G[name] = nil
---	package.loaded[name] = nil
---end
+local function sanitizeModule(name)
+	_G[name] = nil
+	package.loaded[name] = nil
+end
 
---do
---	sanitizeModule('os')
---	sanitizeModule('io')
---	sanitizeModule('lfs')
---	_G['require'] = nil
---	_G['loadlib'] = nil
---	_G['package'] = nil
---end
+do
+	sanitizeModule('os')
+	sanitizeModule('io')
+	sanitizeModule('lfs')
+	_G['require'] = nil
+	_G['loadlib'] = nil
+	_G['package'] = nil
+end

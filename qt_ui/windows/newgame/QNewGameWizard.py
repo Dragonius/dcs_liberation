@@ -6,7 +6,14 @@ from typing import List
 
 from PySide6 import QtGui, QtWidgets
 from PySide6.QtCore import QDate, QItemSelectionModel, QPoint, Qt, Signal
-from PySide6.QtWidgets import QCheckBox, QLabel, QTextEdit, QVBoxLayout
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QLabel,
+    QScrollArea,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
@@ -259,7 +266,7 @@ class FactionSelection(QtWidgets.QWizardPage):
             QtGui.QPixmap("./resources/ui/misc/generator.png"),
         )
 
-        self.setMinimumHeight(150)
+        self.setMinimumHeight(250)
 
         # Factions selection
         self.factionsGroup = QtWidgets.QGroupBox("Factions")
@@ -785,8 +792,11 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         f104_starfighter = QtWidgets.QCheckBox()
         f104_starfighter.setChecked(mod_settings.f104_starfighter)
         self.registerField("f104_starfighter", f104_starfighter)
+
         f4_phantom = QtWidgets.QCheckBox()
+        f4_phantom.setChecked(mod_settings.f4_phantom)
         self.registerField("f4_phantom", f4_phantom)
+
         jas39_gripen = QtWidgets.QCheckBox()
         jas39_gripen.setChecked(mod_settings.jas39_gripen)
         self.registerField("jas39_gripen", jas39_gripen)

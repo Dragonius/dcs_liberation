@@ -33,8 +33,8 @@ class QCampaignList(QListView):
         super(QCampaignList, self).__init__()
         self.campaign_model = QStandardItemModel(self)
         self.setModel(self.campaign_model)
-        self.setMinimumWidth(150)
-        self.setMinimumHeight(150)
+        self.setMinimumWidth(250)
+        self.setMinimumHeight(350)
         self.campaigns = campaigns
         self.setSelectionBehavior(QAbstractItemView.SelectItems)
         self.setup_content(show_incompatible)

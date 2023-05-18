@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional, TYPE_CHECKING
 
 from game.dcs.aircrafttype import AircraftType
@@ -33,7 +33,6 @@ class AwacsInfo(GroupInfo):
     depature_location: Optional[str]
     start_time: datetime | None
     end_time: datetime | None
-    tos_time: timedelta | None
 
 
 @dataclass

@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Iterator, Type
-from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
+
 from game.ato.flightplans.ibuilder import IBuilder
-from game.ato.flightplans.standard import StandardLayout
+from game.ato.flightplans.standard import StandardFlightPlan, StandardLayout
 from game.ato.flightplans.waypointbuilder import WaypointBuilder
 from game.ato.flightwaypoint import FlightWaypoint
 

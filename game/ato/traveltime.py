@@ -38,14 +38,14 @@ class GroundSpeed:
         # as it can at sea level. This probably isn't great assumption, but
         # might. be sufficient given the wiggle room. We can come up with
         # another heuristic if needed.
-        cruise_mach = max_speed.mach() * 0.80
+        cruise_mach = max_speed.mach() * 0.85
         return mach(cruise_mach, altitude)
 
 
 class TravelTime:
     @staticmethod
     def between_points(a: Point, b: Point, speed: Speed) -> timedelta:
-        error_factor = 1.10
+        error_factor = 1.05
         distance = meters(a.distance_to_point(b))
         return timedelta(hours=distance.nautical_miles / speed.knots * error_factor)
 

@@ -1310,7 +1310,7 @@ do -- the main scope
 
 	-- Event handler to start creating the dead_objects table
 	local function addDeadObject(event)
-		if event.id == world.event.S_EVENT_DEAD or event.id == world.event.S_EVENT_CRASH or event.id == world.event.S_EVENT_UNIT_LOST then
+		if event.id == world.event.S_EVENT_DEAD or event.id == world.event.S_EVENT_CRASH then
 			if event.initiator and event.initiator.id_ and event.initiator.id_ > 0 then
 
 				local id = event.initiator.id_	-- initial ID, could change if there is a duplicate id_ already dead.
