@@ -185,7 +185,7 @@ class QGroundObjectMenu(QDialog):
                 self.game.theater.heading_to_conflict_from(self.ground_object.position)
                 or self.ground_object.heading
             )
-            heading_ground = self.ground_object.heading.degrees
+            heading_ground = self.ground_object.heading
 
             self.head_to_conflict_button.clicked.connect(
                 lambda: self.headingSelector.setValue(heading.degrees)
