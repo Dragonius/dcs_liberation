@@ -107,7 +107,7 @@ class SquadronBaseSelector(QComboBox):
         aircraft_type: Optional[AircraftType],
     ) -> None:
         super().__init__()
-        self.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContents)
+        self.setSizeAdjustPolicy(QComboBox.AdjustToContents)
         self.bases = list(bases)
         self.set_aircraft_type(aircraft_type)
 
@@ -694,7 +694,7 @@ class SquadronAircraftTypeSelector(QComboBox):
         self, types: list[AircraftType], selected_aircraft: Optional[str]
     ) -> None:
         super().__init__()
-        self.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContents)
+        self.setSizeAdjustPolicy(QComboBox.AdjustToContents)
 
         for type in sorted(types, key=lambda type: type.name):
             self.addItem(type.name, type)
@@ -711,7 +711,7 @@ class SquadronDefSelector(QComboBox):
         allow_random: bool = True,
     ) -> None:
         super().__init__()
-        self.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContents)
+        self.setSizeAdjustPolicy(QComboBox.AdjustToContents)
         self.squadron_defs = squadron_defs
         self.allow_random = allow_random
         self.set_aircraft_type(aircraft)
