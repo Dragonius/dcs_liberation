@@ -14,6 +14,8 @@ dist/**
 .env
 env/
 
+
+
 /kneeboards
 /liberation_preferences.json
 /state.json
@@ -26,3 +28,5 @@ state.json
 .mypy_cache
 
 *.psd
+
+*.code-workspace
