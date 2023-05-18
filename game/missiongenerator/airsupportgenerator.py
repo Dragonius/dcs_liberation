@@ -205,6 +205,7 @@ class AirSupportGenerator:
                     depature_location=None,
                     start_time=None,
                     end_time=None,
+                    tos_time=None,
                     blue=True,
                 )
             )
