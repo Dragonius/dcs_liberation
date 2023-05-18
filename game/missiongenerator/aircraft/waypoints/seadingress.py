@@ -74,7 +74,6 @@ class SeadIngressBuilder(PydcsWaypointBuilder):
                     weapon_type=DcsWeaponType.Guided,
                     group_attack=True,
                     expend=Expend.All,
-                    altitude=waypoint.alt,
                 )
                 waypoint.tasks.append(attack_task)
 

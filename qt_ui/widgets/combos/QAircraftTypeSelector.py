@@ -11,7 +11,7 @@ class QAircraftTypeSelector(QComboBox):
         super().__init__()
 
         self.model().sort(0)
-        self.setSizeAdjustPolicy(QComboBox.AdjustToContents)
+        self.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContents)
         self.update_items(aircraft_types)
 
     def update_items(self, aircraft_types: list[AircraftType]):

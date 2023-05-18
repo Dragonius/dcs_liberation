@@ -52,7 +52,7 @@ class QGroundObjectMenu(QDialog):
         game: Game,
     ):
         super().__init__(parent)
-        self.setMinimumWidth(150)
+        self.setMinimumWidth(350)
         self.ground_object = ground_object
         self.cp = cp
         self.game = game

@@ -22,7 +22,7 @@ class QNotesWindow(QDialog):
         self.game = game
         self.setWindowTitle("Notes")
         self.setWindowIcon(CONST.ICONS["Notes"])
-        self.setMinimumSize(200, 50)
+        self.setMinimumSize(400, 100)
         self.resize(600, 450)
 
         self.vbox = QVBoxLayout()

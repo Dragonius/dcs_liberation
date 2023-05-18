@@ -1,8 +1,7 @@
 import logging
-import math
 
 from dcs.point import MovingPoint
-from dcs.task import AttackGroup, OptECMUsing, WeaponType, Expend
+from dcs.task import AttackGroup, OptECMUsing, WeaponType
 
 from game.theater import TheaterGroundObject
 from .pydcswaypointbuilder import PydcsWaypointBuilder
@@ -29,20 +28,7 @@ class DeadIngressBuilder(PydcsWaypointBuilder):
                 continue
 
             task = AttackGroup(
-                miz_group.id,
-                weapon_type=WeaponType.Guided,
-                altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
-            )
-            waypoint.tasks.append(task)
-
-            dir = target.position.heading_between_point(waypoint.position)
-
-            task = AttackGroup(
-                miz_group.id,
-                weapon_type=WeaponType.Unguided,
-                expend=Expend.All,
-                direction=math.radians(dir),
-                altitude=round(self.flight.coalition.doctrine.ingress_altitude.meters),
+                miz_group.id, weapon_type=WeaponType.Auto, group_attack=True
             )
             waypoint.tasks.append(task)
 

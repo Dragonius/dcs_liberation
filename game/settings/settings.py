@@ -228,7 +228,7 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
-        min=4,
+        min=12,
         max=72,
         detail=(
             "Sets the maximum number of pilots a squadron may have active. "
@@ -243,7 +243,7 @@ class Settings:
         PILOTS_AND_SQUADRONS_SECTION,
         default=4,
         min=1,
-        max=200,
+        max=20,
         detail=(
             "Sets the maximum number of pilots that will be recruited to each squadron "
             "at the end of each turn. Squadrons will not recruit new pilots beyond the "
@@ -414,23 +414,6 @@ class Settings:
         min=30,
         max=150,
     )
-    desired_tanker_on_station_time: timedelta = minutes_option(
-        "Desired tanker on-station time",
-        page=MISSION_GENERATOR_PAGE,
-        section=GAMEPLAY_SECTION,
-        default=timedelta(minutes=60),
-        min=30,
-        max=180,
-    )
-    # Mission specific
-    max_frontline_length: int = bounded_int_option(
-        "Maximum frontline length (km)",
-        page=MISSION_GENERATOR_PAGE,
-        section=GAMEPLAY_SECTION,
-        default=80,
-        min=1,
-        max=100,
-    )
 
     # Performance
     perf_smoke_gen: bool = boolean_option(
@@ -470,27 +453,6 @@ class Settings:
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
-    )
-    perf_disable_convoys: bool = boolean_option(
-        "Disable convoys",
-        page=MISSION_GENERATOR_PAGE,
-        section=PERFORMANCE_SECTION,
-        default=False,
-    )
-    perf_frontline_units_prefer_roads: bool = boolean_option(
-        "Front line troops prefer roads",
-        page=MISSION_GENERATOR_PAGE,
-        section=PERFORMANCE_SECTION,
-        default=False,
-    )
-    perf_frontline_units_max_supply: int = bounded_int_option(
-        "Maximum frontline unit supply per control point",
-        page=MISSION_GENERATOR_PAGE,
-        section=PERFORMANCE_SECTION,
-        default=60,
-        min=10,
-        max=300,
-        causes_expensive_game_update=True,
     )
     perf_infantry: bool = boolean_option(
         "Generate infantry squads alongside vehicles",
@@ -539,7 +501,6 @@ class Settings:
     show_red_ato: bool = False
     enable_frontline_cheats: bool = False
     enable_base_capture_cheat: bool = False
-    enable_transfer_cheat: bool = False
 
     only_player_takeoff: bool = True  # Legacy parameter do not use
 

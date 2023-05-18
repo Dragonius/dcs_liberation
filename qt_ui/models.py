@@ -138,11 +138,9 @@ class PackageModel(QAbstractListModel):
     @staticmethod
     def text_for_flight(flight: Flight) -> str:
         """Returns the text that should be displayed for the flight."""
-        delay = datetime.timedelta(
-            seconds=int(flight.flight_plan.startup_time().total_seconds())
-        )
         origin = flight.from_cp.name
-        return f"{flight} from {origin} in {delay}"
+        startup = flight.flight_plan.startup_time()
+        return f"{flight} from {origin} at {startup}"
 
     @staticmethod
     def icon_for_flight(flight: Flight) -> Optional[QIcon]:
@@ -187,9 +185,11 @@ class PackageModel(QAbstractListModel):
         """Returns the flight located at the given index."""
         return self.package.flights[index.row()]
 
-    def set_tot(self, tot: datetime.timedelta) -> None:
-        self.package.time_over_target = tot
-        self.update_tot()
+    def set_tot(self, tot: datetime.datetime) -> datetime:
+        with self.game_model.sim_controller.paused_sim():
+            self.package.time_over_target = tot
+            self.update_tot()
+            return self.package.time_over_target
 
     def set_asap(self, asap: bool) -> None:
         with self.game_model.sim_controller.paused_sim():
@@ -197,11 +197,17 @@ class PackageModel(QAbstractListModel):
             self.update_tot()
 
     def update_tot(self) -> None:
-        if self.package.auto_asap:
-            self.package.set_tot_asap()
-        self.tot_changed.emit()
-        # For some reason this is needed to make the UI update quickly.
-        self.layoutChanged.emit()
+        with self.game_model.sim_controller.paused_sim():
+            if self.package.auto_asap:
+                self.package.set_tot_asap(
+                    self.game_model.sim_controller.current_time_in_sim
+                )
+            self.package.clamp_tot_for_current_time(
+                self.game_model.sim_controller.current_time_in_sim
+            )
+            self.tot_changed.emit()
+            # For some reason this is needed to make the UI update quickly.
+            self.layoutChanged.emit()
 
     @property
     def mission_target(self) -> MissionTarget:
@@ -387,11 +393,11 @@ class TransferModel(QAbstractListModel):
         """Returns the icon that should be displayed for the transfer."""
         return None
 
-    def new_transfer(self, transfer: TransferOrder) -> None:
+    def new_transfer(self, transfer: TransferOrder, now: datetime) -> None:
         """Updates the game with the new unit transfer."""
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         # TODO: Needs to regenerate base inventory tab.
-        self.transfers.new_transfer(transfer)
+        self.transfers.new_transfer(transfer, now)
         self.endInsertRows()
 
     def cancel_transfer_at_index(self, index: QModelIndex) -> None:

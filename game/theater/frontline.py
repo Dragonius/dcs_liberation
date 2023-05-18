@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from .controlpoint import ControlPoint
 
 
-FRONTLINE_MIN_CP_DISTANCE = 1000
+FRONTLINE_MIN_CP_DISTANCE = 5000
 
 
 @dataclass

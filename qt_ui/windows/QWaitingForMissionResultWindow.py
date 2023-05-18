@@ -60,7 +60,7 @@ class QWaitingForMissionResultWindow(QDialog):
         self.sim_controller = sim_controller
         self.setWindowTitle("Waiting for mission completion.")
         self.setWindowIcon(QIcon("./resources/icon.png"))
-        self.setMinimumHeight(170)
+        self.setMinimumHeight(570)
 
         self.initUi()
         DebriefingFileWrittenSignal.get_instance().debriefingReceived.connect(
