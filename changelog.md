@@ -1,80 +1,11 @@
-# 7.0.0
-
-Saves from 6.x are not compatible with 7.0.
-
-## Features/Improvements
-
-* **[Engine]** Support for DCS 2.8.4.39731.
-* **[Engine]** Saved games are now a zip file of save assets for easier bug reporting. The new extension is .liberation.zip. Drag and drop that file into bug reports.
-* **[Campaign]** Added options to limit squadron sizes and to begin all squadrons at maximum strength. Maximum squadron size is defined during air wing configuration with default values provided by the campaign.
-* **[Campaign]** Added handling for more DCS death events. This probably does not catch any deaths that weren't previously tracked, but it should record them sooner, which will improve results for game crashes or other early exits.
-* **[Campaign AI]** The campaign AI now prefers fulfilling missions with squadrons which have a matching primary task. Previously distance from target held a stronger influence than task preference. Primary tasks for squadrons are set by campaign designers but are user-configurable.
-* **[Flight Planning]** Package TOT and composition can be modified after advancing time in Liberation.
-* **[Mission Generation]** Units on the front line are now hidden on MFDs.
-* **[Mission Generation]** Preset radio channels will now be configured for both A-10C modules.
-* **[Mission Generation]** The A-10C II now uses separate radios for inter- and intra-flight comms (similar to other modern aircraft).
-* **[Mission Generation]** Wind speeds no longer follow a uniform distribution. Median wind speeds are now much lower and the standard deviation has been reduced considerably at altitude but increased somewhat at MSL.
-* **[Mission Generation]** Improved task generation for SEAD flights carrying TALDs.
-* **[Mission Generation]** Added task timeout for SEAD flights with TALDs to prevent AI from overflying the target.
-* **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
-* **[Modding]** Add support for VSN F-4B and F-4C mod.
-* **[Modding]** Custom factions can now be defined in YAML as well as JSON. JSON support may be removed in the future if having both formats causes confusion.
-* **[Modding]** Campaigns which require custom factions can now define those factions directly in the campaign YAML. See Operation Aliied Sword for an example.
-* **[Modding]** The `mission_types` field in squadron files has been removed. Squadron task capability is now determined by airframe, and the auto-assignable list has always been overridden by the campaign settings.
-* **[Modding]** Aircraft task capabilities and preferred aircraft for each task are now moddable in the aircraft unit yaml files. Each aircraft has a weight per task. Higher weights are given higher preference.
-* **[Modding]** Wind speed generation inputs are now moddable. See https://dcs-liberation.rtfd.io/en/latest/modding/weather.html.
-* **[New Game Wizard]** Choices for some options will be remembered for the next new game. Not all settings will be preserved, as many are campaign dependent.
-* **[New Game Wizard]** Lua plugins can now be set while creating a new game.
-* **[New Game Wizard]** Squadrons can be directly replaced with a preset during air wing configuration rather than needing to remove and create a new squadron.
-* **[New Game Wizard]** Squadron liveries can now be selected during air wing configuration.
-* **[Squadrons]** Squadron-specific mission capability lists no longer restrict players from assigning missions outside the squadron's preferences.
-* **[UI]** The orientation of objects like SAMs, EWRs, garrisons, and ships can now be manually adjusted.
-
-## Fixes
-
-* **[Campaign]** Fixed a longstanding bug where oversized airlifts could corrupt a save with empty convoys.
-* **[Campaign]** Aircraft with built-in TGPs but without an external pod will no longer degrade automatic loadouts to iron bombs.
-* **[Engine]** Fixed crash in startup caused by a corrupted Liberation preferences file.
-* **[Flight Planning]** AEW&C missions are now plannable over FOBs and LHAs.
-* **[Flight Planning]** BAI is no longer plannable against buildings.
-* **[Modding]** Fixed an issue where Falklands campaigns created or edited with new versions of DCS could not be loaded.
-* **[Modding]** Fixed decoding of campaign yaml files to use UTF-8 rather than the system locale's default. It's now possible to use "Bf 109 K-4 Kurfürst" as a preferred aircraft type.
-* **[Mission Generation]** Planes will no longer spawn in helipads that are not also designated for fixed wing parking.
-* **[Mission Generation]** Potentially an issue where ground war planning game state could become corrupted, preventing mission generation.
-* **[Mission Generation]** Refueling tasks will now only be created for flights that have a tanker in their package.
-* **[Mission Generation]** Fixed missing Tanker task on recovery tanker missions.
-* **[UI]** Fixed error when resetting air wing configuration during game setup.
-* **[UI]** Fixed flight plan recreation when changing mission type with "Recreate as" flight options.
-* **[UI]** Fixed failure to launch UI when Liberation persistent preferences file was corrupt.
-
-# 6.1.1
-
-## Fixes
-
-* **[Data]** Fixed unit ID for the KS-19 AAA. KS-19 would not previously generate correctly in missions. A new game is required for this fix to take effect.
-* **[Flight Planning]** Automatic flight planning will no longer accidentally plan a recovery tanker instead of a theater refueling package. This fixes a potential crash during mission generation when opfor plans a refueling task at a sunk carrier. You'll need to skip the current turn to force opfor to replan their flights to get the fix.
-* **[Mission Generation]** Using heliports (airports without any runways) will no longer cause mission generation to fail.
-* **[Mission Generation]** Prevent helicopters from spawning into collisions at FARPs when more than one flight uses the same FARP.
-
 # 6.1.0
 
 Saves from 6.0.0 are compatible with 6.1.0
 
 ## Features/Improvements
 
-* **[Engine]** Support for DCS 2.8.1.34437, including Blackshark 3.
-* **[Factions]** Defaulted bluefor modern to use Georgian and Ukrainian liveries for Russian aircraft.
-* **[Factions]** Added Peru.
-* **[Flight Planning]** AEW&C and Refueling flights are now plannable on LHA carriers.
-* **[Flight Planning]** Refueling flights planned on aircraft carriers will act as a recovery tanker for the carrier.
-* **[Loadouts]** Adjusted F-15E loadouts.
-* **[Mission Generation]** The previous turn will now be saved as last_turn.liberation when submitting mission results. This is often essential for debugging bug reports. **Include this file in the bug report whenever it is available.**
-* **[Modding]** Added support for the HMS Ariadne, Achilles, and Castle class.
-* **[Modding]** Added HMS Invincible to the game data as a helicopter carrier.
-
 ## Fixes
 
-* **[Flight Planning]** Fixes CAS flights not having landing waypoints.
 * **[UI]** Fixed an issue where manual submit of mission results did not end the mission correctly.
 
 # 6.0.0
