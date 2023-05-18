@@ -81,7 +81,7 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         )
 
         end = location.position.point_from_heading(
-            heading.degrees,
+            heading.opposite.degrees,
             random.randint(int(min_cap_distance.meters), int(max_cap_distance.meters)),
         )
 
@@ -89,5 +89,5 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             int(self.doctrine.cap_min_track_length.meters),
             int(max_track_length.meters),
         )
-        start = end.point_from_heading(heading.opposite.degrees, track_length)
+        start = end.point_from_heading(heading.degrees, track_length)
         return start, end
