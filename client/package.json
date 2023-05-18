@@ -74,5 +74,13 @@
     "react-scripts": "5.0.1",
     "ts-node": "^10.9.1",
     "wait-on": "^6.0.1"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@?react-leaflet|axios)/)"
+    ],
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy"
+    }
   }
 }
