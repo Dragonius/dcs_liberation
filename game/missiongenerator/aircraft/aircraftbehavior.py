@@ -175,7 +175,8 @@ class AircraftBehavior:
             roe=OptROE.Values.OpenFire,
             # ASM includes ARMs and TALDs (among other things, but those are the useful
             # weapons for SEAD).
-            rtb_winchester=OptRTBOnOutOfAmmo.Values.ASM,
+            # rtb_winchester=OptRTBOnOutOfAmmo.Values.ASM,
+            rtb_winchester=OptRTBOnOutOfAmmo.Values.All,
             restrict_jettison=True,
             mission_uses_gun=False,
         )
