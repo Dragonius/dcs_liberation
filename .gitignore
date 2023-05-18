@@ -22,4 +22,6 @@ env/
 /logs/
 /resources/logging.yaml
 
+state.json
+
 *.psd
