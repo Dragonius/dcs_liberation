@@ -1,6 +1,8 @@
 """Combo box for selecting a flight's task type."""
 
 from PySide6.QtWidgets import QComboBox
+from game.ato.flighttype import FlightType
+from game.settings.settings import Settings
 
 from game.ato.flighttype import FlightType
 from game.plugins import LuaPluginManager

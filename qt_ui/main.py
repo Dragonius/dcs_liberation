@@ -7,7 +7,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-import yaml
 from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap

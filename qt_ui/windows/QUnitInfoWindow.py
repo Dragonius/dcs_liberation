@@ -2,7 +2,13 @@ from __future__ import annotations
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QDialog, QFrame, QGridLayout, QLabel, QTextBrowser
+from PySide6.QtWidgets import (
+    QDialog,
+    QGridLayout,
+    QLabel,
+    QTextBrowser,
+    QFrame,
+)
 
 from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
