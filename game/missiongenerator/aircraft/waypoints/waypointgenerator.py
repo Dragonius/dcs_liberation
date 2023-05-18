@@ -202,7 +202,7 @@ class WaypointGenerator:
             # AI planes of course want to taxi through, deadlocking the carrier deck.
             # Delaying AI carrier deck spawns by one second for some reason causes DCS
             # to spawn those aircraft elsewhere, avoiding the traffic jam.
-            delay = timedelta(seconds=1)
+            delay = timedelta(seconds=5)
             force_delay = True
         else:
             delay = timedelta()
