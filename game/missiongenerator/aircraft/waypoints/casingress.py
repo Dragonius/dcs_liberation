@@ -1,5 +1,20 @@
 import logging
 
+from dcs.planes import (
+    P_51D,
+    P_51D_30_NA,
+    P_47D_30,
+    P_47D_30bl1,
+    P_47D_40,
+    A_20G,
+    MosquitoFBMkVI,
+    SpitfireLFMkIX,
+    SpitfireLFMkIXCW,
+    FW_190A8,
+    FW_190D9,
+    Bf_109K_4,
+    I_16,
+)
 from dcs.point import MovingPoint
 from dcs.task import EngageTargets, EngageTargetsInZone, Targets
 
@@ -34,3 +49,26 @@ class CasIngressBuilder(PydcsWaypointBuilder):
                     ],
                 )
             )
+
+        # Decrease the waypoint altitude in order to increase the chances that the AI
+        # is able to spot the targets on the ground
+        # Divide by three for warbirds, by two for everything else
+        if self.group.units[0].unit_type in [
+            P_51D,
+            P_51D_30_NA,
+            P_47D_30,
+            P_47D_30bl1,
+            P_47D_40,
+            A_20G,
+            MosquitoFBMkVI,
+            SpitfireLFMkIX,
+            SpitfireLFMkIXCW,
+            FW_190A8,
+            FW_190D9,
+            Bf_109K_4,
+            I_16,
+        ]:
+            waypoint.alt = int(waypoint.alt / 3)
+        else:
+            #    waypoint.alt = waypoint.alt / 2
+            waypoint.alt = waypoint.alt

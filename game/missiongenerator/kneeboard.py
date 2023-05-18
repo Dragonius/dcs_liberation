@@ -14,7 +14,7 @@ Things we should add:
 * Flight plan ToT and fuel ladder (current have neither available).
 * Support for planning an arrival/divert airfield separate from departure.
 * Mission package infrastructure to include information about the larger
-  mission, i.e. information about the escort flight for a strike package.
+* mission, i.e. information about the escort flight for a strike package.
 * Target information. Steerpoints, preplanned objectives, ToT, etc.
 
 For multiplayer missions, a kneeboard will be generated per flight.
@@ -23,6 +23,7 @@ only be added per airframe, so PvP missions where each side have the same
 aircraft will be able to see the enemy's kneeboard for the same airframe.
 """
 import datetime
+from typing import Union
 import math
 import textwrap
 from collections import defaultdict
@@ -43,8 +44,8 @@ from game.radio.radios import RadioFrequency
 from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
-from game.utils import Distance, UnitSystem, meters, mps, pounds
-from game.weather.weather import Weather
+from game.utils import Distance, UnitSystem, meters, mps, pounds, knots, feet
+from game.weather import Weather
 from .aircraft.flightdata import FlightData
 from .airsupportgenerator import AwacsInfo, TankerInfo
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator
@@ -65,7 +66,8 @@ class KneeboardPageWriter:
         else:
             self.foreground_fill = (15, 15, 15)
             self.background_fill = (255, 252, 252)
-        self.image_size = (768, 1024)
+        """" Old version self.image_size = (768, 1024) """
+        self.image_size = (834, 1024)
         self.image = Image.new("RGB", self.image_size, self.background_fill)
         # These font sizes create a relatively full page for current sorties. If
         # we start generating more complicated flight plans, or start including
@@ -506,7 +508,7 @@ class SupportPage(KneeboardPage):
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Support Info{custom_name_title}")
 
-        # AEW&C
+        # AEW&C  contains  Departure, arrive to back to base and time in air as Delta time
         writer.heading("AEW&C")
         aewc_ladder = []
 
@@ -515,9 +517,13 @@ class SupportPage(KneeboardPage):
             if single_aewc.depature_location is None:
                 dep = "-"
                 arr = "-"
+                tos = "-"
             else:
+                tos_diff = single_aewc.end_time - single_aewc.start_time
+                tos_datetime = datetime.datetime(1900, 1, 1) + tos_diff
                 dep = self._format_time(single_aewc.start_time)
                 arr = self._format_time(single_aewc.end_time)
+                tos = self._format_time(tos_datetime)
 
             aewc_ladder.append(
                 [
@@ -526,12 +532,14 @@ class SupportPage(KneeboardPage):
                     str(single_aewc.depature_location),
                     str(dep),
                     str(arr),
+                    str(tos),
                 ]
             )
 
         writer.table(
             aewc_ladder,
-            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA"],
+            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA", "TOS"]
+            # headers=["Callsign", "FREQ", "Depature", "ETD", "ETA"],
         )
 
         # Package Section
@@ -574,6 +582,8 @@ class SupportPage(KneeboardPage):
         writer.write(path)
 
     def format_frequency(self, frequency: RadioFrequency) -> str:
+        if frequency is None:
+            return ""
         channel = self.flight.channel_for(frequency)
         if channel is None:
             return str(frequency)
@@ -583,11 +593,24 @@ class SupportPage(KneeboardPage):
         )
         return f"{channel_name}\n{frequency}"
 
+    # @staticmethod
+    # def _format_time(time: datetime.datetime | None) -> str:
+    #    if time is None:
+    #        return ""
+    #    return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+
     @staticmethod
-    def _format_time(time: datetime.datetime | None) -> str:
+    def _format_time(time: Union[datetime.datetime, datetime.datetime] | None) -> str:
         if time is None:
             return ""
-        return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+        if isinstance(time, datetime.timedelta):
+            return f"{time}"
+        if isinstance(time, datetime.datetime):
+            return (
+                f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
+            )
+        else:
+            raise TypeError(f"Invalid time type: {type(time)}")
 
 
 class SeadTaskPage(KneeboardPage):

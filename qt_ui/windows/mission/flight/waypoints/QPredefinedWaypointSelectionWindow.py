@@ -36,14 +36,14 @@ class QPredefinedWaypointSelectionWindow(QDialog):
         self.game = game
         self.flight = flight
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
-        self.setMinimumSize(400, 250)
+        self.setMinimumSize(200, 150)
         self.setModal(True)
         self.setWindowTitle("Add Predefined Waypoint")
         self.setWindowIcon(EVENT_ICONS["strike"])
         self.flight_waypoint_list = flight_waypoint_list
 
         self.wpt_selection_box = QPredefinedWaypointSelectionComboBox(self.game)
-        self.wpt_selection_box.setMinimumWidth(200)
+        self.wpt_selection_box.setMinimumWidth(100)
         self.wpt_selection_box.currentTextChanged.connect(self.on_select_wpt_changed)
         self.selected_waypoints = []
         self.wpt_info = QFlightWaypointInfoBox()

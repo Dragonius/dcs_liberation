@@ -8,13 +8,13 @@ venv
 .DS_Store
 .vscode/settings.json
 dist/**
-/.coverage
 # User-specific stuff
 .idea/
 .env
 env/
 
-
+#pydcs seem to go bellow folder
+/src
 
 /kneeboards
 /liberation_preferences.json

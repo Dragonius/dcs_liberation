@@ -52,7 +52,7 @@ class QGroundObjectMenu(QDialog):
         game: Game,
     ):
         super().__init__(parent)
-        self.setMinimumWidth(350)
+        self.setMinimumWidth(150)
         self.ground_object = ground_object
         self.cp = cp
         self.game = game
@@ -163,8 +163,8 @@ class QGroundObjectMenu(QDialog):
         self.orientationBox = QGroupBox("Orientation :")
         self.orientationBoxLayout = QHBoxLayout()
 
-        self.heading_image = HeadingIndicator(self.ground_object.heading, self)
-        self.orientationBoxLayout.addWidget(self.heading_image)
+        heading_image = HeadingIndicator(self.ground_object.heading, self)
+        self.orientationBoxLayout.addWidget(heading_image)
         self.headingLabel = QLabel("Heading:")
         self.orientationBoxLayout.addWidget(self.headingLabel)
         self.headingSelector = QSpinBox()
@@ -174,19 +174,27 @@ class QGroundObjectMenu(QDialog):
         self.headingSelector.setSingleStep(5)
         self.headingSelector.setValue(self.ground_object.heading.degrees)
         self.headingSelector.valueChanged.connect(
-            lambda degrees: self.rotate_tgo(Heading(degrees))
+            lambda degrees: heading_image.set_heading(Heading(degrees))
         )
         self.orientationBoxLayout.addWidget(self.headingSelector)
         if self.cp.captured:
             self.head_to_conflict_button = QPushButton("Head to conflict")
+            self.head_heading_button = QPushButton("Head to directory")
             heading = (
                 self.game.theater.heading_to_conflict_from(self.ground_object.position)
                 or self.ground_object.heading
             )
+            heading_ground = self.ground_object.heading
+
             self.head_to_conflict_button.clicked.connect(
                 lambda: self.headingSelector.setValue(heading.degrees)
             )
+            self.head_heading_button.clicked.connect(
+                lambda: self.rotate_gtgo(heading_ground)
+                # self.headingSelector.setEnabled(False)
+            )
             self.orientationBoxLayout.addWidget(self.head_to_conflict_button)
+            self.orientationBoxLayout.addWidget(self.head_heading_button)
         else:
             self.headingSelector.setEnabled(False)
 
@@ -251,6 +259,10 @@ class QGroundObjectMenu(QDialog):
     def rotate_tgo(self, heading: Heading) -> None:
         self.ground_object.rotate(heading)
         self.heading_image.set_heading(heading)
+
+    def rotate_gtgo(self, heading_ground: Heading) -> None:
+        self.ground_object.rotate(heading_ground)
+        self.do_refresh_layout()
 
     def sell_all(self):
         self.update_total_value()

@@ -22,7 +22,6 @@ Saves from 6.x are not compatible with 7.0.
 * **[Modding]** Campaigns which require custom factions can now define those factions directly in the campaign YAML. See Operation Aliied Sword for an example.
 * **[Modding]** The `mission_types` field in squadron files has been removed. Squadron task capability is now determined by airframe, and the auto-assignable list has always been overridden by the campaign settings.
 * **[Modding]** Aircraft task capabilities and preferred aircraft for each task are now moddable in the aircraft unit yaml files. Each aircraft has a weight per task. Higher weights are given higher preference.
-* **[Modding]** Wind speed generation inputs are now moddable. See https://dcs-liberation.rtfd.io/en/latest/modding/weather.html.
 * **[New Game Wizard]** Choices for some options will be remembered for the next new game. Not all settings will be preserved, as many are campaign dependent.
 * **[New Game Wizard]** Lua plugins can now be set while creating a new game.
 * **[New Game Wizard]** Squadrons can be directly replaced with a preset during air wing configuration rather than needing to remove and create a new squadron.
@@ -33,19 +32,11 @@ Saves from 6.x are not compatible with 7.0.
 ## Fixes
 
 * **[Campaign]** Fixed a longstanding bug where oversized airlifts could corrupt a save with empty convoys.
-* **[Campaign]** Aircraft with built-in TGPs but without an external pod will no longer degrade automatic loadouts to iron bombs.
-* **[Engine]** Fixed crash in startup caused by a corrupted Liberation preferences file.
-* **[Flight Planning]** AEW&C missions are now plannable over FOBs and LHAs.
-* **[Flight Planning]** BAI is no longer plannable against buildings.
 * **[Modding]** Fixed an issue where Falklands campaigns created or edited with new versions of DCS could not be loaded.
 * **[Modding]** Fixed decoding of campaign yaml files to use UTF-8 rather than the system locale's default. It's now possible to use "Bf 109 K-4 Kurfürst" as a preferred aircraft type.
 * **[Mission Generation]** Planes will no longer spawn in helipads that are not also designated for fixed wing parking.
 * **[Mission Generation]** Potentially an issue where ground war planning game state could become corrupted, preventing mission generation.
 * **[Mission Generation]** Refueling tasks will now only be created for flights that have a tanker in their package.
-* **[Mission Generation]** Fixed missing Tanker task on recovery tanker missions.
-* **[UI]** Fixed error when resetting air wing configuration during game setup.
-* **[UI]** Fixed flight plan recreation when changing mission type with "Recreate as" flight options.
-* **[UI]** Fixed failure to launch UI when Liberation persistent preferences file was corrupt.
 
 # 6.1.1
 

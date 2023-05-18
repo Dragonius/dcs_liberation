@@ -20,7 +20,7 @@ class QUnitInfoWindow(QDialog):
         self.name = unit_type.name
         self.setWindowTitle(f"Unit Info: {self.name}")
         self.setWindowIcon(QIcon("./resources/icon.png"))
-        self.setMinimumHeight(570)
+        self.setMinimumHeight(170)
         self.setMaximumWidth(640)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
