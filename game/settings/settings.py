@@ -243,7 +243,7 @@ class Settings:
         PILOTS_AND_SQUADRONS_SECTION,
         default=4,
         min=1,
-        max=20,
+        max=200,
         detail=(
             "Sets the maximum number of pilots that will be recruited to each squadron "
             "at the end of each turn. Squadrons will not recruit new pilots beyond the "
