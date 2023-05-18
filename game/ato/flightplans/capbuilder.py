@@ -81,7 +81,8 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
         )
 
         end = location.position.point_from_heading(
-            heading.degrees,
+            # heading.degrees,
+            heading.opposite.degrees,
             random.randint(int(min_cap_distance.meters), int(max_cap_distance.meters)),
         )
 
