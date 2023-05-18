@@ -66,7 +66,8 @@ class KneeboardPageWriter:
         else:
             self.foreground_fill = (15, 15, 15)
             self.background_fill = (255, 252, 252)
-        self.image_size = (768, 1024)
+        """" Old version self.image_size = (768, 1024) """
+        self.image_size = (1024, 1024)
         self.image = Image.new("RGB", self.image_size, self.background_fill)
         # These font sizes create a relatively full page for current sorties. If
         # we start generating more complicated flight plans, or start including
@@ -516,7 +517,7 @@ class SupportPage(KneeboardPage):
             if single_aewc.depature_location is None:
                 dep = "-"
                 arr = "-"
-                # tos = "-"
+                tos = "-"
             else:
                 dep = self._format_time(single_aewc.start_time)
                 arr = self._format_time(single_aewc.end_time)
