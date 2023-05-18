@@ -1,0 +1,16 @@
+{
+    "nameInUI": "CSAR",
+    "defaultValue": false,
+    "specificOptions": [],
+    "scriptsWorkOrders": [
+        {
+            "file": "CSAR",
+            "mnemonic": "csar"
+        },
+        {
+            "file": "csarSlotBlockGameGUI.lua",
+            "mnemonic": "csarSlotB"
+        }
+    ],
+    "configurationWorkOrders": []
+}
