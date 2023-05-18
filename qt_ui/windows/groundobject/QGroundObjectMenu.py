@@ -163,22 +163,21 @@ class QGroundObjectMenu(QDialog):
         self.orientationBox = QGroupBox("Orientation :")
         self.orientationBoxLayout = QHBoxLayout()
 
-        self.heading_image = HeadingIndicator(self.ground_object.heading, self)
-        self.orientationBoxLayout.addWidget(self.heading_image)
+        heading_image = HeadingIndicator(self.ground_object.heading, self)
+        self.orientationBoxLayout.addWidget(heading_image)
         self.headingLabel = QLabel("Heading:")
         self.orientationBoxLayout.addWidget(self.headingLabel)
         self.headingSelector = QSpinBox()
-        self.headingSelector.setEnabled(True)  # Disable for now
-        self.headingSelector.setMinimum(0)
-        self.headingSelector.setMaximum(360)
+        self.headingSelector.setEnabled(self.cp.is_friendly(to_player=True))
+        self.headingSelector.setRange(0, 359)
+        self.headingSelector.setWrapping(True)
+        self.headingSelector.setSingleStep(5)
         self.headingSelector.setValue(self.ground_object.heading.degrees)
         self.headingSelector.valueChanged.connect(
-            lambda degrees: self.rotate_tgo(Heading(degrees))
+            lambda degrees: heading_image.set_heading(Heading(degrees))
         )
         self.orientationBoxLayout.addWidget(self.headingSelector)
         if self.cp.captured:
-            # TODO Let the user choose the heading with the SpinBox
-            self.headingSelector.setEnabled(True)
             self.head_to_conflict_button = QPushButton("Head to conflict")
             self.head_heading_button = QPushButton("Head to directory")
             heading = (
