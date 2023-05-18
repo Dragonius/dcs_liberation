@@ -37,7 +37,7 @@ class SquadronDef:
     def capable_of(self, task: FlightType) -> bool:
         """Returns True if the squadron is capable of performing the given task.
 
-        A squadron may be capable of performing a task even if it will not be
+        """A squadron may be capable of performing a task even if it will not be
         automatically assigned to it.
         """
         return self.aircraft.capable_of(task)
