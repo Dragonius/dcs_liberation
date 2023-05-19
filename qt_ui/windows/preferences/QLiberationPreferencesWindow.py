@@ -10,7 +10,7 @@ class QLiberationPreferencesWindow(QDialog):
 
         self.setModal(True)
         self.setWindowTitle("Preferences")
-        self.setMinimumSize(150, 100)
+        self.setMinimumSize(300, 200)
         self.setWindowIcon(QIcon("./resources/icon.png"))
         self.preferences = QLiberationPreferences()
         self.apply_button = QPushButton("Apply")

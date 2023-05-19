@@ -25,7 +25,7 @@ class QLogsWindow(QDialog):
         super().__init__()
 
         self.setWindowTitle("Logs")
-        self.setMinimumSize(200, 50)
+        self.setMinimumSize(400, 100)
         self.resize(1000, 450)
         self.setWindowIcon(QIcon("./resources/icon.png"))
 

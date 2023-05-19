@@ -70,7 +70,7 @@ class QTgoLayoutGroupRow(QWidget):
         self.grid_layout.setColumnStretch(0, 100)
         self.amount_selector = QSpinBox()
         self.unit_selector = QComboBox()
-        self.unit_selector.setMinimumWidth(150)
+        self.unit_selector.setMinimumWidth(250)
         self.group_selector = QCheckBox()
 
         # Add all possible units with the price
@@ -248,7 +248,7 @@ class QGroundObjectBuyMenu(QDialog):
     ) -> None:
         super().__init__(parent)
 
-        self.setMinimumWidth(150)
+        self.setMinimumWidth(350)
 
         self.setWindowTitle("Buy ground object @ " + ground_object.obj_name)
         self.setWindowIcon(EVENT_ICONS["capture"])
@@ -257,9 +257,9 @@ class QGroundObjectBuyMenu(QDialog):
         self.setLayout(self.mainLayout)
 
         self.force_group_selector = QComboBox()
-        self.force_group_selector.setMinimumWidth(150)
+        self.force_group_selector.setMinimumWidth(250)
         self.layout_selector = QComboBox()
-        self.layout_selector.setMinimumWidth(150)
+        self.layout_selector.setMinimumWidth(250)
 
         # Get the layouts and fill the combobox
         tasks = []

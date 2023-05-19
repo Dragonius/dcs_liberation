@@ -148,7 +148,7 @@ class IntelWindow(QDialog):
         self.setModal(True)
         self.setWindowTitle("Intelligence")
         self.setWindowIcon(ICONS["Statistics"])
-        self.setMinimumSize(300, 250)
+        self.setMinimumSize(600, 500)
         self.selected_intel_tab = 0
 
         layout = QVBoxLayout()

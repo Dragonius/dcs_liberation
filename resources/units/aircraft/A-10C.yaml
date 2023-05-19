@@ -18,9 +18,6 @@ radios:
   # VHF for intraflight is not accepted anymore by DCS
   # (see https://forums.eagle.ru/showthread.php?p=4499738).
   intra_flight: AN/ARC-164
-  # VHF for intraflight is not accepted anymore by DCS
-  # (see https://forums.eagle.ru/showthread.php?p=4499738).
-  intra_flight: AN/ARC-164
   inter_flight: AN/ARC-164
   channels:
     type: common

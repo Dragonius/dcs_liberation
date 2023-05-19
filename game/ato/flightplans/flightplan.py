@@ -277,7 +277,7 @@ class FlightPlan(ABC, Generic[LayoutT]):
                 return timedelta(minutes=10)
             else:
                 # The AI doesn't seem to have a real startup procedure.
-                return timedelta(minutes=4)
+                return timedelta(minutes=2)
         return timedelta()
 
     def estimate_ground_ops(self) -> timedelta:

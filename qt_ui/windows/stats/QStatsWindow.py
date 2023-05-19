@@ -14,7 +14,7 @@ class QStatsWindow(QDialog):
         self.setModal(True)
         self.setWindowTitle("Stats")
         self.setWindowIcon(CONST.ICONS["Statistics"])
-        self.setMinimumSize(300, 175)
+        self.setMinimumSize(600, 300)
 
         self.layout = QGridLayout()
         self.aircraft_charts = QAircraftChart(self.game)
