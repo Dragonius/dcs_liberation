@@ -1,40 +1,40 @@
-name: Patriot Battery
+name: Patriot Battery Super
 tasks:
   - LORAD
 groups:
   - Patriot:
-    - name: Patriot Battery 0
+    - name: Patriot Battery Super 0
       unit_count:
         - 4
       unit_types:
         - Patriot str
-    - name: Patriot Battery 1
+    - name: Patriot Battery Super 1
       unit_count:
         - 1
       unit_types:
         - Patriot AMG
-    - name: Patriot Battery 2
+    - name: Patriot Battery Super 2
       unit_count:
         - 1
       unit_types:
         - Patriot ECS
-    - name: Patriot Battery 3
+    - name: Patriot Battery Super 3
       unit_count:
         - 1
       unit_types:
         - Patriot cp
-    - name: Patriot Battery 4
+    - name: Patriot Battery Super 4
       unit_count:
         - 1
       unit_types:
         - Patriot EPP
-    - name: Patriot Battery 5
+    - name: Patriot Battery Super 5
       unit_count:
         - 12
       unit_types:
         - Patriot ln
   - PD:
-    - name: Patriot Battery 7
+    - name: Patriot Battery Super 7
       optional: true
       sub_task: PointDefense
       unit_count:
@@ -44,7 +44,7 @@ groups:
         - 4
       unit_classes:
         - SHORAD
-    - name: Patriot Battery 6
+    - name: Patriot Battery Super 6
       sub_task: AAA
       optional: true
       unit_count:
