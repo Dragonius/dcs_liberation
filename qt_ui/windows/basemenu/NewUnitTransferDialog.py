@@ -6,6 +6,7 @@ from typing import Callable, Dict, Type
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
+    QApplication,
     QComboBox,
     QDialog,
     QFrame,
@@ -220,8 +221,18 @@ class ScrollingUnitTransferGrid(QFrame):
             if not origin_inventory:
                 return
 
-            self.transfers[unit_type] += 1
-            origin_inventory -= 1
+            modifiers = QApplication.keyboardModifiers()
+            if modifiers == Qt.ShiftModifier:
+                amount = 10
+            elif modifiers == Qt.ControlModifier:
+                amount = 5
+            else:
+                amount = 1
+
+            if amount > origin_inventory:
+                amount = origin_inventory
+            self.transfers[unit_type] += amount
+            origin_inventory -= amount
             controls.set_quantity(self.transfers[unit_type])
             origin_inventory_label.setText(str(origin_inventory))
             self.transfer_quantity_changed.emit()
@@ -232,8 +243,18 @@ class ScrollingUnitTransferGrid(QFrame):
             if not controls.quantity:
                 return
 
-            self.transfers[unit_type] -= 1
-            origin_inventory += 1
+            modifiers = QApplication.keyboardModifiers()
+            if modifiers == Qt.ShiftModifier:
+                amount = 10
+            elif modifiers == Qt.ControlModifier:
+                amount = 5
+            else:
+                amount = 1
+
+            if amount > self.transfers[unit_type]:
+                amount = self.transfers[unit_type]
+            self.transfers[unit_type] -= amount
+            origin_inventory += amount
             controls.set_quantity(self.transfers[unit_type])
             origin_inventory_label.setText(str(origin_inventory))
             self.transfer_quantity_changed.emit()

@@ -10,6 +10,7 @@ from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
+from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.callsigns import callsign_for_support_unit
 from game.data.weapons import Pylon, WeaponType as WeaponTypeEnum
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
@@ -158,6 +159,10 @@ class FlightGroupConfigurator:
                     depature_location=self.flight.departure.name,
                     end_time=self.flight.flight_plan.mission_departure_time,
                     start_time=self.flight.flight_plan.takeoff_time(),
+                    tos_time=(
+                        self.flight.flight_plan.mission_departure_time
+                        - self.flight.flight_plan.takeoff_time()
+                    ),
                     blue=self.flight.departure.captured,
                 )
             )

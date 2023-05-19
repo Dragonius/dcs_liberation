@@ -31,7 +31,8 @@ class RangeType(IntEnum):
 
 
 # TODO: Refactor so that we don't need to call up to the mission planner.
-@dataclass
+# Bypass type checker due to https://github.com/python/mypy/issues/5374
+@dataclass  # type: ignore
 class PackagePlanningTask(TheaterCommanderTask, Generic[MissionTargetT]):
     target: MissionTargetT
     flights: list[ProposedFlight] = field(init=False)
