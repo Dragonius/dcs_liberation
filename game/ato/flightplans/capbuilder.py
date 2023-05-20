@@ -60,7 +60,7 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             # distance from the nearest enemy airbase, but since they are by
             # definition in enemy territory they can't avoid the threat zone
             # without being useless.
-            min_distance_from_enemy = nautical_miles(5)
+            min_distance_from_enemy = nautical_miles(20)
             distance_to_airfield = meters(
                 closest_airfield.position.distance_to_point(
                     self.package.target.position
@@ -80,16 +80,15 @@ class CapBuilder(IBuilder[FlightPlanT, LayoutT], ABC):
             self.doctrine.cap_max_distance_from_cp, distance_to_no_fly
         )
 
-        # end = location.position.point_from_heading(
-        start = location.position.point_from_heading(
-            # heading.degrees,
-            heading.opposite.degrees,
+        start = location.position.point_from_heading(  # old: end = location.position.point_from_heading(
+            heading.degrees,  # old:heading.degrees,
             random.randint(int(min_cap_distance.meters), int(max_cap_distance.meters)),
         )
 
         track_length = random.randint(
             int(self.doctrine.cap_min_track_length.meters), int(max_track_length.meters)
         )
-        # start = end.point_from_heading(heading.opposite.degrees, track_length)
-        end = start.point_from_heading(heading.degrees, track_length)
+        end = start.point_from_heading(
+            heading.degrees, track_length
+        )  # old: start = end.point_from_heading(heading.opposite.degrees, track_length)
         return start, end

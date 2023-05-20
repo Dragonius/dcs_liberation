@@ -21,6 +21,8 @@ from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
 from qt_ui.simcontroller import SimController
+from game.ato.flightplans.custom import CustomFlightPlan
+from game.ato.flightwaypointtype import FlightWaypointType
 
 
 class PilotDelegate(TwoColumnRowDelegate):
