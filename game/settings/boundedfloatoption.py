@@ -21,7 +21,6 @@ def bounded_float_option(
     divisor: int,
     detail: Optional[str] = None,
     tooltip: Optional[str] = None,
-    remember_player_choice: bool = False,
     **kwargs: Any,
 ) -> float:
     return field(
@@ -33,7 +32,6 @@ def bounded_float_option(
                 detail,
                 tooltip,
                 causes_expensive_game_update=False,
-                remember_player_choice=remember_player_choice,
                 min=min,
                 max=max,
                 divisor=divisor,

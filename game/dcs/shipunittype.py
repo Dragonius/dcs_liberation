@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 import logging
-from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import ClassVar, Iterator, Type
+from typing import Iterator, Type
 
 import yaml
 from dcs.ships import ship_map
@@ -16,27 +15,21 @@ from game.dcs.unittype import UnitType
 
 @dataclass(frozen=True)
 class ShipUnitType(UnitType[Type[ShipType]]):
-    _by_name: ClassVar[dict[str, ShipUnitType]] = {}
-    _by_unit_type: ClassVar[dict[type[ShipType], list[ShipUnitType]]] = defaultdict(
-        list
-    )
-
-    @classmethod
-    def register(cls, unit_type: ShipUnitType) -> None:
-        cls._by_name[unit_type.name] = unit_type
-        cls._by_unit_type[unit_type.dcs_unit_type].append(unit_type)
-
     @classmethod
     def named(cls, name: str) -> ShipUnitType:
         if not cls._loaded:
             cls._load_all()
-        return cls._by_name[name]
+        unit = cls._by_name[name]
+        assert isinstance(unit, ShipUnitType)
+        return unit
 
     @classmethod
     def for_dcs_type(cls, dcs_unit_type: Type[ShipType]) -> Iterator[ShipUnitType]:
         if not cls._loaded:
             cls._load_all()
-        yield from cls._by_unit_type[dcs_unit_type]
+        for unit in cls._by_unit_type[dcs_unit_type]:
+            assert isinstance(unit, ShipUnitType)
+            yield unit
 
     @staticmethod
     def each_dcs_type() -> Iterator[Type[ShipType]]:

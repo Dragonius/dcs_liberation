@@ -169,10 +169,4 @@ VERSION = _build_version_string()
 #:
 #: Version 10.5
 #: * Support for scenery objectives defined by quad zones.
-#:
-#: Version 10.6
-#: * Support in-line definitions of campaign-specific factions.
-#:
-#: Version 10.7
-#: * Support for defining squadron sizes.
-CAMPAIGN_FORMAT_VERSION = (10, 7)
+CAMPAIGN_FORMAT_VERSION = (10, 5)

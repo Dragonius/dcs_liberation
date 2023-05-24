@@ -45,7 +45,7 @@ from game.runways import RunwayData
 from game.theater import TheaterGroundObject, TheaterUnit
 from game.theater.bullseye import Bullseye
 from game.utils import Distance, UnitSystem, meters, mps, pounds, knots, feet
-from game.weather.weather import Weather
+from game.weather import Weather
 from .aircraft.flightdata import FlightData
 from .airsupportgenerator import AwacsInfo, TankerInfo
 from .briefinggenerator import CommInfo, JtacInfo, MissionInfoGenerator
@@ -508,7 +508,7 @@ class SupportPage(KneeboardPage):
             custom_name_title = ""
         writer.title(f"{self.flight.callsign} Support Info{custom_name_title}")
 
-        # AEW&C
+        # AEW&C  contains  Departure, arrive to back to base and time in air as Delta time
         writer.heading("AEW&C")
         aewc_ladder = []
 
@@ -519,10 +519,10 @@ class SupportPage(KneeboardPage):
                 arr = "-"
                 tos = "-"
             else:
-                dep = self._format_time(single_aewc.start_time)
-                arr = self._format_time(single_aewc.end_time)
                 tos_diff = single_aewc.end_time - single_aewc.start_time
                 tos_datetime = datetime.datetime(1900, 1, 1) + tos_diff
+                dep = self._format_time(single_aewc.start_time)
+                arr = self._format_time(single_aewc.end_time)
                 tos = self._format_time(tos_datetime)
 
             aewc_ladder.append(
@@ -534,12 +534,11 @@ class SupportPage(KneeboardPage):
                     str(arr),
                     str(tos),
                 ]
-                # font=self.flight_plan_font,
             )
 
         writer.table(
             aewc_ladder,
-            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA", "TOS"],
+            headers=["Callsign", "FREQ", "Depature", "ETD", "ETA", "TOS"]
             # headers=["Callsign", "FREQ", "Depature", "ETD", "ETA"],
         )
 
@@ -601,15 +600,15 @@ class SupportPage(KneeboardPage):
     #    return f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
 
     @staticmethod
-    def _format_time(time: Union[datetime.datetime, datetime.timedelta] | None) -> str:
+    def _format_time(time: Union[datetime.datetime, datetime.datetime] | None) -> str:
         if time is None:
             return ""
+        if isinstance(time, datetime.timedelta):
+            return f"{time}"
         if isinstance(time, datetime.datetime):
             return (
                 f"{time.strftime('%H:%M:%S')}{'Z' if time.tzinfo is not None else ''}"
             )
-        elif isinstance(time, datetime.timedelta):
-            return str(time)
         else:
             raise TypeError(f"Invalid time type: {type(time)}")
 

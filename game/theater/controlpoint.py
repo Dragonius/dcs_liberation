@@ -75,7 +75,7 @@ from ..db import Database
 from ..dcs.aircrafttype import AircraftType
 from ..dcs.groundunittype import GroundUnitType
 from ..utils import nautical_miles
-from ..weather.conditions import Conditions
+from ..weather import Conditions
 
 if TYPE_CHECKING:
     from game import Game

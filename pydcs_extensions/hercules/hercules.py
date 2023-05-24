@@ -1,6 +1,7 @@
 from typing import Set
 
 from dcs import task
+from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -729,6 +730,7 @@ class Hercules(PlaneType):
     }
 
     livery_name = "HERCULES"  # from type
+    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         Herc_JATO = (1, HerculesWeapons.Herc_JATO)

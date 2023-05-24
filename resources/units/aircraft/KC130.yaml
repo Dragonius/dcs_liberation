@@ -13,5 +13,3 @@ patrol:
   altitude: 22000
 variants:
   KC-130: {}
-tasks:
-  Refueling: 10

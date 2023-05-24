@@ -1,8 +1,6 @@
 *.pyc
 __pycache__
 build/**
-# Sphinx
-docs/_build
 resources/payloads/*.lua
 venv
 .DS_Store
@@ -13,9 +11,7 @@ dist/**
 .env
 env/
 
-#pydcs seem to go bellow folder
-/src
-/src/pydcs
+
 
 /kneeboards
 /liberation_preferences.json

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import logging
 import math
 import random
+from datetime import timedelta
 from typing import List, Optional, TYPE_CHECKING, Tuple
 
 from dcs import Mission
@@ -52,9 +54,9 @@ if TYPE_CHECKING:
 SPREAD_DISTANCE_FACTOR = 0.1, 0.3
 SPREAD_DISTANCE_SIZE_FACTOR = 0.1
 
-FRONTLINE_CAS_FIGHTS_COUNT = 16, 24
-FRONTLINE_CAS_GROUP_MIN = 1, 4
-FRONTLINE_CAS_PADDING = 12000
+FRONTLINE_CAS_FIGHTS_COUNT = 1, 64
+FRONTLINE_CAS_GROUP_MIN = 1, 8
+FRONTLINE_CAS_PADDING = 1200
 
 RETREAT_DISTANCE = 20000
 BREAKTHROUGH_OFFENSIVE_DISTANCE = 35000
@@ -141,7 +143,7 @@ class FlotGenerator:
             # If the option fc3LaserCode is enabled, force all JTAC
             # laser codes to 1113 to allow lasing for Su-25 Frogfoots and A-10A Warthogs.
             # Otherwise use 1688 for the first JTAC, 1687 for the second etc.
-            if self.game.lua_plugin_manager.is_option_enabled("ctld", "fc3LaserCode"):
+            if self.game.settings.plugins["plugins.ctld.fc3LaserCode"]:
                 code = 1113
             else:
                 code = self.laser_code_registry.get_next_laser_code()

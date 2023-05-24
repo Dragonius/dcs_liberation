@@ -9,6 +9,7 @@ from game.dcs.aircrafttype import AircraftType
 from game.squadrons.operatingbases import OperatingBases
 from game.squadrons.squadrondef import SquadronDef
 from game.theater import ControlPoint
+from game.ato.ai_flight_planner_db import aircraft_for_task, tasks_for_aircraft
 
 if TYPE_CHECKING:
     from game.factions.faction import Faction
@@ -24,7 +25,7 @@ class SquadronDefGenerator:
         self, task: FlightType, control_point: ControlPoint
     ) -> Optional[SquadronDef]:
         aircraft_choice: Optional[AircraftType] = None
-        for aircraft in AircraftType.priority_list_for_task(task):
+        for aircraft in aircraft_for_task(task):
             if aircraft not in self.faction.aircrafts:
                 continue
             if not control_point.can_operate(aircraft):
@@ -47,7 +48,7 @@ class SquadronDefGenerator:
             role="Flying Squadron",
             aircraft=aircraft,
             livery=None,
-            auto_assignable_mission_types=set(aircraft.iter_task_capabilities()),
+            mission_types=tuple(tasks_for_aircraft(aircraft)),
             operating_bases=OperatingBases.default_for_aircraft(aircraft),
             female_pilot_percentage=6,
             pilot_pool=[],

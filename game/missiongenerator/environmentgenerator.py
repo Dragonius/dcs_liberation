@@ -3,11 +3,7 @@ from typing import Optional
 
 from dcs.mission import Mission
 
-from game.weather.atmosphericconditions import AtmosphericConditions
-from game.weather.clouds import Clouds
-from game.weather.conditions import Conditions
-from game.weather.fog import Fog
-from game.weather.wind import WindConditions
+from game.weather import Clouds, Fog, Conditions, WindConditions, AtmosphericConditions
 
 
 class EnvironmentGenerator:

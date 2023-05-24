@@ -4,7 +4,7 @@ import logging
 import os
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from dcs import Mission
 from dcs.action import DoScript, DoScriptFile
@@ -13,9 +13,11 @@ from dcs.triggers import TriggerStart
 
 from game.ato import FlightType
 from game.dcs.aircrafttype import AircraftType
+from game.plugins import LuaPluginManager
 from game.theater import TheaterGroundObject
 from game.theater.iadsnetwork.iadsrole import IadsRole
 from game.utils import escape_string_for_lua
+
 from .missiondata import MissionData
 
 if TYPE_CHECKING:
@@ -205,26 +207,16 @@ class LuaGenerator:
         self.mission.triggerrules.triggers.append(trigger)
 
     def inject_lua_trigger(self, contents: str, comment: str) -> None:
-        """Creates the trigger for running the text script at mission start."""
         trigger = TriggerStart(comment=comment)
         trigger.add_action(DoScript(String(contents)))
         self.mission.triggerrules.triggers.append(trigger)
 
     def bypass_plugin_script(self, mnemonic: str) -> None:
-        """Records a script has having been intentionally ignored.
-
-        It's not clear why this is needed. It looks like this might be a holdover from
-        when mission generation was driven by a singleton and we needed to avoid
-        double-loading plugins if the generator ran twice (take off, cancel, take off)?
-
-        For now, this prevents duplicates from being handled twice.
-        """
         self.plugin_scripts.append(mnemonic)
 
     def inject_plugin_script(
         self, plugin_mnemonic: str, script: str, script_mnemonic: str
     ) -> None:
-        """ "Creates a trigger for running the script file at mission start."""
         if script_mnemonic in self.plugin_scripts:
             logging.debug(f"Skipping already loaded {script} for {plugin_mnemonic}")
             return
@@ -245,7 +237,7 @@ class LuaGenerator:
         self.mission.triggerrules.triggers.append(trigger)
 
     def inject_plugins(self) -> None:
-        for plugin in self.game.lua_plugin_manager.iter_plugins():
+        for plugin in LuaPluginManager.plugins():
             if plugin.enabled:
                 plugin.inject_scripts(self)
                 plugin.inject_configuration(self)

@@ -6,21 +6,11 @@ from typing import List
 
 from PySide6 import QtGui, QtWidgets
 from PySide6.QtCore import QDate, QItemSelectionModel, QPoint, Qt, Signal
-from PySide6.QtWidgets import (
-    QCheckBox,
-    QLabel,
-    QScrollArea,
-    QTextEdit,
-    QVBoxLayout,
-    QWidget,
-)
+from PySide6.QtWidgets import QCheckBox, QLabel, QTextEdit, QVBoxLayout
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
-from game.factions import Faction
-from game.factions.factions import Factions
-from game.plugins import LuaPlugin, LuaPluginManager
-from game.plugins.luaplugin import LuaPluginOption
+from game.factions import FACTIONS, Faction
 from game.settings import Settings
 from game.theater.start_generator import GameGenerator, GeneratorSettings, ModSettings
 from qt_ui.widgets.QLiberationCalendar import QLiberationCalendar
@@ -38,6 +28,8 @@ jinja_env = Environment(
     trim_blocks=True,
     lstrip_blocks=True,
 )
+
+DEFAULT_MISSION_LENGTH: timedelta = timedelta(minutes=60)
 
 
 """
@@ -90,39 +82,23 @@ class NewGameWizard(QtWidgets.QWizard):
     def __init__(self, parent=None):
         super(NewGameWizard, self).__init__(parent)
 
-        # The wizard should probably be refactored to edit this directly, but for now we
-        # just create a Settings object so that we can load the player's preserved
-        # defaults. We'll recreate a new settings and merge in the wizard options later.
-        default_settings = Settings()
-        default_settings.merge_player_settings()
-
-        mod_settings = ModSettings()
-        mod_settings.merge_player_settings()
-
-        self.lua_plugin_manager = LuaPluginManager.load()
-        self.lua_plugin_manager.merge_player_settings()
-
-        factions = Factions.load()
-
         self.campaigns = list(sorted(Campaign.load_each(), key=lambda x: x.name))
 
-        self.faction_selection_page = FactionSelection(factions)
+        self.faction_selection_page = FactionSelection()
         self.addPage(IntroPage())
         self.theater_page = TheaterConfiguration(
             self.campaigns, self.faction_selection_page
         )
         self.addPage(self.theater_page)
         self.addPage(self.faction_selection_page)
-        self.addPage(GeneratorOptions(default_settings, mod_settings))
-        self.difficulty_page = DifficultyAndAutomationOptions(default_settings)
-        self.plugins_page = PluginsPage(self.lua_plugin_manager)
+        self.addPage(GeneratorOptions())
+        self.difficulty_page = DifficultyAndAutomationOptions()
 
         # Update difficulty page on campaign select
         self.theater_page.campaign_selected.connect(
             lambda c: self.difficulty_page.set_campaign_values(c)
         )
         self.addPage(self.difficulty_page)
-        self.addPage(self.plugins_page)
         self.addPage(ConclusionPage())
 
         self.setPixmap(
@@ -153,9 +129,6 @@ class NewGameWizard(QtWidgets.QWizard):
         else:
             start_date = self.theater_page.calendar.selectedDate().toPython()
 
-        self.lua_plugin_manager.save_player_settings()
-
-        use_new_squadron_rules = self.field("use_new_squadron_rules")
         logging.info("New campaign start date: %s", start_date.strftime("%m/%d/%Y"))
         settings = Settings(
             player_income_multiplier=self.field("player_income_multiplier") / 10,
@@ -169,9 +142,7 @@ class NewGameWizard(QtWidgets.QWizard):
             ),
             automate_aircraft_reinforcements=self.field("automate_aircraft_purchases"),
             supercarrier=self.field("supercarrier"),
-            enable_squadron_aircraft_limits=use_new_squadron_rules,
         )
-        settings.save_player_settings()
         generator_settings = GeneratorSettings(
             start_date=start_date,
             start_time=campaign.recommended_start_time,
@@ -199,7 +170,6 @@ class NewGameWizard(QtWidgets.QWizard):
             frenchpack=self.field("frenchpack"),
             high_digit_sams=self.field("high_digit_sams"),
         )
-        mod_settings.save_player_settings()
 
         blue_faction = self.faction_selection_page.selected_blue_faction
         red_faction = self.faction_selection_page.selected_red_faction
@@ -219,13 +189,12 @@ class NewGameWizard(QtWidgets.QWizard):
             settings,
             generator_settings,
             mod_settings,
-            self.lua_plugin_manager,
         )
         self.generatedGame = generator.generate()
 
         AirWingConfigurationDialog(self.generatedGame, self).exec_()
 
-        self.generatedGame.begin_turn_0(squadrons_start_full=use_new_squadron_rules)
+        self.generatedGame.begin_turn_0()
 
         super(NewGameWizard, self).accept()
 
@@ -252,10 +221,8 @@ class IntroPage(QtWidgets.QWizardPage):
 
 
 class FactionSelection(QtWidgets.QWizardPage):
-    def __init__(self, factions: Factions, parent=None) -> None:
-        super().__init__(parent)
-
-        self.factions = factions
+    def __init__(self, parent=None):
+        super(FactionSelection, self).__init__(parent)
 
         self.setTitle("Faction selection")
         self.setSubTitle(
@@ -276,7 +243,7 @@ class FactionSelection(QtWidgets.QWizardPage):
 
         blueFaction = QtWidgets.QLabel("<b>Player Faction :</b>")
         self.blueFactionSelect = QtWidgets.QComboBox()
-        for f in self.factions.iter_faction_names():
+        for f in FACTIONS:
             self.blueFactionSelect.addItem(f)
         blueFaction.setBuddy(self.blueFactionSelect)
 
@@ -292,7 +259,7 @@ class FactionSelection(QtWidgets.QWizardPage):
         self.redFactionDescription.setReadOnly(True)
 
         # Setup default selected factions
-        for i, r in enumerate(self.factions.iter_faction_names()):
+        for i, r in enumerate(FACTIONS):
             self.redFactionSelect.addItem(r)
             if r == "Russia 1990":
                 self.redFactionSelect.setCurrentIndex(i)
@@ -338,21 +305,22 @@ class FactionSelection(QtWidgets.QWizardPage):
         self.blueFactionSelect.clear()
         self.redFactionSelect.clear()
 
-        self.factions.reset_campaign_defined()
-        campaign.register_campaign_specific_factions(self.factions)
+        for f in FACTIONS:
+            self.blueFactionSelect.addItem(f)
 
-        for name in self.factions.iter_faction_names():
-            self.blueFactionSelect.addItem(name)
-            self.redFactionSelect.addItem(name)
-
-        self.blueFactionSelect.setCurrentText(campaign.recommended_player_faction.name)
-        self.redFactionSelect.setCurrentText(campaign.recommended_enemy_faction.name)
+        for i, r in enumerate(FACTIONS):
+            self.redFactionSelect.addItem(r)
+            if r == campaign.recommended_enemy_faction:
+                self.redFactionSelect.setCurrentIndex(i)
+            if r == campaign.recommended_player_faction:
+                self.blueFactionSelect.setCurrentIndex(i)
 
         self.updateUnitRecap()
 
     def updateUnitRecap(self):
-        red_faction = self.factions.get_by_name(self.redFactionSelect.currentText())
-        blue_faction = self.factions.get_by_name(self.blueFactionSelect.currentText())
+
+        red_faction = FACTIONS[self.redFactionSelect.currentText()]
+        blue_faction = FACTIONS[self.blueFactionSelect.currentText()]
 
         template = jinja_env.get_template("factiontemplate_EN.j2")
 
@@ -364,11 +332,11 @@ class FactionSelection(QtWidgets.QWizardPage):
 
     @property
     def selected_blue_faction(self) -> Faction:
-        return self.factions.get_by_name(self.blueFactionSelect.currentText())
+        return FACTIONS[self.blueFactionSelect.currentText()]
 
     @property
     def selected_red_faction(self) -> Faction:
-        return self.factions.get_by_name(self.redFactionSelect.currentText())
+        return FACTIONS[self.redFactionSelect.currentText()]
 
 
 class TheaterConfiguration(QtWidgets.QWizardPage):
@@ -568,7 +536,7 @@ class BudgetInputs(QtWidgets.QGridLayout):
 
 
 class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
-    def __init__(self, default_settings: Settings, parent=None) -> None:
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
         self.setTitle("Difficulty and automation options")
@@ -605,17 +573,6 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
         self.registerField("enemy_starting_money", self.enemy_budget.starting_money)
         economy_layout.addLayout(self.enemy_budget)
 
-        new_squadron_rules = QtWidgets.QCheckBox("Enable new squadron rules")
-        new_squadron_rules.setChecked(default_settings.enable_squadron_aircraft_limits)
-        self.registerField("use_new_squadron_rules", new_squadron_rules)
-        economy_layout.addWidget(new_squadron_rules)
-        economy_layout.addWidget(
-            QLabel(
-                "With new squadron rules enabled, squadrons will not be able to exceed a maximum number of aircraft "
-                "(configurable), and the campaign will begin with all squadrons at full strength."
-            )
-        )
-
         assist_group = QtWidgets.QGroupBox("Player assists")
         layout.addWidget(assist_group)
         assist_layout = QtWidgets.QGridLayout()
@@ -623,19 +580,16 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
 
         assist_layout.addWidget(QtWidgets.QLabel("Automate runway repairs"), 0, 0)
         runway_repairs = QtWidgets.QCheckBox()
-        runway_repairs.setChecked(default_settings.automate_runway_repair)
         self.registerField("automate_runway_repairs", runway_repairs)
         assist_layout.addWidget(runway_repairs, 0, 1, Qt.AlignRight)
 
         assist_layout.addWidget(QtWidgets.QLabel("Automate front-line purchases"), 1, 0)
         front_line = QtWidgets.QCheckBox()
-        front_line.setChecked(default_settings.automate_front_line_reinforcements)
         self.registerField("automate_front_line_purchases", front_line)
         assist_layout.addWidget(front_line, 1, 1, Qt.AlignRight)
 
         assist_layout.addWidget(QtWidgets.QLabel("Automate aircraft purchases"), 2, 0)
         aircraft = QtWidgets.QCheckBox()
-        aircraft.setChecked(default_settings.automate_aircraft_reinforcements)
         self.registerField("automate_aircraft_purchases", aircraft)
         assist_layout.addWidget(aircraft, 2, 1, Qt.AlignRight)
 
@@ -652,82 +606,8 @@ class DifficultyAndAutomationOptions(QtWidgets.QWizardPage):
         )
 
 
-class PluginOptionCheckbox(QCheckBox):
-    def __init__(self, option: LuaPluginOption) -> None:
-        super().__init__(option.name)
-        self.option = option
-        self.setChecked(self.option.enabled)
-        self.toggled.connect(self.on_toggle)
-
-    def on_toggle(self, enabled: bool) -> None:
-        self.option.enabled = enabled
-
-
-class PluginGroupBox(QtWidgets.QGroupBox):
-    def __init__(self, plugin: LuaPlugin) -> None:
-        super().__init__(plugin.name)
-        self.plugin = plugin
-
-        self.setCheckable(True)
-        self.setChecked(self.plugin.enabled)
-        self.toggled.connect(self.on_toggle)
-
-        layout = QVBoxLayout()
-        self.setLayout(layout)
-
-        self.checkboxes = []
-        for option in self.plugin.options:
-            checkbox = PluginOptionCheckbox(option)
-            checkbox.setEnabled(self.plugin.enabled)
-            layout.addWidget(checkbox)
-            self.checkboxes.append(checkbox)
-
-        if not self.plugin.options:
-            layout.addWidget(QLabel("Plugin has no settings."))
-
-    def on_toggle(self, enabled: bool) -> None:
-        self.plugin.enabled = enabled
-        for checkbox in self.checkboxes:
-            checkbox.setEnabled(enabled)
-
-
-class PluginsPage(QtWidgets.QWizardPage):
-    def __init__(self, lua_plugins_manager: LuaPluginManager, parent=None) -> None:
-        super().__init__(parent)
-        self.lua_plugins_manager = lua_plugins_manager
-
-        self.setTitle("Plugins")
-        self.setSubTitle("Enable plugins with the checkbox next to their name")
-        self.setPixmap(
-            QtWidgets.QWizard.LogoPixmap,
-            QtGui.QPixmap("./resources/ui/wizard/logo1.png"),
-        )
-
-        main_layout = QVBoxLayout()
-        self.setLayout(main_layout)
-
-        scroll_content = QWidget()
-        layout = QVBoxLayout()
-        scroll_content.setLayout(layout)
-        scroll = QScrollArea()
-        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        scroll.setWidgetResizable(True)
-        scroll.setWidget(scroll_content)
-        main_layout.addWidget(scroll)
-
-        self.group_boxes = []
-        for plugin in self.lua_plugins_manager.iter_plugins():
-            if plugin.show_in_ui:
-                group_box = PluginGroupBox(plugin)
-                layout.addWidget(group_box)
-                self.group_boxes.append(group_box)
-
-
 class GeneratorOptions(QtWidgets.QWizardPage):
-    def __init__(
-        self, default_settings: Settings, mod_settings: ModSettings, parent=None
-    ) -> None:
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.setTitle("Generator settings")
         self.setSubTitle("\nOptions affecting the generation of the game.")
@@ -743,14 +623,13 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         no_lha = QtWidgets.QCheckBox()
         self.registerField("no_lha", no_lha)
         supercarrier = QtWidgets.QCheckBox()
-        supercarrier.setChecked(default_settings.supercarrier)
         self.registerField("supercarrier", supercarrier)
         no_player_navy = QtWidgets.QCheckBox()
         self.registerField("no_player_navy", no_player_navy)
         no_enemy_navy = QtWidgets.QCheckBox()
         self.registerField("no_enemy_navy", no_enemy_navy)
         desired_player_mission_duration = TimeInputs(
-            default_settings.desired_player_mission_duration, minimum=30, maximum=150
+            DEFAULT_MISSION_LENGTH, minimum=30, maximum=150
         )
         self.registerField(
             "desired_player_mission_duration", desired_player_mission_duration.spinner
@@ -772,49 +651,27 @@ class GeneratorOptions(QtWidgets.QWizardPage):
         generatorSettingsGroup.setLayout(generatorLayout)
 
         modSettingsGroup = QtWidgets.QGroupBox("Mod Settings")
-
         a4_skyhawk = QtWidgets.QCheckBox()
-        a4_skyhawk.setChecked(mod_settings.a4_skyhawk)
         self.registerField("a4_skyhawk", a4_skyhawk)
-
         hercules = QtWidgets.QCheckBox()
-        hercules.setChecked(mod_settings.hercules)
         self.registerField("hercules", hercules)
-
         uh_60l = QtWidgets.QCheckBox()
-        uh_60l.setChecked(mod_settings.uh_60l)
         self.registerField("uh_60l", uh_60l)
-
         f22_raptor = QtWidgets.QCheckBox()
-        f22_raptor.setChecked(mod_settings.f22_raptor)
         self.registerField("f22_raptor", f22_raptor)
-
         f104_starfighter = QtWidgets.QCheckBox()
-        f104_starfighter.setChecked(mod_settings.f104_starfighter)
         self.registerField("f104_starfighter", f104_starfighter)
-
         f4_phantom = QtWidgets.QCheckBox()
-        f4_phantom.setChecked(mod_settings.f4_phantom)
         self.registerField("f4_phantom", f4_phantom)
-
         jas39_gripen = QtWidgets.QCheckBox()
-        jas39_gripen.setChecked(mod_settings.jas39_gripen)
         self.registerField("jas39_gripen", jas39_gripen)
-
         su57_felon = QtWidgets.QCheckBox()
-        su57_felon.setChecked(mod_settings.su57_felon)
         self.registerField("su57_felon", su57_felon)
-
         ov10a_bronco = QtWidgets.QCheckBox()
-        ov10a_bronco.setChecked(mod_settings.ov10a_bronco)
         self.registerField("ov10a_bronco", ov10a_bronco)
-
         frenchpack = QtWidgets.QCheckBox()
-        frenchpack.setChecked(mod_settings.frenchpack)
         self.registerField("frenchpack", frenchpack)
-
         high_digit_sams = QtWidgets.QCheckBox()
-        high_digit_sams.setChecked(mod_settings.high_digit_sams)
         self.registerField("high_digit_sams", high_digit_sams)
 
         modHelpText = QtWidgets.QLabel(

@@ -31,10 +31,8 @@ class Squadron:
     country: str
     role: str
     aircraft: AircraftType
-    max_size: int
     livery: Optional[str]
-    primary_task: FlightType
-    auto_assignable_mission_types: set[FlightType]
+    mission_types: tuple[FlightType, ...]
     operating_bases: OperatingBases
     female_pilot_percentage: int
 
@@ -46,6 +44,10 @@ class Squadron:
     current_roster: list[Pilot] = field(default_factory=list, init=False, hash=False)
     available_pilots: list[Pilot] = field(
         default_factory=list, init=False, hash=False, compare=False
+    )
+
+    auto_assignable_mission_types: set[FlightType] = field(
+        init=False, hash=False, compare=False
     )
 
     coalition: Coalition = field(hash=False, compare=False)
@@ -60,6 +62,9 @@ class Squadron:
     owned_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     untasked_aircraft: int = field(init=False, hash=False, compare=False, default=0)
     pending_deliveries: int = field(init=False, hash=False, compare=False, default=0)
+
+    def __post_init__(self) -> None:
+        self.auto_assignable_mission_types = set(self.mission_types)
 
     def __str__(self) -> str:
         if self.nickname is None:
@@ -89,12 +94,16 @@ class Squadron:
     def pilot_limits_enabled(self) -> bool:
         return self.settings.enable_squadron_pilot_limits
 
+    def set_allowed_mission_types(self, mission_types: Iterable[FlightType]) -> None:
+        self.mission_types = tuple(mission_types)
+        self.auto_assignable_mission_types.intersection_update(self.mission_types)
+
     def set_auto_assignable_mission_types(
         self, mission_types: Iterable[FlightType]
     ) -> None:
-        self.auto_assignable_mission_types = {
-            t for t in mission_types if self.capable_of(t)
-        }
+        self.auto_assignable_mission_types = set(self.mission_types).intersection(
+            mission_types
+        )
 
     def claim_new_pilot_if_allowed(self) -> Optional[Pilot]:
         if self.pilot_limits_enabled:
@@ -162,12 +171,10 @@ class Squadron:
         self.current_roster.extend(new_pilots)
         self.available_pilots.extend(new_pilots)
 
-    def populate_for_turn_0(self, squadrons_start_full: bool) -> None:
+    def populate_for_turn_0(self) -> None:
         if any(p.status is not PilotStatus.Active for p in self.pilot_pool):
             raise ValueError("Squadrons can only be created with active pilots.")
         self._recruit_pilots(self.settings.squadron_pilot_limit)
-        if squadrons_start_full:
-            self.owned_aircraft = self.max_size
 
     def end_turn(self) -> None:
         if self.destination is not None:
@@ -205,7 +212,7 @@ class Squadron:
         return [p for p in self.current_roster if p.status != status]
 
     @property
-    def pilot_limit(self) -> int:
+    def max_size(self) -> int:
         return self.settings.squadron_pilot_limit
 
     @property
@@ -233,7 +240,7 @@ class Squadron:
 
     @property
     def _number_of_unfilled_pilot_slots(self) -> int:
-        return self.pilot_limit - len(self.active_pilots)
+        return self.max_size - len(self.active_pilots)
 
     @property
     def number_of_available_pilots(self) -> int:
@@ -250,20 +257,7 @@ class Squadron:
     def has_unfilled_pilot_slots(self) -> bool:
         return not self.pilot_limits_enabled or self._number_of_unfilled_pilot_slots > 0
 
-    def capable_of(self, task: FlightType) -> bool:
-        """Returns True if the squadron is capable of performing the given task.
-
-        A squadron may be capable of performing a task even if it will not be
-        automatically assigned to it.
-        """
-        return self.aircraft.capable_of(task)
-
     def can_auto_assign(self, task: FlightType) -> bool:
-        """Returns True if the squadron may be automatically assigned the given task.
-
-        A squadron may be capable of performing a task even if it will not be
-        automatically assigned to it.
-        """
         return task in self.auto_assignable_mission_types
 
     def can_auto_assign_mission(
@@ -336,12 +330,6 @@ class Squadron:
     @property
     def expected_size_next_turn(self) -> int:
         return self.owned_aircraft + self.pending_deliveries
-
-    def has_aircraft_capacity_for(self, n: int) -> bool:
-        if not self.settings.enable_squadron_aircraft_limits:
-            return True
-        remaining = self.max_size - self.owned_aircraft - self.pending_deliveries
-        return remaining >= n
 
     @property
     def arrival(self) -> ControlPoint:
@@ -432,8 +420,6 @@ class Squadron:
     def create_from(
         cls,
         squadron_def: SquadronDef,
-        primary_task: FlightType,
-        max_size: int,
         base: ControlPoint,
         coalition: Coalition,
         game: Game,
@@ -445,10 +431,8 @@ class Squadron:
             squadron_def.country,
             squadron_def.role,
             squadron_def.aircraft,
-            max_size,
             squadron_def.livery,
-            primary_task,
-            squadron_def.auto_assignable_mission_types,
+            squadron_def.mission_types,
             squadron_def.operating_bases,
             squadron_def.female_pilot_percentage,
             squadron_def.pilot_pool,

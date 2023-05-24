@@ -10,7 +10,6 @@ from dcs.unit import Skill
 from dcs.unitgroup import FlyingGroup
 
 from game.ato import Flight, FlightType
-from game.ato.flightplans.shiprecoverytanker import RecoveryTankerFlightPlan
 from game.callsigns import callsign_for_support_unit
 from game.data.weapons import Pylon, WeaponType as WeaponTypeEnum
 from game.missiongenerator.lasercoderegistry import LaserCodeRegistry
@@ -80,18 +79,14 @@ class FlightGroupConfigurator:
         if self.flight.flight_type in [
             FlightType.TRANSPORT,
             FlightType.AIR_ASSAULT,
-        ] and self.game.lua_plugin_manager.is_plugin_enabled("ctld"):
+        ] and self.game.settings.plugin_option("ctld"):
             transfer = None
             if self.flight.flight_type == FlightType.TRANSPORT:
                 coalition = self.game.coalition_for(player=self.flight.blue)
                 transfer = coalition.transfers.transfer_for_flight(self.flight)
             self.mission_data.logistics.append(
                 LogisticsGenerator(
-                    self.flight,
-                    self.group,
-                    self.mission,
-                    self.game.lua_plugin_manager,
-                    transfer,
+                    self.flight, self.group, self.mission, self.game.settings, transfer
                 ).generate_logistics()
             )
 

@@ -20,7 +20,6 @@ def bounded_int_option(
     detail: Optional[str] = None,
     tooltip: Optional[str] = None,
     causes_expensive_game_update: bool = False,
-    remember_player_choice: bool = False,
     **kwargs: Any,
 ) -> int:
     return field(
@@ -32,7 +31,6 @@ def bounded_int_option(
                 detail,
                 tooltip,
                 causes_expensive_game_update,
-                remember_player_choice,
                 min=min,
                 max=max,
             )

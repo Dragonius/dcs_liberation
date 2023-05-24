@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import itertools
 from collections import defaultdict
-from typing import Iterator, Optional, Sequence, TYPE_CHECKING
+from typing import Sequence, Iterator, TYPE_CHECKING, Optional
 
-from game.ato.closestairfields import ObjectiveDistanceCache
 from game.dcs.aircrafttype import AircraftType
+from game.ato.ai_flight_planner_db import aircraft_for_task
+from game.ato.closestairfields import ObjectiveDistanceCache
 from .squadrondefloader import SquadronDefLoader
 from ..campaignloader.squadrondefgenerator import SquadronDefGenerator
 from ..factions.faction import Faction
@@ -23,7 +24,6 @@ class AirWing:
         self.squadrons: dict[AircraftType, list[Squadron]] = defaultdict(list)
         self.squadron_defs = SquadronDefLoader(game, faction).load()
         self.squadron_def_generator = SquadronDefGenerator(faction)
-        self.settings = game.settings
 
     def unclaim_squadron_def(self, squadron: Squadron) -> None:
         if squadron.aircraft in self.squadron_defs:
@@ -48,7 +48,7 @@ class AirWing:
         self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
     ) -> list[Squadron]:
         airfield_cache = ObjectiveDistanceCache.get_closest_airfields(location)
-        best_aircraft = AircraftType.priority_list_for_task(task)
+        best_aircraft = aircraft_for_task(task)
         ordered: list[Squadron] = []
         for control_point in airfield_cache.operational_airfields:
             if control_point.captured != self.player:
@@ -67,16 +67,7 @@ class AirWing:
                     key=lambda s: best_aircraft.index(s.aircraft),
                 )
             )
-
-        return sorted(
-            ordered,
-            key=lambda s: (
-                # This looks like the opposite of what we want because False sorts
-                # before True.
-                s.primary_task != task,
-                s.location.distance_to(location),
-            ),
-        )
+        return ordered
 
     def best_squadron_for(
         self, location: MissionTarget, task: FlightType, size: int, this_turn: bool
@@ -88,10 +79,10 @@ class AirWing:
     def best_available_aircrafts_for(self, task: FlightType) -> list[AircraftType]:
         """Returns an ordered list of available aircrafts for the given task"""
         aircrafts = []
-        best_aircraft_for_task = AircraftType.priority_list_for_task(task)
+        best_aircraft_for_task = aircraft_for_task(task)
         for aircraft, squadrons in self.squadrons.items():
             for squadron in squadrons:
-                if squadron.untasked_aircraft and squadron.capable_of(task):
+                if squadron.untasked_aircraft and task in squadron.mission_types:
                     aircrafts.append(aircraft)
                     if aircraft not in best_aircraft_for_task:
                         best_aircraft_for_task.append(aircraft)
@@ -123,9 +114,9 @@ class AirWing:
     def squadron_at_index(self, index: int) -> Squadron:
         return list(self.iter_squadrons())[index]
 
-    def populate_for_turn_0(self, squadrons_start_full: bool) -> None:
+    def populate_for_turn_0(self) -> None:
         for squadron in self.iter_squadrons():
-            squadron.populate_for_turn_0(squadrons_start_full)
+            squadron.populate_for_turn_0()
 
     def end_turn(self) -> None:
         for squadron in self.iter_squadrons():

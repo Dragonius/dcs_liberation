@@ -1,6 +1,7 @@
 from typing import Any, Dict, Set
 
 from dcs import task
+from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -578,6 +579,7 @@ class A_4E_C(PlaneType):
                 x_14_seconds = 7
 
     livery_name = "A-4E-C"  # from type
+    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         LAU_7_with_AIM_9B_Sidewinder_IR_AAM = (

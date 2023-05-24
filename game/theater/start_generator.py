@@ -2,13 +2,11 @@ from __future__ import annotations
 
 import logging
 import random
-from dataclasses import dataclass, fields
+from dataclasses import dataclass
 from datetime import datetime, time
-from pathlib import Path
 from typing import List
 
 import dcs.statics
-import yaml
 
 from game import Game
 from game.factions.faction import Faction
@@ -33,8 +31,6 @@ from ..armedforces.armedforces import ArmedForces
 from ..armedforces.forcegroup import ForceGroup
 from ..campaignloader.campaignairwingconfig import CampaignAirWingConfig
 from ..data.groups import GroupTask
-from ..persistence.paths import liberation_user_dir
-from ..plugins import LuaPluginManager
 from ..profiling import logged_duration
 from ..settings import Settings
 
@@ -67,38 +63,6 @@ class ModSettings:
     high_digit_sams: bool = False
     ov10a_bronco: bool = False
 
-    def save_player_settings(self) -> None:
-        """Saves the player's global settings to the user directory."""
-        settings: dict[str, dict[str, bool]] = {}
-        for field in fields(self):
-            settings[field.name] = self.__dict__[field.name]
-
-        with self._player_settings_file.open("w", encoding="utf-8") as settings_file:
-            yaml.dump(settings, settings_file, sort_keys=False, explicit_start=True)
-
-    def merge_player_settings(self) -> None:
-        """Updates with the player's global settings."""
-        settings_path = self._player_settings_file
-        if not settings_path.exists():
-            return
-        with settings_path.open(encoding="utf-8") as settings_file:
-            data = yaml.safe_load(settings_file)
-
-        for mod_name, enabled in data.items():
-            if mod_name not in self.__dict__:
-                logging.warning(
-                    "Unexpected mod key found in %s: %s. Ignoring.",
-                    settings_path,
-                    mod_name,
-                )
-                continue
-            self.__dict__[mod_name] = enabled
-
-    @property
-    def _player_settings_file(self) -> Path:
-        """Returns the path to the player's global settings file."""
-        return liberation_user_dir() / "mods.yaml"
-
 
 class GameGenerator:
     def __init__(
@@ -110,7 +74,6 @@ class GameGenerator:
         settings: Settings,
         generator_settings: GeneratorSettings,
         mod_settings: ModSettings,
-        lua_plugin_manager: LuaPluginManager,
     ) -> None:
         self.player = player
         self.enemy = enemy
@@ -120,7 +83,6 @@ class GameGenerator:
         self.generator_settings = generator_settings
         self.player.apply_mod_settings(mod_settings)
         self.enemy.apply_mod_settings(mod_settings)
-        self.lua_plugin_manager = lua_plugin_manager
 
     def generate(self) -> Game:
         with logged_duration("TGO population"):
@@ -135,7 +97,6 @@ class GameGenerator:
                 start_date=self.generator_settings.start_date,
                 start_time=self.generator_settings.start_time,
                 settings=self.settings,
-                lua_plugin_manager=self.lua_plugin_manager,
                 player_budget=self.generator_settings.player_budget,
                 enemy_budget=self.generator_settings.enemy_budget,
             )

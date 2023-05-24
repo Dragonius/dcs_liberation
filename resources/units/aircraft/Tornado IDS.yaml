@@ -1,10 +1,9 @@
-description:
-  "The Panavia Tornado is a family of twin-engine, variable-sweep wing
+description: 'The Panavia Tornado is a family of twin-engine, variable-sweep wing
   multirole combat aircraft, jointly developed and manufactured by Italy, the United
   Kingdom and West Germany. There are three primary Tornado variants: the Tornado
   IDS (interdictor/strike) fighter-bomber, the suppression of enemy air defences Tornado
   ECR (electronic combat/reconnaissance) and the Tornado ADV (air defence variant)
-  interceptor aircraft."
+  interceptor aircraft.'
 introduced: 1979
 manufacturer: Panavia
 origin: UK/Italy/West Germany
@@ -12,13 +11,3 @@ price: 17
 role: Strike Fighter
 variants:
   Tornado IDS: {}
-tasks:
-  Anti-ship: 80
-  BAI: 720
-  CAS: 720
-  DEAD: 430
-  OCA/Aircraft: 720
-  OCA/Runway: 530
-  SEAD: 150
-  SEAD Escort: 150
-  Strike: 530

@@ -1,6 +1,7 @@
-from typing import Set
+from typing import Any, Dict, Set
 
 from dcs import task
+from dcs.liveries_scanner import Liveries
 from dcs.planes import PlaneType
 from dcs.weapons_data import Weapons
 
@@ -41,6 +42,7 @@ class Bronco_OV_10A(PlaneType):
     }
 
     livery_name = "BRONCO-OV-10A"  # from type
+    Liveries = Liveries()[livery_name]
 
     class Pylon1:
         LAU_7_with_AIM_9P_Sidewinder_IR_AAM = (

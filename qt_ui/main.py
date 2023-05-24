@@ -7,7 +7,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-import yaml
 from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
@@ -15,13 +14,10 @@ from PySide6.QtWidgets import QApplication, QCheckBox, QSplashScreen
 from dcs.payloads import PayloadDirectories
 
 from game import Game, VERSION, logging_config, persistence
-from game.ato import FlightType
 from game.campaignloader.campaign import Campaign, DEFAULT_BUDGET
 from game.data.weapons import Pylon, Weapon, WeaponGroup
 from game.dcs.aircrafttype import AircraftType
-from game.factions.factions import Factions
-from game.persistence.paths import liberation_user_dir
-from game.plugins import LuaPluginManager
+from game.factions import FACTIONS
 from game.profiling import logged_duration
 from game.server import EventStream, Server
 from game.settings import Settings
@@ -222,15 +218,6 @@ def parse_args() -> argparse.Namespace:
     )
 
     new_game.add_argument(
-        "--use-new-squadron-rules",
-        action="store_true",
-        help=(
-            "Limit the number of aircraft per squadron and begin the campaign with "
-            "them at full strength."
-        ),
-    )
-
-    new_game.add_argument(
         "--inverted", action="store_true", help="Invert the campaign."
     )
 
@@ -256,8 +243,6 @@ def parse_args() -> argparse.Namespace:
     lint_weapons = subparsers.add_parser("lint-weapons")
     lint_weapons.add_argument("aircraft", help="Name of the aircraft variant to lint.")
 
-    subparsers.add_parser("dump-task-priorities")
-
     return parser.parse_args()
 
 
@@ -272,7 +257,6 @@ def create_game(
     start_date: datetime,
     restrict_weapons_by_date: bool,
     advanced_iads: bool,
-    use_new_squadron_rules: bool,
 ) -> Game:
     first_start = liberation_install.init()
     if first_start:
@@ -291,12 +275,9 @@ def create_game(
     inject_custom_payloads(Path(persistence.base_path()))
     campaign = Campaign.from_file(campaign_path)
     theater = campaign.load_theater(advanced_iads)
-    faction_loader = Factions.load()
-    lua_plugin_manager = LuaPluginManager.load()
-    lua_plugin_manager.merge_player_settings()
     generator = GameGenerator(
-        faction_loader.get_by_name(blue),
-        faction_loader.get_by_name(red),
+        FACTIONS[blue],
+        FACTIONS[red],
         theater,
         campaign.load_air_wing_config(theater),
         Settings(
@@ -307,7 +288,6 @@ def create_game(
             enable_frontline_cheats=cheats,
             enable_base_capture_cheat=cheats,
             restrict_weapons_by_date=restrict_weapons_by_date,
-            enable_squadron_aircraft_limits=use_new_squadron_rules,
         ),
         GeneratorSettings(
             start_date=start_date,
@@ -331,10 +311,9 @@ def create_game(
             frenchpack=False,
             high_digit_sams=False,
         ),
-        lua_plugin_manager,
     )
     game = generator.generate()
-    game.begin_turn_0(squadrons_start_full=use_new_squadron_rules)
+    game.begin_turn_0()
     return game
 
 
@@ -372,27 +351,6 @@ def fix_pycharm_debugger_if_needed() -> None:
         ntpath.sep = "\\"
 
 
-def dump_task_priorities() -> None:
-    first_start = liberation_install.init()
-    if first_start:
-        sys.exit(
-            "Cannot dump task priorities without configuring DCS Liberation. Start the"
-            "UI for the first run configuration."
-        )
-
-    data: dict[str, dict[str, int]] = {}
-    for task in FlightType:
-        data[task.value] = {
-            a.name: a.task_priority(task)
-            for a in AircraftType.priority_list_for_task(task)
-        }
-
-    debug_path = liberation_user_dir() / "Debug" / "priorities.yaml"
-    debug_path.parent.mkdir(parents=True, exist_ok=True)
-    with debug_path.open("w", encoding="utf-8") as output:
-        yaml.dump(data, output, sort_keys=False, allow_unicode=True)
-
-
 def main():
     logging_config.init_logging(VERSION)
 
@@ -428,13 +386,9 @@ def main():
                 args.date,
                 args.restrict_weapons_by_date,
                 args.advanced_iads,
-                args.use_new_squadron_rules,
             )
     if args.subcommand == "lint-weapons":
         lint_weapon_data_for_aircraft(AircraftType.named(args.aircraft))
-        return
-    if args.subcommand == "dump-task-priorities":
-        dump_task_priorities()
         return
 
     with Server().run_in_thread():

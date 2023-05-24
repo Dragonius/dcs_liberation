@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import dataclasses
 import logging
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING, Dict, Union
 
 from game.squadrons import Squadron
 from game.squadrons.squadrondef import SquadronDef
-from .campaignairwingconfig import CampaignAirWingConfig, SquadronConfig
 from ..ato.flighttype import FlightType
+from .campaignairwingconfig import CampaignAirWingConfig, SquadronConfig
 from ..dcs.aircrafttype import AircraftType
 from ..theater import ControlPoint
 
@@ -43,12 +44,7 @@ class DefaultSquadronAssigner:
                     continue
 
                 squadron = Squadron.create_from(
-                    squadron_def,
-                    squadron_config.primary,
-                    squadron_config.max_size,
-                    control_point,
-                    self.coalition,
-                    self.game,
+                    squadron_def, control_point, self.coalition, self.game
                 )
                 squadron.set_auto_assignable_mission_types(
                     squadron_config.auto_assignable
@@ -58,6 +54,7 @@ class DefaultSquadronAssigner:
     def find_squadron_for(
         self, config: SquadronConfig, control_point: ControlPoint
     ) -> Optional[SquadronDef]:
+
         for preferred_aircraft in config.aircraft:
             squadron_def = self.find_preferred_squadron(
                 preferred_aircraft, config.primary, control_point
@@ -65,14 +62,13 @@ class DefaultSquadronAssigner:
             if squadron_def is not None:
                 return squadron_def
 
-        # If we didn't find any of the preferred types (if the list contains only
-        # squadrons or aircraft unavailable to the coalition) we should use any squadron
+        # If we didn't find any of the preferred types we should use any squadron
         # compatible with the primary task.
         squadron_def = self.find_squadron_for_task(config.primary, control_point)
         if squadron_def is not None:
             return squadron_def
 
-        # If we can't find any pre-made squadron matching the requirement, we should
+        # If we can't find any squadron matching the requirement, we should
         # create one.
         return self.air_wing.squadron_def_generator.generate_for_task(
             config.primary, control_point
@@ -93,11 +89,7 @@ class DefaultSquadronAssigner:
         try:
             aircraft = AircraftType.named(preferred_aircraft)
         except KeyError:
-            logging.warning(
-                "%s is neither a compatible squadron or a known aircraft type, "
-                "ignoring",
-                preferred_aircraft,
-            )
+            # No aircraft with this name.
             return None
 
         if aircraft not in self.coalition.faction.aircrafts:
@@ -120,7 +112,7 @@ class DefaultSquadronAssigner:
     ) -> bool:
         if ignore_base_preference:
             return control_point.can_operate(squadron.aircraft)
-        return squadron.operates_from(control_point) and squadron.capable_of(task)
+        return squadron.operates_from(control_point) and task in squadron.mission_types
 
     def find_squadron_for_airframe(
         self, aircraft: AircraftType, task: FlightType, control_point: ControlPoint
