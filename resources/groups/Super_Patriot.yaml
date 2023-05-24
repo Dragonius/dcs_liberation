@@ -1,4 +1,4 @@
-name: Patriot Super
+name: Super Patriot
 tasks:
   - LORAD
 units:
@@ -9,4 +9,4 @@ units:
   - SAM Patriot EPP-III
   - SAM Patriot LN
 layouts:
-  - Patriot Battery Super
+  - Patriot Battery
