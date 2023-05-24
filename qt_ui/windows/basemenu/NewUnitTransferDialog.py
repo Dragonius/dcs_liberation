@@ -163,7 +163,7 @@ class ScrollingUnitTransferGrid(QFrame):
         super().__init__()
         self.cp = cp
         self.game_model = game_model
-        self.transfers: Dict[Type[UnitType], int] = defaultdict(int)
+        self.transfers: Dict[Type[UnitType, int]] = defaultdict(int)
 
         main_layout = QVBoxLayout()
 

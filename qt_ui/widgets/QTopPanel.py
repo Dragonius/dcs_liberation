@@ -41,8 +41,7 @@ class QTopPanel(QFrame):
         self.sim_controller = sim_controller
         self.dialog: Optional[QDialog] = None
 
-        self.setMinimumHeight(70)
-        self.setMaximumHeight(100)
+        self.setMaximumHeight(70)
 
         self.conditionsWidget = QConditionsWidget(sim_controller)
         self.budgetBox = QBudgetBox(self.game)
@@ -84,18 +83,14 @@ class QTopPanel(QFrame):
         self.buttonBoxLayout.addWidget(self.transfers)
         self.buttonBox.setLayout(self.buttonBoxLayout)
 
-        self.proceedBox = QGroupBox("Controls")
+        self.proceedBox = QGroupBox("Proceed")
         self.proceedBoxLayout = QVBoxLayout()
         if ui_flags.show_sim_speed_controls:
             self.proceedBoxLayout.addLayout(SimSpeedControls(sim_controller))
         self.proceedBoxLayout.addLayout(MaxPlayerCount(self.game_model.ato_model))
+        self.proceedBoxLayout.addWidget(self.passTurnButton)
+        self.proceedBoxLayout.addWidget(self.proceedButton)
         self.proceedBox.setLayout(self.proceedBoxLayout)
-
-        self.proceed2Box = QGroupBox("Proceed")
-        self.proceed2BoxLayout = QVBoxLayout()
-        self.proceed2BoxLayout.addWidget(self.passTurnButton)
-        self.proceed2BoxLayout.addWidget(self.proceedButton)
-        self.proceed2Box.setLayout(self.proceed2BoxLayout)
 
         self.layout = QHBoxLayout()
 
@@ -104,9 +99,8 @@ class QTopPanel(QFrame):
         self.layout.addWidget(self.budgetBox)
         self.layout.addWidget(self.intel_box)
         self.layout.addWidget(self.buttonBox)
-        # self.layout.addStretch(1)
+        self.layout.addStretch(1)
         self.layout.addWidget(self.proceedBox)
-        self.layout.addWidget(self.proceed2Box)
 
         self.layout.setContentsMargins(0, 0, 0, 0)
 

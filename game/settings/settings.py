@@ -1,9 +1,12 @@
+import logging
 from collections.abc import Iterator
-from dataclasses import Field, dataclass, field, fields
+from dataclasses import Field, dataclass, fields
 from datetime import timedelta
 from enum import Enum, unique
-from typing import Any, Dict, Optional
+from pathlib import Path
+from typing import Any, Optional, get_type_hints
 
+import yaml
 from dcs.forcedoptions import ForcedOptions
 
 from .booleanoption import boolean_option
@@ -14,6 +17,7 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
+from ..persistence.paths import liberation_user_dir
 
 
 @unique
@@ -248,6 +252,15 @@ class Settings:
             "this many pilots each turn up to the limit."
         ),
     )
+    # Feature flag for squadron limits.
+    enable_squadron_aircraft_limits: bool = boolean_option(
+        "Enable per-squadron aircraft limits",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=False,
+        remember_player_choice=True,
+        detail="If set, squadrons will be limited to a maximum number of aircraft.",
+    )
 
     # HQ Automation
     automate_runway_repair: bool = boolean_option(
@@ -255,18 +268,21 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     automate_front_line_reinforcements: bool = boolean_option(
         "Automate front-line purchases",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     automate_aircraft_reinforcements: bool = boolean_option(
         "Automate aircraft purchases",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     auto_ato_behavior: AutoAtoBehavior = choices_option(
         "Automatic package planning behavior",
@@ -301,7 +317,11 @@ class Settings:
         section=GAMEPLAY_SECTION,
         default=False,
         detail=(
-            "If enabled, the mission will be generated at the point of first contact."
+            "If enabled, the mission will be generated at the point of first contact. "
+            "If you enable this option, you will not be able to create new flights "
+            'after pressing "TAKE OFF". Doing so will create an error the next time '
+            'you press "TAKE OFF". Save your game first if you want to make '
+            "modifications."
         ),
     )
     player_mission_interrupts_sim_at: Optional[StartType] = choices_option(
@@ -340,6 +360,7 @@ class Settings:
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     generate_marks: bool = boolean_option(
         "Put objective markers on the map",
@@ -521,26 +542,52 @@ class Settings:
     enable_base_capture_cheat: bool = False
     enable_transfer_cheat: bool = False
 
-    # LUA Plugins system
-    plugins: Dict[str, bool] = field(default_factory=dict)
-
     only_player_takeoff: bool = True  # Legacy parameter do not use
 
-    @staticmethod
-    def plugin_settings_key(identifier: str) -> str:
-        return f"plugins.{identifier}"
+    def save_player_settings(self) -> None:
+        """Saves the player's global settings to the user directory."""
+        settings: dict[str, Any] = {}
+        for name, description in self.all_fields():
+            if description.remember_player_choice:
+                settings[name] = self.__dict__[name]
 
-    def initialize_plugin_option(self, identifier: str, default_value: bool) -> None:
-        try:
-            self.plugin_option(identifier)
-        except KeyError:
-            self.set_plugin_option(identifier, default_value)
+        with self._player_settings_file.open("w", encoding="utf-8") as settings_file:
+            yaml.dump(settings, settings_file, sort_keys=False, explicit_start=True)
 
-    def plugin_option(self, identifier: str) -> bool:
-        return self.plugins[self.plugin_settings_key(identifier)]
+    def merge_player_settings(self) -> None:
+        """Updates with the player's global settings."""
+        settings_path = self._player_settings_file
+        if not settings_path.exists():
+            return
+        with settings_path.open(encoding="utf-8") as settings_file:
+            data = yaml.safe_load(settings_file)
 
-    def set_plugin_option(self, identifier: str, enabled: bool) -> None:
-        self.plugins[self.plugin_settings_key(identifier)] = enabled
+        expected_types = get_type_hints(Settings)
+        for key, value in data.items():
+            if key not in self.__dict__:
+                logging.warning(
+                    "Unexpected settings key found in %s: %s. Ignoring.",
+                    settings_path,
+                    key,
+                )
+                continue
+
+            expected_type = expected_types[key]
+            if not isinstance(value, expected_type):
+                logging.error(
+                    "%s in %s does not have the expected type %s (is %s). Ignoring.",
+                    key,
+                    settings_path,
+                    expected_type.__name__,
+                    value.__class__.__name__,
+                )
+                continue
+            self.__dict__[key] = value
+
+    @property
+    def _player_settings_file(self) -> Path:
+        """Returns the path to the player's global settings file."""
+        return liberation_user_dir() / "settings.yaml"
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         # __setstate__ is called with the dict of the object being unpickled. We
@@ -575,11 +622,17 @@ class Settings:
                 seen.add(description.section)
 
     @classmethod
-    def fields(cls, page: str, section: str) -> Iterator[tuple[str, OptionDescription]]:
+    def all_fields(cls) -> Iterator[tuple[str, OptionDescription]]:
         for settings_field in cls._user_fields():
-            description = cls._field_description(settings_field)
+            yield settings_field.name, cls._field_description(settings_field)
+
+    @classmethod
+    def fields_for(
+        cls, page: str, section: str
+    ) -> Iterator[tuple[str, OptionDescription]]:
+        for name, description in cls.all_fields():
             if description.page == page and description.section == section:
-                yield settings_field.name, description
+                yield name, description
 
     @classmethod
     def _user_fields(cls) -> Iterator[Field[Any]]:

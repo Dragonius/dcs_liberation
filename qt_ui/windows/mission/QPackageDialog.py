@@ -43,7 +43,7 @@ class QPackageDialog(QDialog):
         self.package_model = model
         self.add_flight_dialog: Optional[QFlightCreator] = None
 
-        self.setMinimumSize(250, 50)
+        self.setMinimumSize(500, 220)
         self.setWindowTitle(
             f"Mission Package: {self.package_model.mission_target.name}"
         )

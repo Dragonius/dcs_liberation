@@ -13,7 +13,7 @@ destroyed_objects_positions = {} -- will be added via S_EVENT_DEAD event
 mission_ended = false
 
 local function ends_with(str, ending)
-    return ending == "" or str:sub(-#ending) == ending
+   return ending == "" or str:sub(-#ending) == ending
 end
 
 local function messageAll(message)
@@ -161,10 +161,6 @@ local function onEvent(event)
         write_state()
     end
 
-    if event.id == world.eventS_EVENT_UNIT_LOST and event.initiator then
-        lost_game_units[#lost_game_units + 1] = event.initiator.getName(event.initiator)
-        write_state()
-    end
     if event.id == world.event.S_EVENT_DEAD and event.initiator then
         dead_events[#dead_events + 1] = event.initiator.getName(event.initiator)
         local position = event.initiator.getPosition(event.initiator)

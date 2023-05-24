@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QStackedLayout,
     QVBoxLayout,
     QWidget,
+    QScrollArea,
 )
 
 import qt_ui.uiconstants as CONST
@@ -107,7 +108,7 @@ class AutoSettingsLayout(QGridLayout):
         self.settings = settings
         self.write_full_settings = write_full_settings
 
-        for row, (name, description) in enumerate(Settings.fields(page, section)):
+        for row, (name, description) in enumerate(Settings.fields_for(page, section)):
             self.add_label(row, description)
             if isinstance(description, BooleanOption):
                 self.add_checkbox_for(row, name, description)
@@ -123,7 +124,8 @@ class AutoSettingsLayout(QGridLayout):
                 raise TypeError(f"Unhandled option type: {description}")
 
     def add_label(self, row: int, description: OptionDescription) -> None:
-        text = f"<strong>{description.text}</strong>"
+        wrapped_title = "<br />".join(textwrap.wrap(description.text, width=55))
+        text = f"<strong>{wrapped_title}</strong>"
         if description.detail is not None:
             wrapped = "<br />".join(textwrap.wrap(description.detail, width=55))
             text += f"<br />{wrapped}"
@@ -244,7 +246,18 @@ class AutoSettingsPage(QWidget):
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__()
-        self.setLayout(AutoSettingsPageLayout(page, settings, write_full_settings))
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        scroll_content = QWidget()
+        scroll_content.setLayout(
+            AutoSettingsPageLayout(page, settings, write_full_settings)
+        )
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(scroll_content)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        layout.addWidget(scroll)
 
 
 class QSettingsWindow(QDialog):
@@ -297,7 +310,7 @@ class QSettingsWindow(QDialog):
         self.categoryModel.appendRow(cheat)
         self.right_layout.addWidget(self.cheatPage)
 
-        self.pluginsPage = PluginsPage()
+        self.pluginsPage = PluginsPage(self.game.lua_plugin_manager)
         plugins = QStandardItem("LUA Plugins")
         plugins.setIcon(CONST.ICONS["Plugins"])
         plugins.setEditable(False)
@@ -305,7 +318,7 @@ class QSettingsWindow(QDialog):
         self.categoryModel.appendRow(plugins)
         self.right_layout.addWidget(self.pluginsPage)
 
-        self.pluginsOptionsPage = PluginOptionsPage()
+        self.pluginsOptionsPage = PluginOptionsPage(self.game.lua_plugin_manager)
         pluginsOptions = QStandardItem("LUA Plugins Options")
         pluginsOptions.setIcon(CONST.ICONS["PluginsOptions"])
         pluginsOptions.setEditable(False)
