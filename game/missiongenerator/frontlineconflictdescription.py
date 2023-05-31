@@ -7,6 +7,7 @@ from typing import Optional, Tuple
 from dcs.mapping import Point
 from shapely.geometry import LineString, Point as ShapelyPoint
 from shapely.ops import nearest_points
+from game import settings
 
 from game.settings import Settings
 from game.theater.conflicttheater import ConflictTheater, FrontLine
@@ -14,7 +15,8 @@ from game.theater.controlpoint import ControlPoint
 from game.utils import Heading, dcs_to_shapely_point
 
 
-FRONTLINE_LENGTH = 40000
+# FRONTLINE_LENGTH = 40000
+FRONTLINE_LENGTH = settings.max_frontline_length * 1000
 
 
 @dataclass(frozen=True)
