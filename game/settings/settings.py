@@ -225,7 +225,7 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
-        min=12,
+        min=2,
         max=72,
         detail=(
             "Sets the maximum number of pilots a squadron may have active. "
