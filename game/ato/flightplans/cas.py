@@ -53,10 +53,11 @@ class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
 
     @property
     def engagement_distance(self) -> Distance:
-        max_length = self.flight.coalition.game.settings.max_frontline_length * 1000
-        return meters(max_length) / 2
-        # from game.missiongenerator.frontlineconflictdescription import FRONTLINE_LENGTH
-        # return meters(FRONTLINE_LENGTH) / 3
+        # max_length = self.flight.coalition.game.settings.max_frontline_length * 1000
+        # return meters(max_length) / 2
+        from game.missiongenerator.frontlineconflictdescription import FRONTLINE_LENGTH
+
+        return meters(FRONTLINE_LENGTH) / 3
 
     @property
     def combat_speed_waypoints(self) -> set[FlightWaypoint]:

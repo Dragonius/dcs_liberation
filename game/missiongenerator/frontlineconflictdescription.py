@@ -15,8 +15,8 @@ from game.theater.controlpoint import ControlPoint
 from game.utils import Heading, dcs_to_shapely_point
 
 
-# FRONTLINE_LENGTH = 40000
-FRONTLINE_LENGTH = settings.max_frontline_length * 1000
+FRONTLINE_LENGTH = 80000
+# FRONTLINE_LENGTH = self.settings.max_frontline_length * 1000
 
 
 @dataclass(frozen=True)
@@ -69,7 +69,7 @@ class FrontLineConflictDescription:
         attack_heading = frontline.blue_forward_heading
         position = cls.find_ground_position(
             frontline.position,
-            settings.max_frontline_length * 1000,
+            FRONTLINE_LENGTH,
             attack_heading.right,
             theater,
         )
@@ -87,13 +87,13 @@ class FrontLineConflictDescription:
         right_heading = heading.right
         left_position = cls.extend_ground_position(
             center_position,
-            int(settings.max_frontline_length * 1000 / 2),
+            int(FRONTLINE_LENGTH / 2),
             left_heading,
             theater,
         )
         right_position = cls.extend_ground_position(
             center_position,
-            int(settings.max_frontline_length * 1000 / 2),
+            int(FRONTLINE_LENGTH / 2),
             right_heading,
             theater,
         )
