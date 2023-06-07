@@ -151,7 +151,7 @@ def run_ui(game: Game | None, ui_flags: UiFlags) -> None:
     window = QLiberationWindow(game, ui_flags)
     window.showMaximized()
     splash.finish(window)
-    qt_execution_code = app.exec_()
+    qt_execution_code = app.exec()
 
     # Restore Mission Scripting file
     logging.info("QT App terminated with status code : " + str(qt_execution_code))
