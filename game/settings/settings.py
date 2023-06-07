@@ -81,7 +81,7 @@ class Settings:
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
-        max=5,
+        max=50,
         divisor=10,
         default=1.0,
     )
@@ -90,7 +90,7 @@ class Settings:
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
-        max=5,
+        max=50,
         divisor=10,
         default=1.0,
     )
@@ -231,7 +231,7 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
-        min=12,
+        min=4,
         max=72,
         detail=(
             "Sets the maximum number of pilots a squadron may have active. "
@@ -246,7 +246,7 @@ class Settings:
         PILOTS_AND_SQUADRONS_SECTION,
         default=4,
         min=1,
-        max=20,
+        max=200,
         detail=(
             "Sets the maximum number of pilots that will be recruited to each squadron "
             "at the end of each turn. Squadrons will not recruit new pilots beyond the "
@@ -460,8 +460,25 @@ class Settings:
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=timedelta(minutes=60),
+        min=15,
+        max=300,
+    )
+    desired_tanker_on_station_time: timedelta = minutes_option(
+        "Desired tanker on-station time",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=timedelta(minutes=60),
         min=30,
-        max=150,
+        max=180,
+    )
+    # Mission specific
+    max_frontline_length: int = bounded_int_option(
+        "Maximum frontline length (km)",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=80,
+        min=1,
+        max=100,
     )
 
     # Performance
