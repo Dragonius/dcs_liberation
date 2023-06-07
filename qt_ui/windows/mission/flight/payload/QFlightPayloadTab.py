@@ -3,7 +3,7 @@ from PySide6.QtWidgets import (
     QComboBox,
     QFrame,
     QLabel,
-    QHBoxLayout,
+    QVBoxLayout,
 )
 
 from game import Game
@@ -33,7 +33,7 @@ class QFlightPayloadTab(QFrame):
         self.payload_editor = QLoadoutEditor(flight, game)
         self.payload_editor.toggled.connect(self.on_custom_toggled)
 
-        layout = QHBoxLayout()
+        layout = QVBoxLayout()
 
         # Docs Link
         docsText = QLabel(

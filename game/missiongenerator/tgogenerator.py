@@ -103,7 +103,7 @@ class GroundObjectGenerator:
                         # Special handling for scenery objects
                         self.add_trigger_zone_for_scenery(unit)
                         if (
-                            self.game.settings.plugin_option("skynetiads")
+                            self.game.lua_plugin_manager.is_plugin_enabled("skynetiads")
                             and self.game.theater.iads_network.advanced_iads
                             and isinstance(group, IadsGroundGroup)
                             and group.iads_role.participate
@@ -315,6 +315,10 @@ class MissileSiteGenerator(GroundObjectGenerator):
 
     def generate(self) -> None:
         super(MissileSiteGenerator, self).generate()
+
+        if not self.game.settings.generate_fire_tasks_for_missile_sites:
+            return
+
         # Note : Only the SCUD missiles group can fire (V1 site cannot fire in game right now)
         # TODO : Should be pre-planned ?
         # TODO : Add delay to task to spread fire task over mission duration ?

@@ -21,8 +21,7 @@ from qt_ui.delegates import TwoColumnRowDelegate
 from qt_ui.errorreporter import report_errors
 from qt_ui.models import AtoModel, SquadronModel
 from qt_ui.simcontroller import SimController
-from game.ato.flightplans.custom import CustomFlightPlan
-from game.ato.flightwaypointtype import FlightWaypointType
+from qt_ui.widgets.combos.primarytaskselector import PrimaryTaskSelector
 
 
 class PilotDelegate(TwoColumnRowDelegate):
@@ -79,11 +78,12 @@ class AutoAssignedTaskControls(QVBoxLayout):
 
             return callback
 
-        for task in squadron_model.squadron.mission_types:
-            checkbox = QCheckBox(text=task.value)
-            checkbox.setChecked(squadron_model.is_auto_assignable(task))
-            checkbox.toggled.connect(make_callback(task))
-            self.addWidget(checkbox)
+        for task in FlightType:
+            if self.squadron_model.squadron.capable_of(task):
+                checkbox = QCheckBox(text=task.value)
+                checkbox.setChecked(squadron_model.is_auto_assignable(task))
+                checkbox.toggled.connect(make_callback(task))
+                self.addWidget(checkbox)
 
         self.addStretch()
 
@@ -145,7 +145,7 @@ class SquadronDialog(QDialog):
         self.squadron_model = squadron_model
         self.sim_controller = sim_controller
 
-        self.setMinimumSize(200, 220)
+        self.setMinimumSize(1000, 440)
         self.setWindowTitle(str(squadron_model.squadron))
         # TODO: self.setWindowIcon()
 
@@ -155,8 +155,20 @@ class SquadronDialog(QDialog):
         columns = QHBoxLayout()
         layout.addLayout(columns)
 
+        left_column = QVBoxLayout()
+        columns.addLayout(left_column)
+
+        left_column.addWidget(QLabel("Primary task"))
+        self.primary_task_selector = PrimaryTaskSelector.for_squadron(
+            self.squadron_model.squadron
+        )
+        self.primary_task_selector.currentIndexChanged.connect(
+            self.on_task_index_changed
+        )
+        left_column.addWidget(self.primary_task_selector)
+
         auto_assigned_tasks = AutoAssignedTaskControls(squadron_model)
-        columns.addLayout(auto_assigned_tasks)
+        left_column.addLayout(auto_assigned_tasks)
 
         self.pilot_list = PilotList(squadron_model)
         self.pilot_list.selectionModel().selectionChanged.connect(
@@ -193,25 +205,11 @@ class SquadronDialog(QDialog):
     def squadron(self) -> Squadron:
         return self.squadron_model.squadron
 
-    def _instant_relocate(self, destination: ControlPoint) -> None:
-        self.squadron.relocate_to(destination)
-        for _, f in self.squadron.flight_db.objects.items():
-            if f.squadron == self.squadron:
-                if isinstance(f.flight_plan, CustomFlightPlan):
-                    for wpt in f.flight_plan.waypoints:
-                        if wpt.waypoint_type == FlightWaypointType.LANDING_POINT:
-                            wpt.control_point = destination
-                            wpt.position = wpt.control_point.position
-                            break
-                f.recreate_flight_plan()
-
     def on_destination_changed(self, index: int) -> None:
         with report_errors("Could not change squadron destination", self):
             destination = self.transfer_destination.itemData(index)
             if destination is None:
                 self.squadron.cancel_relocation()
-            elif self.ato_model.game.settings.enable_transfer_cheat:
-                self._instant_relocate(destination)
             else:
                 self.squadron.plan_relocation(
                     destination, self.sim_controller.current_time_in_sim
@@ -276,3 +274,9 @@ class SquadronDialog(QDialog):
         index = selected.indexes()[0]
         self.reset_ai_toggle_state(index)
         self.reset_leave_toggle_state(index)
+
+    def on_task_index_changed(self, index: int) -> None:
+        task = self.primary_task_selector.itemData(index)
+        if task is None:
+            raise RuntimeError("Selected task cannot be None")
+        self.squadron.primary_task = task

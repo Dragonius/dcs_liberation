@@ -23,12 +23,9 @@ class PackageRefuelingFlightPlan(RefuelingFlightPlan):
     def patrol_duration(self) -> timedelta:
         # TODO: Only consider aircraft that can refuel with this tanker type.
         refuel_time_minutes = 5
-        min_patrol_duration = refuel_time_minutes * 6
         for self.flight in self.package.flights:
             flight_size = self.flight.roster.max_size
             refuel_time_minutes = refuel_time_minutes + 4 * flight_size + 1
-            if refuel_time_minutes < min_patrol_duration:
-                refuel_time_minutes = min_patrol_duration
 
         return timedelta(minutes=refuel_time_minutes)
 

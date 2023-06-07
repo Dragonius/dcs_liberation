@@ -2,8 +2,8 @@ from pathlib import Path
 
 
 MAJOR_VERSION = 7
-MINOR_VERSION = 0
-MICRO_VERSION = 4
+MINOR_VERSION = 1
+MICRO_VERSION = 0
 VERSION_NUMBER = ".".join(str(v) for v in (MAJOR_VERSION, MINOR_VERSION, MICRO_VERSION))
 
 
@@ -169,4 +169,17 @@ VERSION = _build_version_string()
 #:
 #: Version 10.5
 #: * Support for scenery objectives defined by quad zones.
-CAMPAIGN_FORMAT_VERSION = (10, 5)
+#:
+#: Version 10.6
+#: * Support in-line definitions of campaign-specific factions.
+#:
+#: Version 10.7
+#: * Support for defining squadron sizes.
+#:
+#: Version 10.8
+#: * Support for Normandy 2.
+#:
+#: Version 10.9
+#: * Campaign is compatible with new squadron rules. The default air wing configuration
+#:   has enough parking available at each base when squadrons begin at full strength.
+CAMPAIGN_FORMAT_VERSION = (10, 9)

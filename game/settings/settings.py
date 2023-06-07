@@ -1,9 +1,12 @@
+import logging
 from collections.abc import Iterator
-from dataclasses import Field, dataclass, field, fields
+from dataclasses import Field, dataclass, fields
 from datetime import timedelta
 from enum import Enum, unique
-from typing import Any, Dict, Optional
+from pathlib import Path
+from typing import Any, Optional, get_type_hints
 
+import yaml
 from dcs.forcedoptions import ForcedOptions
 
 from .booleanoption import boolean_option
@@ -14,6 +17,7 @@ from .minutesoption import minutes_option
 from .optiondescription import OptionDescription, SETTING_DESCRIPTION_KEY
 from .skilloption import skill_option
 from ..ato.starttype import StartType
+from ..persistence.paths import liberation_user_dir
 
 
 @unique
@@ -37,6 +41,8 @@ PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
 
 MISSION_GENERATOR_PAGE = "Mission Generator"
+
+COMMANDERS_SECTION = "Battlefield Commanders"
 
 GAMEPLAY_SECTION = "Gameplay"
 
@@ -75,7 +81,7 @@ class Settings:
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
-        max=50,
+        max=5,
         divisor=10,
         default=1.0,
     )
@@ -84,7 +90,7 @@ class Settings:
         page=DIFFICULTY_PAGE,
         section=AI_DIFFICULTY_SECTION,
         min=0,
-        max=50,
+        max=5,
         divisor=10,
         default=1.0,
     )
@@ -225,7 +231,7 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         PILOTS_AND_SQUADRONS_SECTION,
         default=12,
-        min=2,
+        min=12,
         max=72,
         detail=(
             "Sets the maximum number of pilots a squadron may have active. "
@@ -240,13 +246,22 @@ class Settings:
         PILOTS_AND_SQUADRONS_SECTION,
         default=4,
         min=1,
-        max=200,
+        max=20,
         detail=(
             "Sets the maximum number of pilots that will be recruited to each squadron "
             "at the end of each turn. Squadrons will not recruit new pilots beyond the "
             "pilot limit, but each squadron with room for more pilots will recruit "
             "this many pilots each turn up to the limit."
         ),
+    )
+    # Feature flag for squadron limits.
+    enable_squadron_aircraft_limits: bool = boolean_option(
+        "Enable per-squadron aircraft limits",
+        CAMPAIGN_MANAGEMENT_PAGE,
+        PILOTS_AND_SQUADRONS_SECTION,
+        default=False,
+        remember_player_choice=True,
+        detail="If set, squadrons will be limited to a maximum number of aircraft.",
     )
 
     # HQ Automation
@@ -255,18 +270,21 @@ class Settings:
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     automate_front_line_reinforcements: bool = boolean_option(
         "Automate front-line purchases",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     automate_aircraft_reinforcements: bool = boolean_option(
         "Automate aircraft purchases",
         CAMPAIGN_MANAGEMENT_PAGE,
         HQ_AUTOMATION_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     auto_ato_behavior: AutoAtoBehavior = choices_option(
         "Automatic package planning behavior",
@@ -294,6 +312,41 @@ class Settings:
     reserves_procurement_target: int = 10
 
     # Mission Generator
+
+    # Commanders
+    game_master_slots: int = bounded_int_option(
+        "Game master",
+        page=MISSION_GENERATOR_PAGE,
+        section=COMMANDERS_SECTION,
+        default=0,
+        min=0,
+        max=100,
+    )
+    tactical_commander_slots: int = bounded_int_option(
+        "Tactical commander",
+        page=MISSION_GENERATOR_PAGE,
+        section=COMMANDERS_SECTION,
+        default=1,
+        min=0,
+        max=100,
+    )
+    jtac_operator_slots: int = bounded_int_option(
+        "JTAC/Operator",
+        page=MISSION_GENERATOR_PAGE,
+        section=COMMANDERS_SECTION,
+        default=0,
+        min=0,
+        max=100,
+    )
+    observer_slots: int = bounded_int_option(
+        "Observer",
+        page=MISSION_GENERATOR_PAGE,
+        section=COMMANDERS_SECTION,
+        default=1,
+        min=0,
+        max=100,
+    )
+
     # Gameplay
     fast_forward_to_first_contact: bool = boolean_option(
         "Fast forward mission to first contact (WIP)",
@@ -301,7 +354,22 @@ class Settings:
         section=GAMEPLAY_SECTION,
         default=False,
         detail=(
-            "If enabled, the mission will be generated at the point of first contact."
+            "If enabled, the mission will be generated at the point of first contact. "
+            "If you enable this option, you will not be able to create new flights "
+            'after pressing "TAKE OFF". Doing so will create an error the next time '
+            'you press "TAKE OFF". Save your game first if you want to make '
+            "modifications."
+        ),
+    )
+    reload_pre_sim_checkpoint_on_abort: bool = boolean_option(
+        "Reset mission to pre-take off conditions on abort",
+        page=MISSION_GENERATOR_PAGE,
+        section=GAMEPLAY_SECTION,
+        default=True,
+        detail=(
+            "If enabled, the game will automatically reload a pre-take off save when "
+            "aborting take off. If this is disabled, you will need to manually re-load "
+            "your game after aborting take off."
         ),
     )
     player_mission_interrupts_sim_at: Optional[StartType] = choices_option(
@@ -340,6 +408,7 @@ class Settings:
         MISSION_GENERATOR_PAGE,
         GAMEPLAY_SECTION,
         default=False,
+        remember_player_choice=True,
     )
     generate_marks: bool = boolean_option(
         "Put objective markers on the map",
@@ -392,24 +461,7 @@ class Settings:
         section=GAMEPLAY_SECTION,
         default=timedelta(minutes=60),
         min=30,
-        max=300,
-    )
-    desired_tanker_on_station_time: timedelta = minutes_option(
-        "Desired tanker on-station time",
-        page=MISSION_GENERATOR_PAGE,
-        section=GAMEPLAY_SECTION,
-        default=timedelta(minutes=60),
-        min=30,
-        max=180,
-    )
-    # Mission specific
-    max_frontline_length: int = bounded_int_option(
-        "Maximum frontline length (km)",
-        page=MISSION_GENERATOR_PAGE,
-        section=GAMEPLAY_SECTION,
-        default=80,
-        min=1,
-        max=100,
+        max=150,
     )
 
     # Performance
@@ -439,6 +491,16 @@ class Settings:
         section=PERFORMANCE_SECTION,
         default=True,
     )
+    generate_fire_tasks_for_missile_sites: bool = boolean_option(
+        "Generate fire tasks for missile sites",
+        page=MISSION_GENERATOR_PAGE,
+        section=PERFORMANCE_SECTION,
+        detail=(
+            "If enabled, missile sites like V2s and Scuds will fire on random targets "
+            "at the start of the mission."
+        ),
+        default=True,
+    )
     perf_moving_units: bool = boolean_option(
         "Moving ground units",
         page=MISSION_GENERATOR_PAGE,
@@ -450,27 +512,6 @@ class Settings:
         page=MISSION_GENERATOR_PAGE,
         section=PERFORMANCE_SECTION,
         default=True,
-    )
-    perf_disable_convoys: bool = boolean_option(
-        "Disable convoys",
-        page=MISSION_GENERATOR_PAGE,
-        section=PERFORMANCE_SECTION,
-        default=False,
-    )
-    perf_frontline_units_prefer_roads: bool = boolean_option(
-        "Front line troops prefer roads",
-        page=MISSION_GENERATOR_PAGE,
-        section=PERFORMANCE_SECTION,
-        default=False,
-    )
-    perf_frontline_units_max_supply: int = bounded_int_option(
-        "Maximum frontline unit supply per control point",
-        page=MISSION_GENERATOR_PAGE,
-        section=PERFORMANCE_SECTION,
-        default=60,
-        min=10,
-        max=300,
-        causes_expensive_game_update=True,
     )
     perf_infantry: bool = boolean_option(
         "Generate infantry squads alongside vehicles",
@@ -519,28 +560,57 @@ class Settings:
     show_red_ato: bool = False
     enable_frontline_cheats: bool = False
     enable_base_capture_cheat: bool = False
-    enable_transfer_cheat: bool = False
-
-    # LUA Plugins system
-    plugins: Dict[str, bool] = field(default_factory=dict)
 
     only_player_takeoff: bool = True  # Legacy parameter do not use
 
-    @staticmethod
-    def plugin_settings_key(identifier: str) -> str:
-        return f"plugins.{identifier}"
+    def save_player_settings(self) -> None:
+        """Saves the player's global settings to the user directory."""
+        settings: dict[str, Any] = {}
+        for name, description in self.all_fields():
+            if description.remember_player_choice:
+                settings[name] = self.__dict__[name]
 
-    def initialize_plugin_option(self, identifier: str, default_value: bool) -> None:
-        try:
-            self.plugin_option(identifier)
-        except KeyError:
-            self.set_plugin_option(identifier, default_value)
+        with self._player_settings_file.open("w", encoding="utf-8") as settings_file:
+            yaml.dump(settings, settings_file, sort_keys=False, explicit_start=True)
 
-    def plugin_option(self, identifier: str) -> bool:
-        return self.plugins[self.plugin_settings_key(identifier)]
+    def merge_player_settings(self) -> None:
+        """Updates with the player's global settings."""
+        settings_path = self._player_settings_file
+        if not settings_path.exists():
+            return
+        with settings_path.open(encoding="utf-8") as settings_file:
+            data = yaml.safe_load(settings_file)
 
-    def set_plugin_option(self, identifier: str, enabled: bool) -> None:
-        self.plugins[self.plugin_settings_key(identifier)] = enabled
+        if data is None:
+            logging.warning("Saved settings file %s is empty", settings_path)
+            return
+
+        expected_types = get_type_hints(Settings)
+        for key, value in data.items():
+            if key not in self.__dict__:
+                logging.warning(
+                    "Unexpected settings key found in %s: %s. Ignoring.",
+                    settings_path,
+                    key,
+                )
+                continue
+
+            expected_type = expected_types[key]
+            if not isinstance(value, expected_type):
+                logging.error(
+                    "%s in %s does not have the expected type %s (is %s). Ignoring.",
+                    key,
+                    settings_path,
+                    expected_type.__name__,
+                    value.__class__.__name__,
+                )
+                continue
+            self.__dict__[key] = value
+
+    @property
+    def _player_settings_file(self) -> Path:
+        """Returns the path to the player's global settings file."""
+        return liberation_user_dir() / "settings.yaml"
 
     def __setstate__(self, state: dict[str, Any]) -> None:
         # __setstate__ is called with the dict of the object being unpickled. We
@@ -575,11 +645,17 @@ class Settings:
                 seen.add(description.section)
 
     @classmethod
-    def fields(cls, page: str, section: str) -> Iterator[tuple[str, OptionDescription]]:
+    def all_fields(cls) -> Iterator[tuple[str, OptionDescription]]:
         for settings_field in cls._user_fields():
-            description = cls._field_description(settings_field)
+            yield settings_field.name, cls._field_description(settings_field)
+
+    @classmethod
+    def fields_for(
+        cls, page: str, section: str
+    ) -> Iterator[tuple[str, OptionDescription]]:
+        for name, description in cls.all_fields():
             if description.page == page and description.section == section:
-                yield settings_field.name, description
+                yield name, description
 
     @classmethod
     def _user_fields(cls) -> Iterator[Field[Any]]:

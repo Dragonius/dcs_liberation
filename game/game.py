@@ -7,7 +7,6 @@ from collections.abc import Iterator
 from datetime import date, datetime, time, timedelta
 from enum import Enum
 from typing import Any, List, TYPE_CHECKING, Type, Union, cast
-from uuid import UUID
 
 from dcs.countries import Switzerland, USAFAggressors, UnitedNationsPeacekeepers
 from dcs.country import Country
@@ -17,7 +16,6 @@ from dcs.vehicles import AirDefence
 from faker import Faker
 
 from game.ato.closestairfields import ObjectiveDistanceCache
-from game.ground_forces.ai_ground_planner import GroundPlanner
 from game.models.game_stats import GameStats
 from game.plugins import LuaPluginManager
 from game.utils import Distance
@@ -39,7 +37,7 @@ from .theater.theatergroundobject import (
 )
 from .theater.transitnetwork import TransitNetwork, TransitNetworkBuilder
 from .timeofday import TimeOfDay
-from .weather import Conditions
+from .weather.conditions import Conditions
 
 if TYPE_CHECKING:
     from .ato.airtaaskingorder import AirTaskingOrder
@@ -99,17 +97,18 @@ class Game:
         start_date: datetime,
         start_time: time | None,
         settings: Settings,
+        lua_plugin_manager: LuaPluginManager,
         player_budget: float,
         enemy_budget: float,
     ) -> None:
         self.settings = settings
+        self.lua_plugin_manager = lua_plugin_manager
         self.theater = theater
         self.turn = 0
         # NB: This is the *start* date. It is never updated.
         self.date = date(start_date.year, start_date.month, start_date.day)
         self.game_stats = GameStats()
         self.notes = ""
-        self.ground_planners: dict[UUID, GroundPlanner] = {}
         self.informations: list[Information] = []
         self.message("Game Start", "-" * 40)
         # Culling Zones are for areas around points of interest that contain things we may not wish to cull.
@@ -230,7 +229,13 @@ class Game:
         # We need to persist this state so that names generated after game load don't
         # conflict with those generated before exit.
         naming.namegen = self.name_generator
-        LuaPluginManager.load_settings(self.settings)
+
+        # The installed plugins may have changed between runs. We need to load the
+        # current configuration and patch in the options that were previously set.
+        new_plugin_manager = LuaPluginManager.load()
+        new_plugin_manager.update_with(self.lua_plugin_manager)
+        self.lua_plugin_manager = new_plugin_manager
+
         ObjectiveDistanceCache.set_theater(self.theater)
         self.compute_unculled_zones(GameUpdateEvents())
         if not game_still_initializing:
@@ -291,7 +296,7 @@ class Game:
         if self.turn > 1:
             self.conditions = self.generate_conditions()
 
-    def begin_turn_0(self) -> None:
+    def begin_turn_0(self, squadrons_start_full: bool) -> None:
         """Initialization for the first turn of the game."""
         from .sim import GameUpdateEvents
 
@@ -316,8 +321,9 @@ class Game:
                 # Rotate the whole TGO with the new heading
                 tgo.rotate(heading or tgo.heading)
 
-        self.blue.preinit_turn_0()
-        self.red.preinit_turn_0()
+        self.blue.preinit_turn_0(squadrons_start_full)
+        self.red.preinit_turn_0(squadrons_start_full)
+        # TODO: Check for overfull bases.
         # We don't need to actually stream events for turn zero because we haven't given
         # *any* state to the UI yet, so it will need to do a full draw once we do.
         self.initialize_turn(GameUpdateEvents())
@@ -376,7 +382,10 @@ class Game:
         self.red.bullseye = Bullseye(player_cp.position)
 
     def initialize_turn(
-        self, events: GameUpdateEvents, for_red: bool = True, for_blue: bool = True
+        self,
+        events: GameUpdateEvents,
+        for_red: bool = True,
+        for_blue: bool = True,
     ) -> None:
         """Performs turn initialization for the specified players.
 
@@ -428,17 +437,9 @@ class Game:
 
         # Plan Coalition specific turn
         if for_blue:
-            self.blue.initialize_turn()
+            self.blue.initialize_turn(self.turn == 0)
         if for_red:
-            self.red.initialize_turn()
-
-        # Plan GroundWar
-        self.ground_planners = {}
-        for cp in self.theater.controlpoints:
-            if cp.has_frontline:
-                gplanner = GroundPlanner(cp, self)
-                gplanner.plan_groundwar()
-                self.ground_planners[cp.id] = gplanner
+            self.red.initialize_turn(self.turn == 0)
 
         # Update cull zones
         with logged_duration("Computing culling positions"):

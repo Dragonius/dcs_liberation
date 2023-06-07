@@ -341,10 +341,10 @@ class Debriefing:
             # deaths, so we expect to see quite a few unclaimed dead ground
             # units. We should start tracking those and covert this to a
             # warning.
-            # logging.debug(
-            #    f"Death of untracked ground unit {unit_name} will "
-            #    "have no effect. This may be normal behavior."
-            # )
+            logging.debug(
+                f"Death of untracked ground unit {unit_name} will "
+                "have no effect. This may be normal behavior."
+            )
 
         for unit_name in self.state_data.killed_aircraft:
             airlift_unit = self.unit_map.airlift_unit(unit_name)

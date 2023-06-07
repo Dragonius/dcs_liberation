@@ -13,6 +13,7 @@ from dcs.countries import country_dict
 from game.atcdata import AtcData
 from game.dcs.beacons import Beacons
 from game.dcs.helpers import unit_type_from_name
+from game.ground_forces.ai_ground_planner import GroundPlanner
 from game.missiongenerator.aircraft.aircraftgenerator import (
     AircraftGenerator,
 )
@@ -42,7 +43,8 @@ from .visualsgenerator import VisualsGenerator
 
 if TYPE_CHECKING:
     from game import Game
-
+    from game.theater import ControlPoint
+    from game.ground_forces.ai_ground_planner import CombatGroup
 
 COMBINED_ARMS_SLOTS = 1
 
@@ -189,8 +191,33 @@ class MissionGenerator:
                 # No need to reserve ILS or TACAN because those are in the
                 # beacon list.
 
+    def _find_combat_groups_between(
+        self,
+        planners: dict[ControlPoint, GroundPlanner],
+        origin: ControlPoint,
+        target: ControlPoint,
+    ) -> list[CombatGroup]:
+        try:
+            planner = planners[origin]
+        except KeyError as ex:
+            raise KeyError(f"No ground planner found at {origin}") from ex
+
+        try:
+            return planner.units_per_cp[target.id]
+        except KeyError as ex:
+            raise KeyError(
+                f"Ground planner at {origin} does not target {target}"
+            ) from ex
+
     def generate_ground_conflicts(self) -> None:
         """Generate FLOTs and JTACs for each active front line."""
+        planners: dict[ControlPoint, GroundPlanner] = {}
+        for control_point in self.game.theater.controlpoints:
+            if control_point.has_frontline:
+                planner = GroundPlanner(control_point, self.game)
+                planners[control_point] = planner
+                planner.plan_groundwar()
+
         for front_line in self.game.theater.conflicts():
             player_cp = front_line.blue_cp
             enemy_cp = front_line.red_cp
@@ -198,16 +225,12 @@ class MissionGenerator:
                 front_line, self.game.theater
             )
             # Generate frontline ops
-            player_gp = self.game.ground_planners[player_cp.id].units_per_cp[
-                enemy_cp.id
-            ]
-            enemy_gp = self.game.ground_planners[enemy_cp.id].units_per_cp[player_cp.id]
             ground_conflict_gen = FlotGenerator(
                 self.mission,
                 conflict,
                 self.game,
-                player_gp,
-                enemy_gp,
+                self._find_combat_groups_between(planners, player_cp, enemy_cp),
+                self._find_combat_groups_between(planners, enemy_cp, player_cp),
                 player_cp.stances[enemy_cp.id],
                 enemy_cp.stances[player_cp.id],
                 self.unit_map,
@@ -330,6 +353,14 @@ class MissionGenerator:
             gen.generate()
 
     def setup_combined_arms(self) -> None:
-        self.mission.groundControl.pilot_can_control_vehicles = COMBINED_ARMS_SLOTS > 0
-        self.mission.groundControl.blue_tactical_commander = COMBINED_ARMS_SLOTS
-        self.mission.groundControl.blue_observer = 1
+        self.mission.groundControl.blue_game_masters = (
+            self.game.settings.game_master_slots
+        )
+        self.mission.groundControl.blue_tactical_commander = (
+            self.game.settings.tactical_commander_slots
+        )
+        self.mission.groundControl.pilot_can_control_vehicles = (
+            self.mission.groundControl.blue_tactical_commander > 0
+        )
+        self.mission.groundControl.blue_jtac = self.game.settings.jtac_operator_slots
+        self.mission.groundControl.blue_observer = self.game.settings.observer_slots

@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QStackedLayout,
     QVBoxLayout,
     QWidget,
+    QScrollArea,
 )
 
 import qt_ui.uiconstants as CONST
@@ -59,10 +60,6 @@ class CheatSettingsBox(QGroupBox):
         )
         self.base_capture_cheat_checkbox.toggled.connect(apply_settings)
 
-        self.transfer_cheat_checkbox = QCheckBox()
-        self.transfer_cheat_checkbox.setChecked(game.settings.enable_transfer_cheat)
-        self.transfer_cheat_checkbox.toggled.connect(apply_settings)
-
         self.red_ato = QLabeledWidget("Show Red ATO:", self.red_ato_checkbox)
         self.main_layout.addLayout(self.red_ato)
         self.frontline_cheat = QLabeledWidget(
@@ -73,10 +70,6 @@ class CheatSettingsBox(QGroupBox):
             "Enable Base Capture Cheat:", self.base_capture_cheat_checkbox
         )
         self.main_layout.addLayout(self.base_capture_cheat)
-        self.transfer_cheat = QLabeledWidget(
-            "Enable Instant Squadron Transfer Cheat:", self.transfer_cheat_checkbox
-        )
-        self.main_layout.addLayout(self.transfer_cheat)
 
     @property
     def show_red_ato(self) -> bool:
@@ -89,10 +82,6 @@ class CheatSettingsBox(QGroupBox):
     @property
     def show_base_capture_cheat(self) -> bool:
         return self.base_capture_cheat_checkbox.isChecked()
-
-    @property
-    def show_transfer_cheat(self) -> bool:
-        return self.transfer_cheat_checkbox.isChecked()
 
 
 class AutoSettingsLayout(QGridLayout):
@@ -107,7 +96,7 @@ class AutoSettingsLayout(QGridLayout):
         self.settings = settings
         self.write_full_settings = write_full_settings
 
-        for row, (name, description) in enumerate(Settings.fields(page, section)):
+        for row, (name, description) in enumerate(Settings.fields_for(page, section)):
             self.add_label(row, description)
             if isinstance(description, BooleanOption):
                 self.add_checkbox_for(row, name, description)
@@ -123,7 +112,8 @@ class AutoSettingsLayout(QGridLayout):
                 raise TypeError(f"Unhandled option type: {description}")
 
     def add_label(self, row: int, description: OptionDescription) -> None:
-        text = f"<strong>{description.text}</strong>"
+        wrapped_title = "<br />".join(textwrap.wrap(description.text, width=55))
+        text = f"<strong>{wrapped_title}</strong>"
         if description.detail is not None:
             wrapped = "<br />".join(textwrap.wrap(description.detail, width=55))
             text += f"<br />{wrapped}"
@@ -244,7 +234,18 @@ class AutoSettingsPage(QWidget):
         write_full_settings: Callable[[], None],
     ) -> None:
         super().__init__()
-        self.setLayout(AutoSettingsPageLayout(page, settings, write_full_settings))
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        scroll_content = QWidget()
+        scroll_content.setLayout(
+            AutoSettingsPageLayout(page, settings, write_full_settings)
+        )
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(scroll_content)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        layout.addWidget(scroll)
 
 
 class QSettingsWindow(QDialog):
@@ -262,7 +263,7 @@ class QSettingsWindow(QDialog):
         self.setModal(True)
         self.setWindowTitle("Settings")
         self.setWindowIcon(CONST.ICONS["Settings"])
-        self.setMinimumSize(300, 175)
+        self.setMinimumSize(600, 250)
 
         self.initUi()
 
@@ -297,7 +298,7 @@ class QSettingsWindow(QDialog):
         self.categoryModel.appendRow(cheat)
         self.right_layout.addWidget(self.cheatPage)
 
-        self.pluginsPage = PluginsPage()
+        self.pluginsPage = PluginsPage(self.game.lua_plugin_manager)
         plugins = QStandardItem("LUA Plugins")
         plugins.setIcon(CONST.ICONS["Plugins"])
         plugins.setEditable(False)
@@ -305,7 +306,7 @@ class QSettingsWindow(QDialog):
         self.categoryModel.appendRow(plugins)
         self.right_layout.addWidget(self.pluginsPage)
 
-        self.pluginsOptionsPage = PluginOptionsPage()
+        self.pluginsOptionsPage = PluginOptionsPage(self.game.lua_plugin_manager)
         pluginsOptions = QStandardItem("LUA Plugins Options")
         pluginsOptions.setIcon(CONST.ICONS["PluginsOptions"])
         pluginsOptions.setEditable(False)
@@ -341,7 +342,7 @@ class QSettingsWindow(QDialog):
         self.moneyCheatBoxLayout = QGridLayout()
         self.moneyCheatBox.setLayout(self.moneyCheatBoxLayout)
 
-        cheats_amounts = [50, 100, 200, 500, 1000, 10000, -25, -50, -100, -200]
+        cheats_amounts = [25, 50, 100, 200, 500, 1000, -25, -50, -100, -200]
         for i, amount in enumerate(cheats_amounts):
             if amount > 0:
                 btn = QPushButton("Cheat +" + str(amount) + "M")
@@ -368,9 +369,6 @@ class QSettingsWindow(QDialog):
         )
         self.game.settings.enable_base_capture_cheat = (
             self.cheat_options.show_base_capture_cheat
-        )
-        self.game.settings.enable_transfer_cheat = (
-            self.cheat_options.show_transfer_cheat
         )
 
         events = GameUpdateEvents()

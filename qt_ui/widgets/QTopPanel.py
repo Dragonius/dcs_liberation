@@ -1,12 +1,11 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Callable
 
 from PySide6.QtWidgets import (
     QDialog,
     QFrame,
     QGroupBox,
     QHBoxLayout,
-    QVBoxLayout,
     QMessageBox,
     QPushButton,
 )
@@ -34,15 +33,19 @@ from qt_ui.windows.QWaitingForMissionResultWindow import QWaitingForMissionResul
 
 class QTopPanel(QFrame):
     def __init__(
-        self, game_model: GameModel, sim_controller: SimController, ui_flags: UiFlags
+        self,
+        game_model: GameModel,
+        sim_controller: SimController,
+        ui_flags: UiFlags,
+        reset_to_pre_sim_checkpoint: Callable[[], None],
     ) -> None:
         super(QTopPanel, self).__init__()
         self.game_model = game_model
         self.sim_controller = sim_controller
+        self.reset_to_pre_sim_checkpoint = reset_to_pre_sim_checkpoint
         self.dialog: Optional[QDialog] = None
 
-        self.setMinimumHeight(70)
-        self.setMaximumHeight(100)
+        self.setMaximumHeight(70)
 
         self.conditionsWidget = QConditionsWidget(sim_controller)
         self.budgetBox = QBudgetBox(self.game)
@@ -79,23 +82,19 @@ class QTopPanel(QFrame):
         self.intel_box = QIntelBox(self.game)
 
         self.buttonBox = QGroupBox("Misc")
-        self.buttonBoxLayout = QVBoxLayout()
+        self.buttonBoxLayout = QHBoxLayout()
         self.buttonBoxLayout.addWidget(self.air_wing)
         self.buttonBoxLayout.addWidget(self.transfers)
         self.buttonBox.setLayout(self.buttonBoxLayout)
 
-        self.proceedBox = QGroupBox("Controls")
-        self.proceedBoxLayout = QVBoxLayout()
+        self.proceedBox = QGroupBox("Proceed")
+        self.proceedBoxLayout = QHBoxLayout()
         if ui_flags.show_sim_speed_controls:
             self.proceedBoxLayout.addLayout(SimSpeedControls(sim_controller))
         self.proceedBoxLayout.addLayout(MaxPlayerCount(self.game_model.ato_model))
+        self.proceedBoxLayout.addWidget(self.passTurnButton)
+        self.proceedBoxLayout.addWidget(self.proceedButton)
         self.proceedBox.setLayout(self.proceedBoxLayout)
-
-        self.proceed2Box = QGroupBox("Proceed")
-        self.proceed2BoxLayout = QVBoxLayout()
-        self.proceed2BoxLayout.addWidget(self.passTurnButton)
-        self.proceed2BoxLayout.addWidget(self.proceedButton)
-        self.proceed2Box.setLayout(self.proceed2BoxLayout)
 
         self.layout = QHBoxLayout()
 
@@ -104,9 +103,8 @@ class QTopPanel(QFrame):
         self.layout.addWidget(self.budgetBox)
         self.layout.addWidget(self.intel_box)
         self.layout.addWidget(self.buttonBox)
-        # self.layout.addStretch(1)
+        self.layout.addStretch(1)
         self.layout.addWidget(self.proceedBox)
-        self.layout.addWidget(self.proceed2Box)
 
         self.layout.setContentsMargins(0, 0, 0, 0)
 
@@ -300,7 +298,9 @@ class QTopPanel(QFrame):
             persistence.mission_path_for("liberation_nextturn.miz")
         )
 
-        waiting = QWaitingForMissionResultWindow(self.game, self.sim_controller, self)
+        waiting = QWaitingForMissionResultWindow(
+            self.game, self.sim_controller, self.reset_to_pre_sim_checkpoint, self
+        )
         waiting.exec_()
 
     def budget_update(self, game: Game):
