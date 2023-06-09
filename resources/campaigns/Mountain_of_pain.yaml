@@ -240,7 +240,7 @@ squadrons:
       aircraft:
         - UH-1H Iroquois
         - Mi-8MTV2 Hip
-  Sena1:
+  Senaki_farp:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -261,7 +261,7 @@ squadrons:
         - Mi-24V Hind-E
         - Mi-24V Hind-D
         - Mi-8MTV2 Hip
-  Kuta1:
+  Kutasi_farp:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -282,7 +282,7 @@ squadrons:
         - Mi-24V Hind-E
         - Mi-24V Hind-D
         - Mi-8MTV2 Hip
-  Kuta2:
+  Kutasi2_farp:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -295,7 +295,7 @@ squadrons:
         - Mi-24V Hind-E
         - Mi-24V Hind-D
         - Mi-8MTV2 Hip
-  Kuta3:
+  Kutasi3_farp:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
