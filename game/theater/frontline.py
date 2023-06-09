@@ -104,7 +104,9 @@ class FrontLine(MissionTarget):
         yield from [
             FlightType.CAS,
             FlightType.AEWC,
-            FlightType.REFUELING
+            FlightType.REFUELING,
+            # ADDED AIR ASSAULT
+            FlightType.AIR_ASSAULT
             # TODO: FlightType.TROOP_TRANSPORT
             # TODO: FlightType.EVAC
         ]
