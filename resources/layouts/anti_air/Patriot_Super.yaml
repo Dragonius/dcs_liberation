@@ -1,4 +1,4 @@
-name: Super Patriot Battery
+name: Super Patriot
 tasks:
   - LORAD
 groups:
@@ -50,4 +50,4 @@ groups:
         - 4
       unit_classes:
         - AAA
-layout_file: resources/layouts/anti_air/Super_Patriot_Battery.miz
+layout_file: resources/layouts/anti_air/Patriot_Super.miz
