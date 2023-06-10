@@ -2,16 +2,16 @@ name:  Caucasus - Mountain of pain
 theater: Caucasus
 authors: Dragonius
 description: <p>A medium-sized theater with vistas overlooking the Georgian mountains.</p>
-recommended_player_faction: USA 2005
-recommended_enemy_faction: Russia 2010
-recommended_start_date: 2014-01-07T00:00:00.000Z
+recommended_player_faction: Bluefor Modern
+recommended_enemy_faction: Russia 2020
+recommended_start_date: 2021-07-07T00:00:00.000Z
 recommended_player_money: 2000
 recommended_enemy_money: 2000
 miz: Mountain_of_pain.miz
 performance: 2
 version: 10.5
 squadrons:
-#Senaki_Kolkhi
+# Senaki_Kolkhi
   23:
     - primary: BARCAP
       secondary: air-to-air
@@ -66,7 +66,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130
-#Kobuleti 24:
+# Kobuleti 24:
   24:
     - primary: BARCAP
       secondary: air-to-air
@@ -115,7 +115,7 @@ squadrons:
       secondary: any
       aircraft:
         - C-130
-#Kutaisi 25:
+# Kutaisi 25:
   25:
     - primary: BARCAP
       aircraft:
@@ -136,7 +136,7 @@ squadrons:
     - primary: Refueling
       aircraft:
         - IL-78M
-#Nalchik 27:
+# Nalchik 27:
   27:
     - primary: BARCAP
       aircraft:
@@ -163,8 +163,8 @@ squadrons:
         - Mi-24V Hind-E
         - Mi-24V Hind-F
 
-#Mozdok 28:
-#Beslan 32:
+# Mozdok 28:
+# Beslan 32:
   32:
     - primary: BARCAP
       aircraft:
@@ -228,7 +228,7 @@ squadrons:
         - UH-1H Iroquois
         - Mi-8MTV2 Hip
 
-#Farp
+# Farp
   Kobuleti_farp:
     - primary: CAS
       secondary: air-to-ground
@@ -308,12 +308,12 @@ squadrons:
         - Mi-24V Hind-E
         - Mi-24V Hind-D
         - Mi-8MTV2 Hip
-#sam hawk ln m192
-#ewr 1L13
-#MBT Abrams 
-#Static Tech combine-7
-#sam avenger
-#Geguti Plant workshop A
-#Static Ammunition depot-5
-#FOB Sochi
-#Temryuk Factory
+# sam hawk ln m192
+# ewr 1L13
+# MBT Abrams 
+# Static Tech combine-7
+# sam avenger
+# Geguti Plant workshop A
+# Static Ammunition depot-5
+# FOB Sochi
+# Temryuk Factory
