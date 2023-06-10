@@ -1,8 +1,8 @@
-name: Super Patriot
+name: Patriot Super
 tasks:
   - LORAD
 groups:
-  - Patriot:
+  - Patriot Super:
     - name: Patriot Battery 0
       unit_count:
         - 4
@@ -30,7 +30,7 @@ groups:
         - Patriot EPP
     - name: Patriot Battery 5
       unit_count:
-        - 12
+        - 16
       unit_types:
         - Patriot ln
   - PD:
