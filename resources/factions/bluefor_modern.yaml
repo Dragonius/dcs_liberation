@@ -78,6 +78,7 @@ infantry_units:
 preset_groups:
   - Hawk
   - Patriot
+  - Super Patriot
   - NASAMS AIM-120C
 naval_units:
   - DDG Arleigh Burke IIa
