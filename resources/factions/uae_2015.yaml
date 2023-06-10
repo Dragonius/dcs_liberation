@@ -35,6 +35,7 @@ preset_groups:
   - Hawk
   - Rapier
   - Patriot
+  - Super Patriot
 naval_units:
   - FFG Oliver Hazard Perry
 missiles: []
