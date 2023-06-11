@@ -38,6 +38,7 @@ groups:
       optional: true
       sub_task: PointDefense
       unit_count:
+        - 1
         - 4
       unit_classes:
         - SHORAD
@@ -45,6 +46,7 @@ groups:
       sub_task: AAA
       optional: true
       unit_count:
+        - 1
         - 4
       unit_classes:
         - AAA
