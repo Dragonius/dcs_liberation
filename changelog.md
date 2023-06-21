@@ -5,6 +5,8 @@ Saves from 7.x are not compatible with 8.0.
 ## Features/Improvements
 
 * **[UI]** Limited size of overfull airbase display and added scrollbar.
+* **[UI]** Moved air wing and transfer menus to the toolbar to improve UI fit on low resolution displays.
+* **[UI]** Added basic game over dialog.
 
 ## Fixes
 
