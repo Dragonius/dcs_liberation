@@ -1,3 +1,21 @@
+# 9.0.0
+
+Saves from 8.x are not compatible with 9.0.0.
+
+## Features/Improvements
+
+## Fixes
+
+# 8.1.0
+
+Saves from 8.0.0 are compatible with 8.1.0
+
+## Features/Improvements
+
+* **[Engine]** Support for DCS 2.8.6.41363.
+
+## Fixes
+
 # 8.0.0
 
 Saves from 7.x are not compatible with 8.0.
