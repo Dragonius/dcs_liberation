@@ -8,39 +8,7 @@ from game.dcs.aircrafttype import AircraftType
 from game.dcs.groundunittype import GroundUnitType
 from game.dcs.unittype import UnitType
 from game.game import Game
-
-AIRCRAFT_BANNERS_BASE = Path("resources/ui/units/aircrafts/banners")
-VEHICLE_BANNERS_BASE = Path("resources/ui/units/vehicles/banners")
-MISSING_BANNER_PATH = AIRCRAFT_BANNERS_BASE / "Missing.jpg"
-
-
-def aircraft_banner_for(unit_type: AircraftType) -> Path:
-    if unit_type.dcs_id in {
-        "Mirage-F1CT",
-        "Mirage-F1EE",
-        "Mirage-F1M-EE",
-        "Mirage-F1EQ",
-    }:
-        name = "Mirage-F1C-200"
-    elif unit_type.dcs_id in {"Mirage-F1CE", "Mirage-F1M-CE"}:
-        name = "Mirage-F1C"
-    elif unit_type.dcs_id == "F-15ESE":
-        name = "F-15E"
-    else:
-        name = unit_type.dcs_id
-    return AIRCRAFT_BANNERS_BASE / f"{name}.jpg"
-
-
-def vehicle_banner_for(unit_type: GroundUnitType) -> Path:
-    return VEHICLE_BANNERS_BASE / f"{unit_type.dcs_id}.jpg"
-
-
-def banner_path_for(unit_type: UnitType) -> Path:
-    if isinstance(unit_type, AircraftType):
-        return aircraft_banner_for(unit_type)
-    if isinstance(unit_type, GroundUnitType):
-        return vehicle_banner_for(unit_type)
-    raise NotImplementedError(f"Unhandled UnitType subclass: {unit_type.__class__}")
+from qt_ui.uiconstants import AIRCRAFT_BANNERS, VEHICLE_BANNERS
 
 
 class QUnitInfoWindow(QDialog):
