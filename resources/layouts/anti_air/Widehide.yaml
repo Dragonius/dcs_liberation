@@ -1,36 +1,36 @@
-name: Patriot Super
+name: Widehide
 tasks:
   - LORAD
 groups:
-  - Patriot Super:
+  - Widehide:
     - name: Patriot Battery 0
       unit_count:
-        - 4
+        - 2
       unit_types:
         - Patriot str
     - name: Patriot Battery 1
       unit_count:
-        - 2
+        - 1
       unit_types:
         - Patriot AMG
     - name: Patriot Battery 2
       unit_count:
-        - 2
+        - 1
       unit_types:
         - Patriot ECS
     - name: Patriot Battery 3
       unit_count:
-        - 2
+        - 1
       unit_types:
         - Patriot cp
     - name: Patriot Battery 4
       unit_count:
-        - 2
+        - 1
       unit_types:
         - Patriot EPP
     - name: Patriot Battery 5
       unit_count:
-        - 12
+        - 8
       unit_types:
         - Patriot ln
   - PD:
@@ -39,7 +39,7 @@ groups:
       sub_task: PointDefense
       unit_count:
         - 1
-        - 4
+        - 2
       unit_classes:
         - SHORAD
     - name: Patriot Battery 6
@@ -47,7 +47,7 @@ groups:
       optional: true
       unit_count:
         - 1
-        - 4
+        - 2
       unit_classes:
         - AAA
-layout_file: resources/layouts/anti_air/Patriot_Super_Site.miz
+layout_file: resources/layouts/anti_air/Widehide.miz
