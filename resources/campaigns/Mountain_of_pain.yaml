@@ -1,15 +1,15 @@
 name:  Caucasus - Mountain of pain
 theater: Caucasus
 authors: Dragonius
-description: <p>A medium-sized theater with vistas overlooking the Georgian mountains.</p>
+description: <p>A medium-sized theater with lot of helicopter antion on the Georgian mountains.</p>
 recommended_player_faction: Bluefor Modern
 recommended_enemy_faction: Russia 2020
 recommended_start_date: 2021-07-07T00:00:00.000Z
-recommended_player_money: 2000
-recommended_enemy_money: 2000
+recommended_player_money: 5000
+recommended_enemy_money: 5000
 miz: Mountain_of_pain.miz
 performance: 2
-version: 10.5
+version: 10.9
 squadrons:
 # Senaki_Kolkhi
   23:
