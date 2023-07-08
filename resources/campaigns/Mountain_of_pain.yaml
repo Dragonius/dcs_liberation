@@ -101,6 +101,7 @@ squadrons:
       aircraft:
         - B-52H Stratofortress
         - F/A-18C Hornet (Lot 20)
+        - F-15E Strike Eagle
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
@@ -110,15 +111,37 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - F-14B Tomcat
+        - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
     - primary: Transport
       secondary: any
       aircraft:
         - C-130
+    - primary: BARCAP
+      aircraft:
+        - MiG-29A Fulcrum-A
+    - primary: Strike
+      aircraft:
+        - Su-25 Frogfoot
+    - primary: DEAD
+      aircraft:
+        - Su-25 Frogfoot
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - Mi-24V Hind-E
+    - primary: AEW&C
+      aircraft:
+        - A-50
+    - primary: Refueling
+      aircraft:
+        - IL-78M
 # Kutaisi 25:
   25:
     - primary: BARCAP
       aircraft:
+        - MiG-21bis Fishbed-N
+        - MiG-23MLD Flogger-K
         - MiG-29A Fulcrum-A
     - primary: Strike
       aircraft:
