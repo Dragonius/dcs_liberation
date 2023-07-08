@@ -6,7 +6,7 @@ recommended_player_faction: Bluefor Modern
 recommended_enemy_faction: Russia 2020
 recommended_start_date: 2021-07-07T00:00:00.000Z
 recommended_player_money: 5000
-recommended_enemy_money: 5000
+recommended_enemy_money: 1000
 miz: Mountain_of_pain.miz
 performance: 2
 version: 10.9

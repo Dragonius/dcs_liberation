@@ -35,10 +35,9 @@ groups:
         - Patriot ln
   - PD:
     - name: Widehide 7
-      optional: true
       sub_task: PointDefense
+      optional: true
       unit_count:
-        - 1
         - 2
       unit_classes:
         - SHORAD
@@ -47,7 +46,6 @@ groups:
       optional: true
       unit_count:
         - 2
-        - 4
       unit_classes:
         - AAA
 layout_file: resources/layouts/anti_air/Widehide.miz
