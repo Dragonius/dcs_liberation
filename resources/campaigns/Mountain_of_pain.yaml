@@ -1,7 +1,7 @@
 name:  Caucasus - Mountain of pain
 theater: Caucasus
 authors: Dragonius
-description: <p>A medium-sized theater with lot of helicopter antion on the Georgian mountains.</p>
+description: <p>A medium-sized theater with lot of helicopter action on the Georgian mountains.</p>
 recommended_player_faction: Bluefor Modern
 recommended_enemy_faction: Russia 2020
 recommended_start_date: 2021-07-07T00:00:00.000Z
@@ -16,8 +16,8 @@ squadrons:
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
-        - MiG-25PD Foxbat-E
         - MiG-23MLD Flogger-K
+        - MiG-25PD Foxbat-E
     - primary: SEAD
       secondary: any
     - primary: DEAD
@@ -48,18 +48,24 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10C Thunderbolt II (Suite 7)
         - A-10C Thunderbolt II (Suite 3)
+        - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - F-15E Strike Eagle
-        - AV-8B Harrier II Night Attack
         - AH-64D Apache Longbow
+        - AV-8B Harrier II Night Attack
+        - F-15E Strike Eagle
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+        - F/A-18C Hornet (Lot 20)
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - F-14B Tomcat
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
     - primary: Transport
@@ -85,23 +91,23 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-        - A-10C Thunderbolt II (Suite 3)
-        - AH-64D Apache Longbow
         - A-10A Thunderbolt II
+        - A-10C Thunderbolt II (Suite 3)
+        - A-10C Thunderbolt II (Suite 7)
+        - AH-64D Apache Longbow
         - B-52H Stratofortress
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - F-15E Strike Eagle
-        - AV-8B Harrier II Night Attack
         - AH-64D Apache Longbow
+        - AV-8B Harrier II Night Attack
+        - F-15E Strike Eagle
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
-        - F/A-18C Hornet (Lot 20)
         - F-15E Strike Eagle
+        - F/A-18C Hornet (Lot 20)
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
@@ -139,6 +145,55 @@ squadrons:
 # Kutaisi 25:
   25:
     - primary: BARCAP
+      secondary: air-to-air
+      aircraft:
+        - F-14B Tomcat
+        - F-15C Eagle
+        - F/A-18C Hornet (Lot 20)
+    - primary: AEW&C
+      aircraft:
+        - E-3A
+    - primary: Refueling
+      aircraft:
+        - KC-135 Stratotanker
+        - KC-135 Stratotanker MPRS
+        - S-3B Tanker
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - A-10A Thunderbolt II
+        - A-10C Thunderbolt II (Suite 3)
+        - A-10C Thunderbolt II (Suite 7)
+        - AH-64D Apache Longbow
+        - B-52H Stratofortress
+    - primary: BAI
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+        - AV-8B Harrier II Night Attack
+        - F-15E Strike Eagle
+    - primary: Strike
+      secondary: air-to-ground
+      aircraft:
+        - B-52H Stratofortress
+        - F-15E Strike Eagle
+        - F/A-18C Hornet (Lot 20)
+    - primary: DEAD
+      secondary: air-to-ground
+      aircraft:
+        - F-16CM Fighting Falcon (Block 50)
+        - F/A-18C Hornet (Lot 20)
+    - primary: SEAD
+      secondary: air-to-ground
+      aircraft:
+        - F-14B Tomcat
+        - F-16CM Fighting Falcon (Block 50)
+        - F/A-18C Hornet (Lot 20)
+    - primary: Transport
+      secondary: any
+      aircraft:
+        - C-130
+    - primary: BARCAP
       aircraft:
         - MiG-21bis Fishbed-N
         - MiG-23MLD Flogger-K
@@ -163,12 +218,12 @@ squadrons:
   27:
     - primary: BARCAP
       aircraft:
-        - MiG-31 Foxhound
-        - MiG-25PD Foxbat-E
-        - MiG-23MLD Flogger-K
-        - SU-33 Flanker-D
         - MiG-21bis Fishbed-N
+        - MiG-23MLD Flogger-K
+        - MiG-25PD Foxbat-E
         - MiG-29A Fulcrum-A
+        - MiG-31 Foxhound
+        - SU-33 Flanker-D
     - primary: OCA/Runway
       secondary: air-to-ground
       aircraft:
@@ -203,9 +258,9 @@ squadrons:
     - primary: Strike
       secondary: any
       aircraft:
+        - AJS-37 Viggen
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
-        - AJS-37 Viggen
         - Mirage 2000C
     - primary: DEAD
       secondary: air-to-ground
@@ -220,27 +275,27 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - AH-64D Apache Longbow
-        - A-10C Thunderbolt II (Suite 7)
         - A-10C Thunderbolt II (Suite 3)
+        - A-10C Thunderbolt II (Suite 7)
+        - AH-64D Apache Longbow
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - UH-1H Iroquois
-        - AH-64D Apache Longbow
-        - A-10C Thunderbolt II (Suite 7)
         - A-10C Thunderbolt II (Suite 3)
+        - A-10C Thunderbolt II (Suite 7)
+        - AH-64D Apache Longbow
         - Mi-8MTV2 Hip
+        - UH-1H Iroquois
     - primary: BARCAP
       secondary: any
       aircraft:
-        - MiG-31 Foxhound
-        - MiG-25PD Foxbat-E
-        - MiG-23MLD Flogger-K
-        - SU-33 Flanker-D
-        - MiG-21bis Fishbed-N
-        - MiG-29A Fulcrum-A
         - JF-17 Thunder
+        - MiG-21bis Fishbed-N
+        - MiG-23MLD Flogger-K
+        - MiG-25PD Foxbat-E
+        - MiG-29A Fulcrum-A
+        - MiG-31 Foxhound
+        - SU-33 Flanker-D
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -248,9 +303,9 @@ squadrons:
     - primary: Strike
       secondary: any
       aircraft:
-        - Tu-95MS Bear-H
         - Su-17M4 Fitter-K
         - Su-25 Frogfoot
+        - Tu-95MS Bear-H
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -279,9 +334,9 @@ squadrons:
         - Su-24M Fencer-D
     - primary: Strike
       aircraft:
-        - Tu-95MS Bear-H
         - Su-17M4 Fitter-K
         - Su-25 Frogfoot
+        - Tu-95MS Bear-H
     - primary: SEAD
       aircraft:
         - Su-17M4 Fitter-K
@@ -297,8 +352,8 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Mi-8MTV2 Hip
         - Ka-50 Hokum
+        - Mi-8MTV2 Hip
         - Mi-28N Havoc
 
   Blue CV-1:
@@ -364,10 +419,10 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Mi-24P Hind-F
-        - Mi-24V Hind-E
-        - Mi-24V Hind-D
         - Mi-8MTV2 Hip
+        - Mi-24P Hind-F
+        - Mi-24V Hind-D
+        - Mi-24V Hind-E
   Kutasi_farp:
     - primary: CAS
       secondary: air-to-ground
@@ -385,10 +440,10 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Mi-24P Hind-F
-        - Mi-24V Hind-E
-        - Mi-24V Hind-D
         - Mi-8MTV2 Hip
+        - Mi-24P Hind-F
+        - Mi-24V Hind-D
+        - Mi-24V Hind-E
   Kutasi2_farp:
     - primary: CAS
       secondary: air-to-ground
@@ -398,10 +453,10 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Mi-24P Hind-F
-        - Mi-24V Hind-E
-        - Mi-24V Hind-D
         - Mi-8MTV2 Hip
+        - Mi-24P Hind-F
+        - Mi-24V Hind-D
+        - Mi-24V Hind-E
   Kutasi3_farp:
     - primary: CAS
       secondary: air-to-ground
@@ -411,10 +466,10 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - Mi-24P Hind-F
-        - Mi-24V Hind-E
-        - Mi-24V Hind-D
         - Mi-8MTV2 Hip
+        - Mi-24P Hind-F
+        - Mi-24V Hind-D
+        - Mi-24V Hind-E
 # sam hawk ln m192
 # ewr 1L13
 # MBT Abrams 
