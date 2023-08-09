@@ -1247,7 +1247,7 @@ class NavalControlPoint(ControlPoint, ABC):
         for group in self.find_main_tgo().groups:
             for u in group.units:
                 if u.alive and u.type in [
-                    Ara_vdm,
+                    # Ara_vdm,
                     Forrestal,
                     Hms_invincible,
                     KUZNECOW,
