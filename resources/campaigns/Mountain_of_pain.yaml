@@ -48,7 +48,6 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10C Thunderbolt II (Suite 3)
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
     - primary: BAI
@@ -92,7 +91,6 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - A-10A Thunderbolt II
-        - A-10C Thunderbolt II (Suite 3)
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - B-52H Stratofortress
@@ -162,7 +160,6 @@ squadrons:
       secondary: air-to-ground
       aircraft:
         - A-10A Thunderbolt II
-        - A-10C Thunderbolt II (Suite 3)
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - B-52H Stratofortress
@@ -275,13 +272,11 @@ squadrons:
     - primary: BAI
       secondary: air-to-ground
       aircraft:
-        - A-10C Thunderbolt II (Suite 3)
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10C Thunderbolt II (Suite 3)
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - Mi-8MTV2 Hip
