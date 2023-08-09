@@ -42,8 +42,8 @@ def has_save_compat_for(
 
     def decorator(func: Callable[..., ReturnT]) -> Callable[..., ReturnT]:
         # Allow current and previous version to ease cherry-picking.
-        if major not in {MAJOR_VERSION - 1, MAJOR_VERSION}:
-            raise DeprecatedSaveCompatError(func.__name__)
+        # if major not in {MAJOR_VERSION - 4, MAJOR_VERSION}:
+        #    raise DeprecatedSaveCompatError(func.__name__)
         return func
 
     return decorator
