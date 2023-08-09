@@ -27,7 +27,7 @@ from uuid import UUID
 
 from dcs.mapping import Point
 from dcs.ships import (
-    Ara_vdm,
+    #    Ara_vdm,
     CVN_71,
     CVN_72,
     CVN_73,
