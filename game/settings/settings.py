@@ -334,7 +334,7 @@ class Settings:
         "JTAC/Operator",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
-        default=0,
+        default=1,
         min=0,
         max=100,
     )
@@ -342,7 +342,7 @@ class Settings:
         "Observer",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
-        default=1,
+        default=0,
         min=0,
         max=100,
     )
@@ -474,13 +474,13 @@ class Settings:
         max=180,
     )
     # Mission specific
-    max_frontline_length: int = bounded_int_option(
-        "Maximum frontline length (km)",
+    max_frontline_length: float = bounded_int_option(
+        "Maximum frontline length (m)",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
-        default=80,
-        min=1,
-        max=100,
+        default=8000,
+        min=1000,
+        max=100000,
     )
 
     # Performance
