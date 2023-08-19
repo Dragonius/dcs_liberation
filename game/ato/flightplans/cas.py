@@ -87,7 +87,9 @@ class Builder(IBuilder[CasFlightPlan, CasLayout]):
             FrontLineConflictDescription,
         )
 
-        bounds = FrontLineConflictDescription.frontline_bounds(location, self.theater)
+        bounds = FrontLineConflictDescription.frontline_bounds(
+            location, self.theater, self.coalition.game.settings
+        )
         ingress = bounds.left_position
         center = bounds.center
         egress = bounds.right_position

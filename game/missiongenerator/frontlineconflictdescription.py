@@ -81,7 +81,7 @@ class FrontLineConflictDescription:
         """
         Returns a vector for a valid frontline location avoiding exclusion zones.
         """
-        center_position, heading = cls.frontline_position(front_line, theater)
+        center_position, heading = cls.frontline_position(front_line, theater, settings)
         left_heading = heading.left
         right_heading = heading.right
         left_position = cls.extend_ground_position(

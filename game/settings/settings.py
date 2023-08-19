@@ -475,7 +475,7 @@ class Settings:
     )
     # Mission specific
     max_frontline_length: float = bounded_int_option(
-        "Maximum frontline length (m)",
+        "Maximum frontline length (km)",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=80,
