@@ -478,9 +478,9 @@ class Settings:
         "Maximum frontline length (m)",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
-        default=8000,
-        min=1000,
-        max=100000,
+        default=80,
+        min=10,
+        max=300,
     )
 
     # Performance

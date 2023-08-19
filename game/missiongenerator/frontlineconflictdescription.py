@@ -11,8 +11,11 @@ from shapely.ops import nearest_points
 from game.theater.conflicttheater import ConflictTheater, FrontLine
 from game.theater.controlpoint import ControlPoint
 from game.utils import Heading, dcs_to_shapely_point
+from game.settings import Settings
 
-FRONTLINE_LENGTH = 30000
+"""
+FRONTLINE_LENGTH = 80000
+"""
 
 
 @dataclass(frozen=True)
@@ -60,12 +63,12 @@ class FrontLineConflictDescription:
 
     @classmethod
     def frontline_position(
-        cls, frontline: FrontLine, theater: ConflictTheater
+        cls, frontline: FrontLine, theater: ConflictTheater, settings: Settings
     ) -> Tuple[Point, Heading]:
         attack_heading = frontline.blue_forward_heading
         position = cls.find_ground_position(
             frontline.position,
-            FRONTLINE_LENGTH,
+            settings.max_frontline_length * 1000,
             attack_heading.right,
             theater,
         )
@@ -73,7 +76,7 @@ class FrontLineConflictDescription:
 
     @classmethod
     def frontline_bounds(
-        cls, front_line: FrontLine, theater: ConflictTheater
+        cls, front_line: FrontLine, theater: ConflictTheater, settings: Settings
     ) -> FrontLineBounds:
         """
         Returns a vector for a valid frontline location avoiding exclusion zones.
@@ -82,10 +85,16 @@ class FrontLineConflictDescription:
         left_heading = heading.left
         right_heading = heading.right
         left_position = cls.extend_ground_position(
-            center_position, int(FRONTLINE_LENGTH / 2), left_heading, theater
+            center_position,
+            int(settings.max_frontline_length * 1000 / 2),
+            left_heading,
+            theater,
         )
         right_position = cls.extend_ground_position(
-            center_position, int(FRONTLINE_LENGTH / 2), right_heading, theater
+            center_position,
+            int(settings.max_frontline_length * 1000 / 2),
+            right_heading,
+            theater,
         )
         return FrontLineBounds(left_position, right_position)
 

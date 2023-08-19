@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import TYPE_CHECKING, Type
 
+from game.settings import Settings
 from game.theater import FrontLine
 from game.utils import Distance, Speed, kph, meters
 from .ibuilder import IBuilder
@@ -53,9 +54,10 @@ class CasFlightPlan(PatrollingFlightPlan[CasLayout], UiZoneDisplay):
 
     @property
     def engagement_distance(self) -> Distance:
-        from game.missiongenerator.frontlineconflictdescription import FRONTLINE_LENGTH
-
-        return meters(FRONTLINE_LENGTH) / 2
+        # from game.missiongenerator.frontlineconflictdescription import FRONTLINE_LENGTH
+        # from game.settings import max_frontline_length
+        return meters(self.flight.coalition.game.settings.max_frontline_length * 500)
+        # return meters(FRONTLINE_LENGTH) / 2
 
     @property
     def combat_speed_waypoints(self) -> set[FlightWaypoint]:
