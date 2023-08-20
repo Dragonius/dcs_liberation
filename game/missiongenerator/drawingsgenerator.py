@@ -86,7 +86,7 @@ class DrawingsGenerator:
         """
         for front_line in self.game.theater.conflicts():
             bounds = FrontLineConflictDescription.frontline_bounds(
-                front_line, self.game.theater
+                front_line, self.game.theater, self.game.settings
             )
 
             end_point = bounds.left_position.point_from_heading(

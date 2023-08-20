@@ -100,12 +100,12 @@ class FrontLineConflictDescription:
 
     @classmethod
     def frontline_cas_conflict(
-        cls, front_line: FrontLine, theater: ConflictTheater
+        cls, front_line: FrontLine, theater: ConflictTheater, settings: Settings
     ) -> FrontLineConflictDescription:
         # TODO: Break apart the front-line and air conflict descriptions.
         # We're wastefully not caching the front-line bounds here because air conflicts
         # can't compute bounds, only a position.
-        bounds = cls.frontline_bounds(front_line, theater)
+        bounds = cls.frontline_bounds(front_line, theater, settings)
         conflict = FrontLineConflictDescription(
             position=bounds.left_position,
             heading=bounds.heading_from_left_to_right,

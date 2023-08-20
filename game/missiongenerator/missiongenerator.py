@@ -220,7 +220,7 @@ class MissionGenerator:
             player_cp = front_line.blue_cp
             enemy_cp = front_line.red_cp
             conflict = FrontLineConflictDescription.frontline_cas_conflict(
-                front_line, self.game.theater
+                front_line, self.game.theater, self.game.settings
             )
             # Generate frontline ops
             ground_conflict_gen = FlotGenerator(

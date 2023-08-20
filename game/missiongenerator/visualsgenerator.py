@@ -80,7 +80,7 @@ class VisualsGenerator:
                 continue
 
             bounds = FrontLineConflictDescription.frontline_bounds(
-                front_line, self.game.theater
+                front_line, self.game.theater, self.game.settings
             )
 
             for offset in range(
