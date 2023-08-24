@@ -18,59 +18,77 @@ squadrons:
       aircraft:
         - MiG-23MLD Flogger-K
         - MiG-25PD Foxbat-E
+      size: 20
     - primary: SEAD
       secondary: any
+      aircraft:
+        - Su-17M4 Fitter-K
+      size: 20
     - primary: DEAD
       secondary: any
+      aircraft:
+        - Su-25 Frogfoot
+      size: 20
     - primary: Strike
       aircraft:
         - Su-25 Frogfoot
+      size: 20
     - primary: AEW&C
       aircraft:
         - A-50
+      size: 4
     - primary: Refueling
       aircraft:
         - IL-78M
+      size: 4
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
         - F-14B Tomcat
         - F-15C Eagle
         - F/A-18C Hornet (Lot 20)
+      size: 50
     - primary: AEW&C
       aircraft:
         - E-3A
+      size: 5
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
         - KC-135 Stratotanker MPRS
         - S-3B Tanker
+      size: 12
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
+      size: 40
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - AV-8B Harrier II Night Attack
         - F-15E Strike Eagle
+      size: 40
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
+      size: 40
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - F-14B Tomcat
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
+      size: 40
     - primary: Transport
       secondary: any
       aircraft:
         - C-130
+      size: 30
 # Kobuleti 24:
   24:
     - primary: BARCAP
@@ -79,14 +97,17 @@ squadrons:
         - F-14B Tomcat
         - F-15C Eagle
         - F/A-18C Hornet (Lot 20)
+      size: 50
     - primary: AEW&C
       aircraft:
         - E-3A
+      size: 4
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
         - KC-135 Stratotanker MPRS
         - S-3B Tanker
+      size: 12
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -94,33 +115,39 @@ squadrons:
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - B-52H Stratofortress
+      size: 50
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - AV-8B Harrier II Night Attack
         - F-15E Strike Eagle
+      size: 40
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
         - F-15E Strike Eagle
         - F/A-18C Hornet (Lot 20)
+      size: 50
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
+      size: 40
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - F-14B Tomcat
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
+      size: 40
     - primary: Transport
       secondary: any
       aircraft:
         - C-130
+      size: 20
     - primary: BARCAP
       aircraft:
         - MiG-29A Fulcrum-A
@@ -301,7 +328,7 @@ squadrons:
         - Su-17M4 Fitter-K
         - Su-25 Frogfoot
         - Tu-95MS Bear-H
-    - primary: CAS
+    - primary: CASRunway
       secondary: air-to-ground
       aircraft:
         - Mi-8MTV2 Hip
