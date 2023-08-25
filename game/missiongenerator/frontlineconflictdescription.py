@@ -68,7 +68,7 @@ class FrontLineConflictDescription:
         attack_heading = frontline.blue_forward_heading
         position = cls.find_ground_position(
             frontline.position,
-            settings.max_frontline_length * 1000,
+            int(settings.max_frontline_length * 1000),
             attack_heading.right,
             theater,
         )
