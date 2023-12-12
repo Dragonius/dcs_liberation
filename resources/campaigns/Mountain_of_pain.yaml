@@ -11,7 +11,7 @@ miz: Mountain_of_pain.miz
 performance: 2
 version: "11"
 squadrons:
-# Senaki_Kolkhi
+# Senaki_Kolkhi 68 playeses
   23:
     - primary: BARCAP
       secondary: air-to-air
@@ -89,7 +89,7 @@ squadrons:
       aircraft:
         - C-130
       size: 30
-# Kobuleti 24:
+# Kobuleti 24: 42 playeses
   24:
     - primary: BARCAP
       secondary: air-to-air
@@ -173,7 +173,7 @@ squadrons:
       aircraft:
         - IL-78M
       size: 10
-# Kutaisi 25:
+# Kutaisi 25: 58 playeses
   25:
     - primary: BARCAP
       secondary: air-to-air
@@ -259,7 +259,7 @@ squadrons:
       aircraft:
         - IL-78M
       size: 10
-# Nalchik 27:
+# Nalchik 27: 15 playeses
   27:
     - primary: BARCAP
       aircraft:
@@ -287,7 +287,7 @@ squadrons:
         - Mi-24V Hind-F
         - Mi-28N Havoc
 
-# Mozdok 28:
+# Mozdok 28: 39 playeses
   28:
     - primary: Refueling
       aircraft:
@@ -366,7 +366,7 @@ squadrons:
     - primary: Refueling
       aircraft:
         - IL-78M
-# Beslan 32:
+# Beslan 32: 15 playeses
   32:
     - primary: BARCAP
       aircraft:
@@ -420,7 +420,7 @@ squadrons:
       aircraft:
         - E-2C Hawkeye
 
-  Blue LHA:
+  Blue LHA: #20 playeses
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -434,7 +434,7 @@ squadrons:
         - Mi-8MTV2 Hip
 
 # Farp
-  Kobuleti_farp:
+  Kobuleti_farp: #20 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -445,28 +445,7 @@ squadrons:
       aircraft:
         - UH-1H Iroquois
         - Mi-8MTV2 Hip
-  Senaki_farp:
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - AH-64D Apache Longbow
-        - UH-1H Iroquois
-    - primary: Air Assault
-      secondary: air-to-ground
-      aircraft:
-        - UH-1H Iroquois
-    - primary: Air Assault
-      secondary: air-to-ground
-      aircraft:
-        - Mi-8MTV2 Hip
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - Mi-8MTV2 Hip
-        - Mi-24P Hind-F
-        - Mi-24V Hind-D
-        - Mi-24V Hind-E
-  Kutasi_farp:
+  Senaki_farp: #16 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -487,7 +466,28 @@ squadrons:
         - Mi-24P Hind-F
         - Mi-24V Hind-D
         - Mi-24V Hind-E
-  Kutasi2_farp:
+  Kutasi_farp: #16 playeses
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - AH-64D Apache Longbow
+        - UH-1H Iroquois
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:
+        - UH-1H Iroquois
+    - primary: Air Assault
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+    - primary: CAS
+      secondary: air-to-ground
+      aircraft:
+        - Mi-8MTV2 Hip
+        - Mi-24P Hind-F
+        - Mi-24V Hind-D
+        - Mi-24V Hind-E
+  Kutasi2_farp: #16 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -500,7 +500,7 @@ squadrons:
         - Mi-24P Hind-F
         - Mi-24V Hind-D
         - Mi-24V Hind-E
-  Kutasi3_farp:
+  Kutasi3_farp: #16 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
