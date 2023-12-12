@@ -1,6 +1,8 @@
+#venv
 .venv
 venv
 
+#env
 .env
 env
 
@@ -8,9 +10,12 @@ client
 
 build
 
+#build 
 dist
 
+#Python cache
 __pycache__
 
+#logs
 logs
 
