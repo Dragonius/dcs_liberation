@@ -1,0 +1,14 @@
+.venv
+venv
+
+.env
+env
+
+client
+
+build
+
+dist
+
+__pycache__
+
