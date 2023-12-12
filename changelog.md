@@ -151,6 +151,12 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[Modding]** Unit variants can now actually override base unit type properties.
 * **[New Game Wizard]** Factions are reset to default after clicking "Back" to Theater Configuration screen.
 * **[Plugins]** Fixed Lua errors in Skynet plugin that would occur whenever one coalition had no IADS nodes.
+* **[UI]** Fixed deleting waypoints in custom flight plans deleting the wrong waypoint.
+* **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
+* **[UI]** In unit transfer dialog, only list control points that are reachable from the control point units are being transferred from.
+* **[UI]** Fixed UI bug where altering an "ahead of package" TOT offset would change the offset back to a "behind pacakge" offset.
+* **[UI]** Fixed bug where changing TOT offsets could result in flight startup times that are in the past.
+* **[UI]** Fixed odd spacing of the finance window when there were not enough items to fill the page.
 
 # 8.1.0
 
