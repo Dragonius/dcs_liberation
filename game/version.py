@@ -188,7 +188,4 @@ VERSION = _build_version_string()
 #:
 #: Version 10.11
 #: * Support for ferry-only bases.
-#:
-#: Version 11.0
-#: * The squadron sizes introduced in 10.7 are required.
-CAMPAIGN_FORMAT_VERSION = (11, 0)
+CAMPAIGN_FORMAT_VERSION = (10, 10)
