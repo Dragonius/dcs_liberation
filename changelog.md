@@ -158,7 +158,7 @@ BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
 * **[UI]** Fixed deleting waypoints in custom flight plans deleting the wrong waypoint.
 * **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
 * **[UI]** In unit transfer dialog, only list control points that are reachable from the control point units are being transferred from.
-* **[UI]** Fixed UI bug where altering an "ahead of package" TOT offset would change the offset back to a "behind pacakge" offset.
+* **[UI]** Fixed UI bug where altering an "ahead of package" TOT offset would change the offset back to a "behind package" offset.
 * **[UI]** Fixed bug where changing TOT offsets could result in flight startup times that are in the past.
 * **[UI]** Fixed odd spacing of the finance window when there were not enough items to fill the page.
 * **[UI]** Fixed regression where waypoint altitude changes in the waypoint list screen are applied to the wrong waypoint.
