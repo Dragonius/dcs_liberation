@@ -171,18 +171,19 @@ class Faction:
 
     @classmethod
     def from_dict(cls: Type[Faction], json: Dict[str, Any]) -> Faction:
+        try:
+            country = country_with_name(json["country"])
+        except KeyError as ex:
+            raise KeyError(
+                f'Faction\'s country ("{json.get("country")}") is not a valid DCS '
+                "country ID"
+            ) from ex
+
         faction = Faction(
             locales=json.get("locales"),
+            country=country,
             cargo_ship=ShipUnitType.named(json.get("cargo_ship", "Handy Wind")),
         )
-
-        faction.country = json.get("country", "/")
-        if faction.country not in [c.name for c in country_dict.values()]:
-            raise AssertionError(
-                'Faction\'s country ("{}") is not a valid DCS country ID'.format(
-                    faction.country
-                )
-            )
 
         faction.name = json.get("name", "")
         if not faction.name:
