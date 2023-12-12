@@ -759,7 +759,7 @@ class KneeboardGenerator(MissionInfoGenerator):
                 if not flight.client_units:
                     continue
                 all_flights[flight.aircraft_type].extend(
-                    self.generate_flight_kneeboard(flight, flights)
+                    self.generate_flight_kneeboard(flight)
                 )
         return all_flights
 
