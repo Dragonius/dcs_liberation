@@ -37,7 +37,7 @@ squadrons:
     - primary: Anti-ship
       secondary: air-to-ground
       aircraft:
-        - SH-60B Seahawk
+        - UH-60A
       size: 2
   # Hatzerim (141)
   7:
