@@ -4,7 +4,7 @@ authors: Dragonius
 description: <p>A medium-sized theater with lot of helicopter and fighter action on the Georgian mountains.</p>
 recommended_player_faction: Bluefor Modern
 recommended_enemy_faction: Russia 2020
-recommended_start_date: 2021-07-07T00:00:00.000Z
+recommended_start_date: 221-07-07T00:00:00.000Z
 recommended_player_money: 5000
 recommended_enemy_money: 1000
 miz: Mountain_of_pain.miz
@@ -18,77 +18,77 @@ squadrons:
       aircraft:
         - MiG-23MLD Flogger-K
         - MiG-25PD Foxbat-E
-      size: 20
+      size: 2
     - primary: SEAD
       secondary: any
       aircraft:
         - Su-17M4 Fitter-K
-      size: 20
+      size: 2
     - primary: DEAD
       secondary: any
       aircraft:
         - Su-25 Frogfoot
-      size: 20
+      size: 2
     - primary: Strike
       aircraft:
         - Su-25 Frogfoot
-      size: 20
+      size: 2
     - primary: AEW&C
       aircraft:
         - A-50
-      size: 4
+      size: 2
     - primary: Refueling
       aircraft:
         - IL-78M
-      size: 4
+      size: 2
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
         - F-14B Tomcat
         - F-15C Eagle
         - F/A-18C Hornet (Lot 20)
-      size: 50
+      size: 2
     - primary: AEW&C
       aircraft:
         - E-3A
-      size: 5
+      size: 1
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
         - KC-135 Stratotanker MPRS
         - S-3B Tanker
-      size: 12
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
-      size: 40
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - AV-8B Harrier II Night Attack
         - F-15E Strike Eagle
-      size: 40
+      size: 2
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - F-14B Tomcat
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: Transport
       secondary: any
       aircraft:
         - C-130
-      size: 30
+      size: 2
 # Kobuleti 24: 42 playeses
   24:
     - primary: BARCAP
@@ -97,17 +97,17 @@ squadrons:
         - F-14B Tomcat
         - F-15C Eagle
         - F/A-18C Hornet (Lot 20)
-      size: 50
+      size: 2
     - primary: AEW&C
       aircraft:
         - E-3A
-      size: 4
+      size: 2
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
         - KC-135 Stratotanker MPRS
         - S-3B Tanker
-      size: 12
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -115,64 +115,64 @@ squadrons:
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - B-52H Stratofortress
-      size: 50
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - AV-8B Harrier II Night Attack
         - F-15E Strike Eagle
-      size: 40
+      size: 2
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
         - F-15E Strike Eagle
         - F/A-18C Hornet (Lot 20)
-      size: 50
+      size: 2
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - F-14B Tomcat
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: Transport
       secondary: any
       aircraft:
         - C-130
-      size: 20
+      size: 2
     - primary: BARCAP
       aircraft:
         - MiG-29A Fulcrum-A
-      size: 40
+      size: 2
     - primary: Strike
       aircraft:
         - Su-25 Frogfoot
-      size: 20
+      size: 2
     - primary: DEAD
       aircraft:
         - Su-25 Frogfoot
-      size: 20
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24V Hind-E
-      size: 20
+      size: 2
     - primary: AEW&C
       aircraft:
         - A-50
-      size: 10
+      size: 2
     - primary: Refueling
       aircraft:
         - IL-78M
-      size: 10
+      size: 2
 # Kutaisi 25: 58 playeses
   25:
     - primary: BARCAP
@@ -181,17 +181,17 @@ squadrons:
         - F-14B Tomcat
         - F-15C Eagle
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: AEW&C
       aircraft:
         - E-3A
-      size: 10
+      size: 2
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
         - KC-135 Stratotanker MPRS
         - S-3B Tanker
-      size: 12
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -199,66 +199,66 @@ squadrons:
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - B-52H Stratofortress
-      size: 20
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - AV-8B Harrier II Night Attack
         - F-15E Strike Eagle
-      size: 40
+      size: 2
     - primary: Strike
       secondary: air-to-ground
       aircraft:
         - B-52H Stratofortress
         - F-15E Strike Eagle
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - F-14B Tomcat
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
-      size: 40
+      size: 2
     - primary: Transport
       secondary: any
       aircraft:
         - C-130
-      size: 10
+      size: 2
     - primary: BARCAP
       aircraft:
         - MiG-21bis Fishbed-N
         - MiG-23MLD Flogger-K
         - MiG-29A Fulcrum-A
-      size: 40
+      size: 2
     - primary: Strike
       aircraft:
         - Su-25 Frogfoot
-      size: 20
+      size: 2
     - primary: DEAD
       aircraft:
         - Su-25 Frogfoot
-      size: 20
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24V Hind-E
-      size: 20
+      size: 2
     - primary: AEW&C
       aircraft:
         - A-50
-      size: 10
+      size: 2
     - primary: Refueling
       aircraft:
         - IL-78M
-      size: 10
+      size: 2
 # Nalchik 27: 15 playeses
   27:
     - primary: BARCAP
