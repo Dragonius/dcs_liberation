@@ -97,11 +97,6 @@ squadrons:
       aircraft:
         - S-3B Viking
       size: 12
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - S-3B Viking
-      size: 12
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye

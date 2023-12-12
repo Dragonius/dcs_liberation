@@ -30,7 +30,6 @@ local unitPayloads = {
 				},
 				[7] = {
 					["CLSID"] = "<CLEAN>",
-					["CLSID"] = "<CLEAN>",
 					["num"] = 8,
 				},
 				[8] = {
@@ -171,8 +170,6 @@ local unitPayloads = {
 		[4] = {
 			["displayName"] = "Liberation Fighter Sweep",
 			["name"] = "Liberation Fighter Sweep",
-			["displayName"] = "Liberation Fighter Sweep",
-			["name"] = "Liberation Fighter Sweep",
 			["pylons"] = {
 				[1] = {
 					["CLSID"] = "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
@@ -199,7 +196,6 @@ local unitPayloads = {
 					["num"] = 9,
 				},
 				[7] = {
-					["CLSID"] = "<CLEAN>",
 					["CLSID"] = "<CLEAN>",
 					["num"] = 8,
 				},

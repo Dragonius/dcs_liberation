@@ -48,7 +48,6 @@ squadrons:
   7:
     - primary: Escort
       secondary: any
-      secondary: any
       aircraft:
         - F-15C Eagle
       size: 20
@@ -76,16 +75,12 @@ squadrons:
   12:
     - primary: Transport
       secondary: any
-      secondary: any
       aircraft:
         - CH-47D
       size: 20
     - primary: Air Assault
       secondary: any
-      secondary: any
       aircraft:
-        - UH-60L
-        - UH-60A
         - UH-60L
         - UH-60A
       size: 4
@@ -98,7 +93,6 @@ squadrons:
     - primary: Refueling
       aircraft:
         - KC-135 Stratotanker
-      size: 2
       size: 2
     - primary: CAS
       secondary: air-to-ground
@@ -114,17 +108,12 @@ squadrons:
       size: 4
     - primary: BAI
       secondary: any
-    - primary: BAI
-      secondary: any
       aircraft:
         - Mirage 2000C
       size: 12
     - primary: Escort
       secondary: any
-    - primary: Escort
-      secondary: any
       aircraft:
-        - MiG-21bis Fishbed-N
         - MiG-21bis Fishbed-N
       size: 12
   # Wadi al Jandali (72)
@@ -145,12 +134,10 @@ squadrons:
       size: 20
     - primary: Air Assault
       secondary: any
-      secondary: any
       aircraft:
         - Mi-24P Hind-F
       size: 4
     - primary: OCA/Aircraft
-      secondary: any
       secondary: any
       aircraft:
         - SA 342L Gazelle
@@ -161,7 +148,6 @@ squadrons:
       aircraft:
         - C-130
       size: 8
-    - primary: BARCAP
     - primary: BARCAP
       secondary: air-to-air
       aircraft:
