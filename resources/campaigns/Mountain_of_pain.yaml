@@ -4,12 +4,12 @@ authors: Dragonius
 description: <p>A medium-sized theater with lot of helicopter and fighter action on the Georgian mountains.</p>
 recommended_player_faction: Bluefor Modern
 recommended_enemy_faction: Russia 2020
-recommended_start_date: 221-07-07T00:00:00.000Z
+recommended_start_date: 2022-01-07
 recommended_player_money: 5000
 recommended_enemy_money: 1000
 miz: Mountain_of_pain.miz
 performance: 2
-version: "11"
+version: "11.0"
 squadrons:
 # Senaki_Kolkhi 68 playeses
   23:
@@ -269,16 +269,20 @@ squadrons:
         - MiG-29A Fulcrum-A
         - MiG-31 Foxhound
         - SU-33 Flanker-D
+      size: 2
     - primary: OCA/Runway
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
+      size: 2
     - primary: AEW&C
       aircraft:
         - A-50
+      size: 1
     - primary: Refueling
       aircraft:
         - IL-78M
+      size: 1
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -286,6 +290,7 @@ squadrons:
         - Mi-24V Hind-E
         - Mi-24V Hind-F
         - Mi-28N Havoc
+      size: 2
 
 # Mozdok 28: 39 playeses
   28:
@@ -293,13 +298,16 @@ squadrons:
       aircraft:
         - KC-135 Stratotanker MPRS
         - KC-135 Stratotanker
+      size: 2
     - primary: AEW&C
       aircraft:
         - E-3A
+      size: 2
     - primary: Transport
       secondary: any
       aircraft:
         - C-130
+      size: 2
     - primary: Strike
       secondary: any
       aircraft:
@@ -307,21 +315,25 @@ squadrons:
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
         - Mirage 2000C
+      size: 2
     - primary: DEAD
       secondary: air-to-ground
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
+      size: 2
     - primary: SEAD
       secondary: air-to-ground
       aircraft:
         - F-14B Tomcat
         - F/A-18C Hornet (Lot 20)
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -329,6 +341,7 @@ squadrons:
         - AH-64D Apache Longbow
         - Mi-8MTV2 Hip
         - UH-1H Iroquois
+      size: 2
     - primary: BARCAP
       secondary: any
       aircraft:
@@ -339,16 +352,19 @@ squadrons:
         - MiG-29A Fulcrum-A
         - MiG-31 Foxhound
         - SU-33 Flanker-D
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum
+      size: 2
     - primary: Strike
       secondary: any
       aircraft:
         - Su-17M4 Fitter-K
         - Su-25 Frogfoot
         - Tu-95MS Bear-H
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -356,6 +372,7 @@ squadrons:
         - Mi-24V Hind-E
         - Mi-24V Hind-F
         - Mi-28N Havoc
+      size: 2
     - primary: OCA/Runway
       secondary: air-to-ground
       aircraft:
@@ -363,41 +380,50 @@ squadrons:
     - primary: AEW&C
       aircraft:
         - A-50
+      size: 2
     - primary: Refueling
       aircraft:
         - IL-78M
+      size: 2
 # Beslan 32: 15 playeses
   32:
     - primary: BARCAP
       aircraft:
         - MiG-29A Fulcrum-A
+      size: 2
     - primary: OCA/Runway
       secondary: air-to-ground
       aircraft:
         - Su-24M Fencer-D
+      size: 2
     - primary: Strike
       aircraft:
         - Su-17M4 Fitter-K
         - Su-25 Frogfoot
         - Tu-95MS Bear-H
+      size: 2
     - primary: SEAD
       aircraft:
         - Su-17M4 Fitter-K
+      size: 2
     - primary: DEAD
       aircraft:
         - Su-25 Frogfoot
+      size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24V Hind-E
         - Su-25 Frogfoot
         - Ka-50 Hokum
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - Ka-50 Hokum
         - Mi-8MTV2 Hip
         - Mi-28N Havoc
+      size: 2
 
   Blue CV-1:
     - primary: BARCAP
@@ -405,20 +431,25 @@ squadrons:
       aircraft:
         - F-14B Tomcat
         - F/A-18C Hornet (Lot 20)
+      size: 2
     - primary: Strike
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
+      size: 2
     - primary: BAI
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
+      size: 2
     - primary: Refueling
       aircraft:
         - S-3B Tanker
+      size: 2
     - primary: AEW&C
       aircraft:
         - E-2C Hawkeye
+      size: 1
 
   Blue LHA: #20 playeses
     - primary: BAI
@@ -426,12 +457,14 @@ squadrons:
       aircraft:
         - AV-8B Harrier II Night Attack
         - AH-64D Apache Longbow
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - UH-1H Iroquois
         - Mi-8MTV2 Hip
+      size: 2
 
 # Farp
   Kobuleti_farp: #20 playeses
@@ -440,25 +473,30 @@ squadrons:
       aircraft:
         - AH-64D Apache Longbow
         - UH-1H Iroquois
+      size: 2
     - primary: Air Assault
       secondary: air-to-ground
       aircraft:
         - UH-1H Iroquois
         - Mi-8MTV2 Hip
+      size: 2
   Senaki_farp: #16 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - UH-1H Iroquois
+      size: 2
     - primary: Air Assault
       secondary: air-to-ground
       aircraft:
         - UH-1H Iroquois
+      size: 2
     - primary: Air Assault
       secondary: air-to-ground
       aircraft:
         - Mi-8MTV2 Hip
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -466,20 +504,24 @@ squadrons:
         - Mi-24P Hind-F
         - Mi-24V Hind-D
         - Mi-24V Hind-E
+      size: 2
   Kutasi_farp: #16 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - UH-1H Iroquois
+      size: 2
     - primary: Air Assault
       secondary: air-to-ground
       aircraft:
         - UH-1H Iroquois
+      size: 2
     - primary: Air Assault
       secondary: air-to-ground
       aircraft:
         - Mi-8MTV2 Hip
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -487,12 +529,14 @@ squadrons:
         - Mi-24P Hind-F
         - Mi-24V Hind-D
         - Mi-24V Hind-E
+      size: 2
   Kutasi2_farp: #16 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - UH-1H Iroquois
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -500,12 +544,14 @@ squadrons:
         - Mi-24P Hind-F
         - Mi-24V Hind-D
         - Mi-24V Hind-E
+      size: 2
   Kutasi3_farp: #16 playeses
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - AH-64D Apache Longbow
         - UH-1H Iroquois
+      size: 2
     - primary: CAS
       secondary: air-to-ground
       aircraft:
@@ -513,6 +559,7 @@ squadrons:
         - Mi-24P Hind-F
         - Mi-24V Hind-D
         - Mi-24V Hind-E
+      size: 2
 # sam hawk ln m192
 # ewr 1L13
 # MBT Abrams 
