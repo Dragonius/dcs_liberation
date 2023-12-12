@@ -150,9 +150,19 @@ class Loadout:
         for payload in payloads.values():
             name = payload["name"]
             try:
-                pylon_assignments = cls.convert_dcs_loadout_to_pylon_map(
-                    payload["pylons"]
-                )
+                pylon_assignments = {
+                    p["num"]: Weapon.with_clsid(p["CLSID"])
+                    for p in pylons.values()
+                    # When unloading incompatible pylons (for example, some of the
+                    # Mosquito's pylons cannot be loaded when other pylons are carrying
+                    # rockets), DCS sometimes equips the empty string rather than
+                    # unsetting the pylon. An unset pylon and the empty string appear to
+                    # have identical behavior, and it's annoying to deal with weapons
+                    # that pydcs doesn't know about, so just clear those pylons rather
+                    # than explicitly handling "".
+                    # https://github.com/dcs-liberation/dcs_liberation/issues/3171
+                    if p["CLSID"] != ""
+                }
             except KeyError:
                 logging.exception(
                     "Ignoring %s loadout with invalid weapons: %s",
