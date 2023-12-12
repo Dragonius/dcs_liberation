@@ -1,0 +1,9 @@
+{
+    "task.allowAutomaticTasks": "on",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.terminal.activateEnvironment": false
+}

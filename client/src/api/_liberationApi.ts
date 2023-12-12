@@ -366,14 +366,6 @@ export type HoldZones = {
   permissibleZones: LatLng[][][];
   preferredLines: LatLng[][];
 };
-export type IpZones = {
-  homeBubble: LatLng[][];
-  ipBubble: LatLng[][];
-  permissibleZone: LatLng[][];
-  safeZones: LatLng[][][];
-  preferredThreatenedZones: LatLng[][][];
-  tolerableThreatenedLines: LatLng[][];
-};
 export type JoinZones = {
   homeBubble: LatLng[][];
   targetBubble: LatLng[][];

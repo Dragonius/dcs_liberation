@@ -29,11 +29,8 @@ class CargoShipGenerator:
 
     def generate_cargo_ship(self, ship: CargoShip) -> ShipGroup:
         coalition = self.game.coalition_for(ship.player_owned)
+        country = self.mission.country(coalition.country_name)
         waypoints = ship.route
-
-        country = coalition.faction.country
-        country = self.mission.country(country.name)
-
         group = self.mission.ship_group(
             country,
             ship.name,
