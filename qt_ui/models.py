@@ -138,9 +138,11 @@ class PackageModel(QAbstractListModel):
     @staticmethod
     def text_for_flight(flight: Flight) -> str:
         """Returns the text that should be displayed for the flight."""
+        delay = datetime.timedelta(
+            seconds=int(flight.flight_plan.startup_time().total_seconds())
+        )
         origin = flight.departure.name
-        startup = flight.flight_plan.startup_time()
-        return f"{flight} from {origin} at {startup}"
+        return f"{flight} from {origin} in {delay}"
 
     @staticmethod
     def icon_for_flight(flight: Flight) -> Optional[QIcon]:

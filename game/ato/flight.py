@@ -156,7 +156,11 @@ class Flight(SidcDescribable):
 
     @property
     def is_helo(self) -> bool:
-        return self.unit_type.dcs_unit_type.helicopter
+        return self.unit_type.helicopter
+
+    @property
+    def is_hercules(self) -> bool:
+        return self.unit_type == AircraftType.named("C-130J-30 Super Hercules")
 
     @property
     def points(self) -> List[FlightWaypoint]:
