@@ -37,32 +37,113 @@ Saves from 8.x are not compatible with 9.0.0.
 * **[UI]** The map now shows the real front line bounds.
 
 ## Fixes
+* **[Plugins]** Fix bug where changes to plugin options doesn't do anything.
+* **[Campaign Management]** Fix bug in procurement when no squadrons are present.
+* **[Layouts]** Fix edge-case bug layout's group size.
+* **[Campaign Design]** Preset groups assigned to specific TGOs not working as intended.
 
-* **[Campaign]** Fixed error when canceling squadron transfer if the current location would be exactly full.
+# Retribution v1.1.0
+
+## Features/Improvements
+* **[Mission Generation]** Given a CAS flight was planned, delay ground force attack until first CAS flight is on station
+* **[Mission Generation]** Add option to switch ATFLIR to LITENING automatically for ground based F/A-18C flights
+* **[Mission Generation]** Add option to configure OPFOR autoplanner aggressiveness and have the AI take risks and plan missions against defended targets
+* **[Mission Generation]** Add option to configure the desired tanker on-station time in settings
+* **[Mission Generation]** Reserve GUARD frequency on VHF/UHF
+* **[Mission Generation]** Randomization in radio frequency allocation
+* **[Mission Generation]** Configurable number of Combined Arms slots
+* **[Mission Generation]** Enable spectating & F11 free camera when the "Allow external views" option is selected
+* **[Cheat Menu]** Option to instantly transfer squadrons across bases.
+* **[Modding]** Support for IDF Mod Project F-16I Sufa & F-16D v3.2 mod
+* **[Modding]** Support for F/A-18E/F/G mod version 2.1
+* **[Modding]** Support for Swedish Military Assets for DCS by Currenthill Version 1.10
+* **[UI]** Add selectable units in faction overview during campaign generation.
+* **[UI]** Add button to rename pilots in Air Wing's Squadron dialog.
+* **[UI]** Add clone buttons for flights & packages.
+* **[UI]** Editing of flight's custom name.
+* **[UI]** Introduce custom names for packages (purely for organizational purposes).
+* **[UI]** Configurable UHF frequency (225-400MHz) for Packages, Carriers, LHAs, FOBs & FARPs.
+* **[UI]** Configurable Intra-Flight frequency for Flights.
+* **[UI]** Configurable TACAN for Carriers, LHAs & Tankers.
+* **[UI]** Configurable ICLS for capable Carriers & LHAs.
+* **[UI]** Configurable LINK4 for Carriers.
+* **[Kneeboard]** Show package information in Support page
+* **[Kneeboard]** Show extra weather information on 'Mission info' page
+* **[Kneeboard]** Show BRC in 'RWY' column for aircraft carriers on 'Mission info' page
+* **[Campaign Design]** Ability to define designated CTLD zones for Control Points (Airbases & FOBs/FARPs)
+* **[Campaign Design]** Ability to define preset groups for specific TGOs, given the preset group is accessible for the faction and the task matches.
+* **[Campaign Management]** Additional options for automated budget management.
+* **[Campaign Management]** New options to allow more control of randomized flight sizes (applicable for BARCAP/CAS/OCA/ANTI-SHIP).
+* **[Plugins]** Updated Splash Damage script to v2.0 by RotorOps.
+* **[Mission Generation]** Improvements to DEAD & STRIKE flights, allowing AI to handle a larger variety of weapons.
+* **[Campaign]** New campaign (1968 Yankee Station) by Adecarcer
+
+## Fixes
+* **[UI]** Removed deprecated options
+* **[UI]** Add missing icon & banner for C130 Hercules mod
+* **[Mission Generation]** Avoid aircraft from being assigned to helicopter parking spots, resulting into air starts that usually crash.
+* **[Mission Generation]** Use stacking algorithm to create vertical separation between flights spawning mid-mission over their departure, usually resulting into mid-air collisions.
+* **[Mission Generation]** Fixed all callsigns being "Enfield 1-1" on dedicated servers.
+* **[Mission Generation]** Fixed AI ferry flights for helicopters when transferring to a FOB/FARP.
+* **[Mission Generation]** Fixed 'Uninitialized flight' exception when adding flights after aborted take-off.
+* **[Modding]** Fixed conflicts caused by HDS units
+* **[UX]** Gracefully handle corrupted preferences file.
+* **[Mission Generation]** Aircraft not using decoys during SEAD.
+
+# Retribution v1.0.1 (hotfix)
+* **[Mission Generation]** Fix serialization issue when STRIKE flight has no escorts
+
+# Retribution v1.0.0
+
+## Features/Improvements
+* **[Engine]** Support for DCS v2.8.1.34437.
+* **[Briefing]** Add tanker info to mission briefing
+* **[Campaign]** Add 5 new campaigns by Oscar Juliet from WRL
+* **[Campaign]** Add ability to define livery overrides also for ground/naval units
+* **[Data]** Added data to support C-47 Skytrain.
+* **[Data]** Added data to support F-16A MLU.
+* **[Data]** Added data to support KS-19 & SON-9, including support for "AAA Site" layout.
+* **[Mission Generation]** Add option to configure the maximum front-line length in settings
+* **[Mission Generation]** Use Escort & SEAD tasks for Escort & SEAD Escort flights
+* **[Mission Generation]** Variable flight-size (2/3/4-ship) for 
+BAI/ANTISHIP/DEAD/STRIKE/BARCAP/CAS/OCA/AIR-ASSAULT (main) missions
+* **[Mission Generation]** Add option to only generate night missions
+* **[Modding]** Support for F-15D 'Baz' mod version 1.0
+* **[Modding]** Support for Su-30 mod version 2.01B
+* **[Modding]** Support for A-6A Intruder version 2.7.5.01
+* **[Modding]** Support for F-4B Phantom II mod version v2.7.10.02, patch 2022.10.02
+* **[Modding]** Support for F-100 Super Sabre mod versions v2.7.18.01 & 2.7.18.30765 and patch 20.10.22
+* **[Modding]** Support for F-105 mod version 2.7.12.23x
+* **[Modding]** Support IDF Mod Project F-16I Sufa & F-16D v2.2 mod
+* **[Modding]** Support for F-84G mod version 2.5.7.01
+* **[Modding]** Updated F-104 mod version support to 2.7.11.222.01
+* **[Modding]** Updated Community A-4E-C mod version support to 2.1.0 release.
+* **[UI]** Add livery selector to Air Wing Configurator's squadrons.
+* **[Performance]** Added performance option: Maximum front-line unit supply per control point.
+* **[Performance]** Added performance option: Disable convoys.
+* **[Performance]** Added performance option: Front-line troops prefer roads.
+* **[Performance]** Added performance option: Disable idle aircraft at airfields.
+* **[Squadrons]** Squadron pilot limits enabled by default.
+* **[UI]** Add livery selector to Air Wing Configurator's squadrons.
+
+## Fixes
+
+* **[Mission Generation]** Fixed issue where aircraft carriers would return after being killed.
+* **[Mission Generation]** Kneeboard STRIKE coordinates would sometimes get clipped when not fitting.
+* **[UI]** Fix exception when trying to add a waypoints to a flightplan.
+
+
+# Liberation:
+## Features/Improvements
+
+* **[Flight Planning]** Improved IP selection for targets that are near the center of a threat zone.
+* **[Modding]** Factions can now specify the ship type to be used for cargo shipping. The Handy Wind will be used by default, but WW2 factions can pick something more appropriate.
+
+## Fixes
+
 * **[Data]** Fixed the class of the Samuel Chase so it can't be picked for a AAA or SHORAD site.
-* **[Data]** Allow CH-47D, CH-53E and UH-60A to operate from carriers and LHAs.
-* **[Data]** Added the F-15E's LANTIRN to the list of known targeting pods. Player F-15E flight with TGPs will now be assigned laser codes.
-* **[Flight Planning]** Patrolling flight plans (CAS, CAP, refueling, etc) now handle TOT offsets.
-* **[Loadouts]** Fixed error when loading certain DCS loadouts which contained an empty pylon (notably the Mosquito).
 * **[Mission Generation]** Restored previous AI behavior for anti-ship missions. A DCS update caused only a single aircraft in a flight to attack. The full flight will now attack like they used to.
-* **[Mission Generation]** Fix generation of OCA Runway missions to allow LGBs to be used.
-* **[Mission Generation]** Fixed AI flights flying far too slowly toward NAV points.
-* **[Mission Generation]** Fixed Recovery Tanker mission type intermittently failing due to not being able to find the CVN.
-* **[Mission Generation]** Fixed "division by zero" error on mission generation when a flight has an "In-Flight" start type and starts on top of a mission waypoint.
-* **[Mission Generation]** Fixed flights not being selectable in the mission editor if fast-forward was used and they were generated at a waypoint that had a fixed TOT (such as a BARCAP that was on-station).
-* **[Mission Generation]** Fixed error when planning TARCAPs on the sole remaining enemy airfield.
-* **[Mission Generation]** Fixed allocation range for carrier Link 4 datalink.
-* **[Modding]** Unit variants can now actually override base unit type properties.
-* **[New Game Wizard]** Factions are reset to default after clicking "Back" to Theater Configuration screen.
 * **[Plugins]** Fixed Lua errors in Skynet plugin that would occur whenever one coalition had no IADS nodes.
-* **[UI]** Fixed deleting waypoints in custom flight plans deleting the wrong waypoint.
-* **[UI]** Fixed flight properties UI to support F-15E S4+ laser codes.
-* **[UI]** In unit transfer dialog, only list control points that are reachable from the control point units are being transferred from.
-* **[UI]** Fixed UI bug where altering an "ahead of package" TOT offset would change the offset back to a "behind package" offset.
-* **[UI]** Fixed bug where changing TOT offsets could result in flight startup times that are in the past.
-* **[UI]** Fixed odd spacing of the finance window when there were not enough items to fill the page.
-* **[UI]** Fixed regression where waypoint altitude changes in the waypoint list screen are applied to the wrong waypoint.
-* **[UI]** Fixed regression where waypoint additions in custom flight plans are not reflected until the window is reloaded. 
 
 # 8.1.0
 
@@ -71,8 +152,7 @@ Saves from 8.0.0 are compatible with 8.1.0
 ## Features/Improvements
 
 * **[Engine]** Support for DCS 2.8.6.41363, including F-15E support.
-* **[Flight Planning]** Improved IP selection for targets that are near the center of a threat zone.
-* **[Modding]** Factions can now specify the ship type to be used for cargo shipping. The Handy Wind will be used by default, but WW2 factions can pick something more appropriate.
+* **[UI]** Flight loadout/properties tab is now scrollable.
 
 ## Fixes
 
