@@ -111,7 +111,6 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10A Thunderbolt II
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - B-52H Stratofortress
@@ -195,7 +194,6 @@ squadrons:
     - primary: CAS
       secondary: air-to-ground
       aircraft:
-        - A-10A Thunderbolt II
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
         - B-52H Stratofortress
