@@ -27,7 +27,7 @@ from uuid import UUID
 
 from dcs.mapping import Point
 from dcs.ships import (
-    Ara_vdm,
+    # Ara_vdm,
     CVN_71,
     CVN_72,
     CVN_73,
@@ -1248,7 +1248,7 @@ class NavalControlPoint(ControlPoint, ABC):
         for group in self.find_main_tgo().groups:
             for u in group.units:
                 if u.alive and u.type in [
-                    Ara_vdm,
+                    # Ara_vdm,
                     Forrestal,
                     Hms_invincible,
                     KUZNECOW,
