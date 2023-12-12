@@ -37,13 +37,8 @@ squadrons:
     - primary: Anti-ship
       secondary: air-to-ground
       aircraft:
-        - B-52H Stratofortress
-      size: 8
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - B-1B Lancer
-      size: 8
+        - SH-60B Seahawk
+      size: 2
   # Hatzerim (141)
   7:
     - primary: Escort
@@ -152,4 +147,9 @@ squadrons:
       secondary: air-to-air
       aircraft:
         - MiG-29S Fulcrum-C
+      size: 20
+    - primary: BARCAP
+      secondary: any
+      aircraft:
+        - J-7B
       size: 20
