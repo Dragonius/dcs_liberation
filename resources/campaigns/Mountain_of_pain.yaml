@@ -328,7 +328,7 @@ squadrons:
         - Su-17M4 Fitter-K
         - Su-25 Frogfoot
         - Tu-95MS Bear-H
-    - primary: CASRunway
+    - primary: CAS
       secondary: air-to-ground
       aircraft:
         - Mi-8MTV2 Hip
