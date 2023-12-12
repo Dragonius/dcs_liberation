@@ -16,37 +16,16 @@ description:
   squadrons included), they only have two jets available (F-4 and F-16).</p>
 miz: operation_peace_spring.miz
 performance: 2
+performance: 2
 recommended_start_date: 2019-12-23
 version: "11.0"
 squadrons:
-  # Ramat David
-  30:
-    - primary: CAS
-      secondary: air-to-ground
-      aircraft:
-        - A-10C Thunderbolt II (Suite 7)
-      size: 8
+  Blue CV-1:
     - primary: SEAD
       secondary: any
       aircraft:
         - F/A-18C Hornet (Lot 20)
-      size: 20
-    - primary: Strike
-      secondary: air-to-ground
-      aircraft:
-        - F-15E Strike Eagle
-      size: 12
-    - primary: AEW&C
-      aircraft:
-        - E-3A
-      size: 2
-  # King Hussein Air College
-  19:
-    - primary: DEAD
-      secondary: any
-      aircraft:
-        - F-16CM Fighting Falcon (Block 50)
-      size: 20
+      size: 40
     - primary: BAI
       secondary: air-to-ground
       aircraft:
@@ -54,7 +33,7 @@ squadrons:
       size: 20
     - primary: AEW&C
       aircraft:
-        - E-2D Advanced Hawkeye
+        - E-2C Hawkeye
       size: 4
     - primary: Refueling
       aircraft:
@@ -77,7 +56,12 @@ squadrons:
       secondary: any
       aircraft:
         - F-15E Strike Eagle (Suite 4+)
-      size: 12
+      size: 4
+    - primary: OCA/Aircraft
+      secondary: any
+      aircraft:
+        - F-15E Strike Eagle
+      size: 8
     - primary: TARCAP
       secondary: air-to-air
       aircraft:
@@ -111,14 +95,9 @@ squadrons:
     - primary: Strike
       secondary: air-to-ground
       aircraft:
-        - UH-1H Iroquois
-      size: 2
-  # Damascus
-  7:
-    - primary: TARCAP
-      secondary: air-to-air
-      aircraft:
         - F-4E Phantom II
+        - H-6J Badger
+      size: 16
         - H-6J Badger
       size: 16
     - primary: BAI
@@ -127,12 +106,13 @@ squadrons:
         - AH-1W SuperCobra
         - Su-25 Frogfoot
       size: 16
+      size: 16
     - primary: CAS
       secondary: air-to-ground
       aircraft:
         - OH-58D Kiowa Warrior
         - Mi-24P Hind-F
-      size: 8
+      size: 4
   # Tiyas
   39:
     - primary: SEAD
@@ -140,15 +120,21 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - Su-24M Fencer-D
-      size: 20
-  # Abu Al Duhur
-  1:
-    - primary: Strike
-      secondary: air-to-ground
+      size: 16
+    - primary: Escort
+      secondary: air-to-air
       aircraft:
         - F-4E Phantom II
-        - H-6J Badger
-      size: 20
+        - Mirage-F1EQ
+      size: 16
+  # Abu Al Duhur
+  1:
+    - primary: Fighter sweep
+      secondary: air-to-air
+      aircraft:
+        - F-4E Phantom II
+        - MiG-23ML Flogger-G
+      size: 8
   # Gaziantep
   11:
     - primary: BARCAP
@@ -156,7 +142,7 @@ squadrons:
       aircraft:
         - F-16CM Fighting Falcon (Block 50)
         - MiG-29A Fulcrum-A
-      size: 12
+      size: 8
   # Incirlik
   16:
     - primary: Strike
@@ -165,10 +151,12 @@ squadrons:
         - F-4E Phantom II
         - Tu-22M3 Backfire-C
       size: 16
+      size: 16
     - primary: AEW&C
       aircraft:
         - E-3A
         - A-50
+      size: 1
       size: 1
     - primary: Refueling
       aircraft:
@@ -177,7 +165,10 @@ squadrons:
       size: 1
     - primary: Escort
       secondary: any
+      size: 1
+    - primary: Escort
+      secondary: any
       aircraft:
-        - C-130
-        - IL-76MD
-      size: 4
+        - F-4E Phantom II
+        - MiG-21bis Fishbed-N
+      size: 16
