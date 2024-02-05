@@ -22,20 +22,14 @@ squadrons:
         - F-15C Eagle
         - F/A-18C Hornet (Lot 20)
       size: 2
-    - primary: SEAD
-      secondary: any
-      aircraft:
-        - Su-17M4 Fitter-K
-        - F-14B Tomcat
-        - F-16CM Fighting Falcon (Block 50)
-        - F/A-18C Hornet (Lot 20)
-      size: 2
     - primary: DEAD
       secondary: any
       aircraft:
         - Su-25 Frogfoot
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
+        - Su-17M4 Fitter-K
+        - F-14B Tomcat
       size: 2
     - primary: Strike
       aircraft:
@@ -56,18 +50,14 @@ squadrons:
         - A-50
       size: 1
     - primary: CAS
-      secondary: air-to-ground
+      secondary: any
       aircraft:
         - A-10C Thunderbolt II (Suite 7)
         - AH-64D Apache Longbow
-      size: 2
-    - primary: BAI
-      secondary: air-to-ground
-      aircraft:
         - AH-64D Apache Longbow
         - AV-8B Harrier II Night Attack
         - F-15E Strike Eagle
-      size: 2
+      size: 4
     - primary: Transport
       secondary: any
       aircraft:
