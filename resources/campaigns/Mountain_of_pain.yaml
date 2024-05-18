@@ -33,7 +33,7 @@ squadrons:
     - primary: DEAD
       secondary: any
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
         - F-16CM Fighting Falcon (Block 50)
         - F/A-18C Hornet (Lot 20)
         - Su-17M4 Fitter-K
@@ -41,7 +41,7 @@ squadrons:
       size: 4
     - primary: Strike
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
         - F-15E Strike Eagle (Suite 4+)
         - F/A-18C Hornet (Lot 20)
       size: 4
@@ -100,11 +100,11 @@ squadrons:
         - F-15E Strike Eagle (Suite 4+)
       size: 4
     - primary: Strike
-      secondary: air-to-ground
+      secondary: any
       aircraft:
-        - B-52H Stratofortress
         - F-15E Strike Eagle (Suite 4+)
         - F/A-18C Hornet (Lot 20)
+        - B-52H Stratofortress
       size: 4
     - primary: DEAD
       secondary: any
@@ -127,11 +127,11 @@ squadrons:
       size: 2
     - primary: Strike
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
       size: 2
     - primary: DEAD
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
       size: 2
     - primary: BAI
       secondary: air-to-ground
@@ -212,11 +212,11 @@ squadrons:
       size: 2
     - primary: Strike
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
       size: 2
     - primary: DEAD
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
       size: 2
     - primary: BAI
       secondary: air-to-ground
@@ -334,7 +334,7 @@ squadrons:
       secondary: any
       aircraft:
         - Su-17M4 Fitter-K
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
         - Tu-95MS Bear-H
       size: 2
     - primary: CAS
@@ -371,7 +371,7 @@ squadrons:
     - primary: Strike
       aircraft:
         - Su-17M4 Fitter-K
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
         - Tu-95MS Bear-H
       size: 2
     - primary: SEAD
@@ -380,13 +380,13 @@ squadrons:
       size: 2
     - primary: DEAD
       aircraft:
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
       size: 2
     - primary: BAI
       secondary: air-to-ground
       aircraft:
         - Mi-24V Hind-E
-        - Su-25 Frogfoot
+        - Su-25T Frogfoot
         - Ka-50 Hokum
       size: 2
     - primary: CAS
